@@ -1,0 +1,7 @@
+aws ec2 hostname=ec2-18-223-132-143.us-east-2.compute.amazonaws.com
+aws ec2 username=ubuntu
+
+mysql username=root
+mysql pw=case_lfg
+
+pem_keyfile=aws_lfg.pem
