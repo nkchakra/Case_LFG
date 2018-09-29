@@ -1,0 +1,18 @@
+userData = {
+    "firstname":"Isaac",
+    "lastname":"Ng",
+    "username":"byrrice",
+    "age":21,
+    "email":"ikn3@case.edu",
+    "comments": {
+        "post_ids": "2042, 3021"     
+    },
+    "posts": {
+        "post1":{
+            "post_id":"2131",
+        },
+        "post2":{
+            "post_id": "2142",
+        }
+    }
+ }

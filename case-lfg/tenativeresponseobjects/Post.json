@@ -1,0 +1,16 @@
+post = {
+    "username":"byrrice",
+    "date_posted":"08/21/18 7pm",
+    "post_id":"2131", 
+    "subject":"Looking for basketball group at 7 pm",
+    "category":"Sports",
+    "time_posted":"6:21pm",
+    "time_exist":"2 hours",
+    "Images": "None",
+    "Links":"https://en.wikipedia.org/wiki/Basketball",
+    "Tag_List": "Baketball, group, Veale",
+    "comments": {
+        "usernames": "vishthefish, niknak",
+        "comment_ids": "23141, 32141"
+    }
+ }
