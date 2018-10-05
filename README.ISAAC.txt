@@ -1,8 +1,7 @@
 10/5/2018
 Gantt Chart says I should be working on implementing filter functionality. 
 For now, I'm working on a dummy React Object in order to do basic search filtering. When we fully implement backend's data tables, I will adjust the script accordingly
-to get the backend data tables and filter through the results instead of just a front end dummy object. I will integrate the script in as Vishal finishes the main page
-and Nikhil sets up all the backend. Expect further changes down the road. 
+to get the backend data tables and filter through the results instead of just a front end dummy object (will have to read up and implement nodejs for this). 
 Due to this, I spent some time working on researching React (how to install and create a basic component). npm install, then npm start in case-lfg folder to load. 
 Created folder Components and inside file Results.js.
 
