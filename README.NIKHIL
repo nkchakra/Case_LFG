@@ -1,0 +1,8 @@
+09/28/2018
+Backend AWS EC2 instance has been created, MySQL server and Apache Web Server have been installed. 
+The "details" text file has the important information needed to access the instance and use the MySQL server.
+
+10/05/2018
+The Apache Web Server is tested to work (shows the default index.html page), and I can easily SSH in and out of the AWS EC2 instance at this stage. 
+Now, I have set up the 'Users' and 'Posts' data tables in the MySQL database hosted on the EC2 instance. I have also started coding the connection (in Java) to the MySQL database. 
+Next week will be finishing up the table schema so that it is organized and moving forward, I will be adding data table functions to the Java code.
