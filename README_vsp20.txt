@@ -1,0 +1,6 @@
+10/5/18
+Started on the welcome page, where users will see upon first entering the site. We had some merge conflicts already so we as a group had to figure those out which took a lot longer than expected. For the welcome page I created a welcome component and used some of the existing react-bootstrap components to create a clean looking welcome page, so far the button and UX isn't where it should be, which is going to be my task for the coming week. 
+
+
+9/20/18
+Set up most of react bootstrap and did all the necessary imports from the bootstrap library to set myself up for the coming weeks of react. Ran into issues with getting the website up and running. I edited the App.js, index.js and index.html files.
