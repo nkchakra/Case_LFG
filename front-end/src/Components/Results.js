@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-//Doesn't really work for now, assumes dummy object called searchResults
-/*
+// assumes dummy object called searchResults, will call api later on with backend
+
 const searchResults = [
     {
         id: 1,
@@ -19,13 +19,13 @@ const searchResults = [
         category: "Misc"
     }
 ]
-*/
+
 
 
 //does searching by category for now
 function searchingFor(term){
     return function(x){
-        return x.category.toLowerCase().includes(term.toLowerCase()) || !term;
+        return x.title.toLowerCase().includes(term.toLowerCase()) || !term;
     }
 }
 class Results extends Component {
@@ -53,10 +53,9 @@ class Results extends Component {
             />
         </form>
       {
-        searchResults.filter(searchingFor(term)).map( searchResults =>
+        searchResults.filter(searchingFor(term)).map(searchResults =>
             <div key = {searchResults.id}>
                 <h1> {searchResults.title} </h1>
-                <h1> {searchResults.category} </h1>
             </div>
         )
       }
@@ -65,4 +64,4 @@ class Results extends Component {
   }
 }
 
-export default App;
+export default Results;

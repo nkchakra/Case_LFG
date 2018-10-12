@@ -1,3 +1,11 @@
+10/12/2018
+Gantt Chart says I should be working on Post functionality. Built the basic framework; since we don't have the main page built yet, wrote the post framework directly
+on the welcome page (will port over to main page when done). When the backend is set up ,I'll work on posting the data to the backend (I've set up framework for fetching data). 
+Ideally, what will happen is that you will enter all the data in the create post; it will go to backend data tables; backend sends it back; it prints out on mainpage. I'll be
+setting this up next week/if nikhil sets up the backend. Added Results.js to main page as component, so search filter works. For now, I've just been working with dummy objects
+that I create, so hopefully when nikhil sets everything up, I'll just have to make a slight few changes.  
+Created Post.js, modified Feed.js, modified Results.js
+
 10/5/2018
 Gantt Chart says I should be working on implementing filter functionality. 
 For now, I'm working on a dummy React Object in order to do basic search filtering. When we fully implement backend's data tables, I will adjust the script accordingly
