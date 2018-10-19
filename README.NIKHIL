@@ -9,3 +9,6 @@ Next week will be finishing up the table schema so that it is organized and movi
 
 10/12/2018
 More complicated features have been added to the MySQL connection backend code. These are a search method that finds posts with certain content inside it, an add comment method to add comments to posts, and a delete old posts method that deletes posts that were made more than an x input days ago (probably will be 2 weeks, or 14 days). Additionally, I have duplicated the MySQL database that is located on the AWS EC2 instance onto my own laptop for local testing of the methods.
+
+10/19/2018
+I have added a testing .java file to test the database methods, and have started coding tests. I have added some more functionality to the backend code as well with respect to database parsing, editing, etc.
