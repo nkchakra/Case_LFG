@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Jumbotron, Button} from 'react-bootstrap';
+import {Jumbotron, Button, Carousel} from 'react-bootstrap';
 import '../styles/Welcome.css';
 class Welcome extends Component{
 	render(){

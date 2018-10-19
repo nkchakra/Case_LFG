@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
+import '../styles/Post.css';
 class Post extends Component {
 
   constructor() {
@@ -49,19 +51,30 @@ class Post extends Component {
   render() {
     return (
         //This will send data in a json format containing username, description and category
-    <div>
-      <form onSubmit={this.handleSubmit}>
-        <label htmlFor="username">Enter Name: </label>
-        <input ref = "username" name="username" type="text" value = {this.state.username} onChange={event => this.handleChange(event)}/>
+    <div className="post-container">
+      <div className="input-container">
+        <form onSubmit={this.handleSubmit}>
 
-        <label htmlFor="description">Enter description of event: </label>
-        <input ref = "description" id="description" name="description" type="text" value = {this.state.description} onChange={event => this.handleChange(event)}/>
+          <div className="field">
+            <label htmlFor="username">Enter Name: </label>
+            <input ref = "username" name="username" placeholder="Ex: Isaac's puppy" type="text" value = {this.state.username} onChange={event => this.handleChange(event)}/>
+          </div>
 
-        <label htmlFor="category">Enter category: </label>
-        <input ref ="category" id="category" name="category" type="text" value = {this.state.category} onChange={event => this.handleChange(event)}/>
+          <div className="field">
+            <label htmlFor="description">Enter description of event: </label>
+            <input ref = "description" id="description" placeholder="Ex: 5v5 pickup" name="description" type="text" value = {this.state.description} onChange={event => this.handleChange(event)}/>
+          </div>
 
-        <button onClick={this.handleSubmit}>Create Post</button>
-      </form>
+          <div className="field">
+            <label htmlFor="category">Enter category: </label>
+            <input ref ="category" id="category" placeholder="Ex: Sports" name="category" type="text" value = {this.state.category} onChange={event => this.handleChange(event)}/>
+          </div>
+
+          <button onClick={this.handleSubmit}>Create Post</button>
+        </form>
+      </div>
+
+
 
       <center>
           <table>

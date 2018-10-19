@@ -1,3 +1,7 @@
+10/19/18
+Did some styling on Isaac's front-end additions, also started working on implementation of the onboarding carousel so user's can easily learn how to use the product. Finished the welcome block and started planning for the main feed/implementation next week.
+
+
 10/12/18
 Some github errors/mis communications happened so I had to recreate the react app/front end of the site again due to some important files being deleted. Also finished up the welcome tab for the main feed which will act as a welcome banner and give some instructions in the future on how to use the app (coming once the main feed is built out)
 

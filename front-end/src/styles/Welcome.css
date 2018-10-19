@@ -1,6 +1,13 @@
+.welcome-component{
+	padding:50px;
+	background-color: #03304D;
+	color: white;
+}
+
 .welcome-button{
-	padding-top: 10px;
+	padding-top: 30px;
 }
 .get-started{
 	height: 30px;
 }
+
