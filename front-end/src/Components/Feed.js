@@ -24,7 +24,7 @@ class Feed extends Component {
                    "username":"byrrice",
                    "date_posted":"08/21/18 7pm",
                    "post_id":"2131",
-                   "subject":"Looking for basketball group at 7 pm",
+                   "description":"Looking for basketball group at 7 pm",
                    "category":"Sports",
                    "time_posted":"6:21pm",
                    "time_exist":"2 hours",
@@ -40,10 +40,10 @@ class Feed extends Component {
        //for posting method later on
         //this.getData = this.getData.bind(this);
    }
-
  //will recieve data from backend here, for now using dummy response object I created
  //ideally will be more formatted than this when website goes on
   render() {
+
     return (
         <div className="main-feed">
         <center>
@@ -53,19 +53,16 @@ class Feed extends Component {
                 <td>Category |</td>
                 <td>Time Posted</td>
             </table>
-            <table>
-              <tbody>{this.state.data.map(function(item, key) {
+              <ul  className = "list-group">{this.state.data.map(function(item, key) {
                        return (
-                          <tr key = {key}>
-                              <td>{item.post_id} |</td>
-                              <td>{item.subject} |</td>
-                              <td>{item.category} |</td>
-                              <td>{item.time_posted} </td>
-                          </tr>
+                          <li className = "list-group-item">
+                              {item.username} |
+                              {item.description} |
+                              {item.category} |
+                          </li>
                         )
 
-                     })}</tbody>
-               </table>
+                     })}</ul>
         </center>
         </div>
     );
