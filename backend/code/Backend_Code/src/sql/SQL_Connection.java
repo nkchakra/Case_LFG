@@ -170,21 +170,42 @@ public class SQL_Connection {
 	 * @param user
 	 * @return
 	 */
-	public boolean createPost(String post_content, String user) {
+	public Timestamp createPost(String post_content, String user) {
 		Timestamp id = Timestamp.valueOf(LocalDateTime.now());
 
 		String query = "insert into " + postsTable + " (post_id, post_user, post_content) " + "values ('"
 				+ id.toString() + "', '" + user + "', '" + post_content + "')";
 		try {
 			this.statement.executeUpdate(query);
-			return true;
+			return id;
 		} catch (SQLException e) {
 			System.out.println("failed to create post: " + post_content + "\nfrom user: " + user);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return false;
+			return id;
 		}
 
+	}
+
+	public JSONObject getPost(String id) {
+		String query = "select * from " + postsTable + " where post_id = '" + id + "'";
+		try {
+			this.result = this.statement.executeQuery(query);
+			this.result.next();
+			JSONObject post = new JSONObject().accumulate("post_id", this.result.getString("post_id"))
+					.accumulate("post_user", this.result.getString("post_user"))
+					.accumulate("post_content", this.result.getString("post_content"));
+
+			if (this.result.getString("post_comments") != null) {
+				post.accumulate("post_comments", new JSONObject(this.result.getString("post_comments")));
+			}
+			return post;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	/**
@@ -260,7 +281,7 @@ public class SQL_Connection {
 	 * 
 	 * @param searchfor
 	 *            - string i am searching for
-	 * @return list of post ids
+	 * @return JSON of posts
 	 */
 	public List<JSONObject> searchInPosts(String searchfor) {
 		List<JSONObject> postList = new ArrayList<JSONObject>();
@@ -270,10 +291,10 @@ public class SQL_Connection {
 			while (this.result.next()) {
 				if (this.result.getString("post_content").contains(searchfor)) {
 					JSONObject post = new JSONObject().accumulate("post_id", this.result.getString("post_id"))
-					.accumulate("post_user", this.result.getString("post_user"))
-					.accumulate("post_content", this.result.getString("post_content"));
-					
-					if(this.result.getString("post_comments") != null) {
+							.accumulate("post_user", this.result.getString("post_user"))
+							.accumulate("post_content", this.result.getString("post_content"));
+
+					if (this.result.getString("post_comments") != null) {
 						post.accumulate("post_comments", new JSONObject(this.result.getString("post_comments")));
 					}
 					postList.add(post);
@@ -288,4 +309,29 @@ public class SQL_Connection {
 
 	}
 
+	/**
+	 * checks if a user has made an account already
+	 * 
+	 * @param user
+	 *            - username to check against the database
+	 * @return true if already a user, false else
+	 */
+	public boolean isUser(String user) {
+		this.getUser(user);
+		return (this.result != null);
+	}
+
+	public boolean deleteUser(String user) {
+		String query = "delete from " + userTable + " where username='" + user + "'";
+		try {
+			this.statement.executeQuery(query);
+			if (!this.isUser(user)) {
+				return true;
+			} else
+				return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 }
