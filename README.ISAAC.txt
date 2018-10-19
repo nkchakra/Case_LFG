@@ -1,11 +1,12 @@
 10/19/2018
 Gantt Chart says I should still be working on post functionality.
 Note that Gantt Chart says I shouldn't be working on implementing backend frontend communication until much much later, so for now should build post framework assuming
-we get object from backend. (I messed up last week by basically laying the groundwork for future work).
-What I have done this week is implement the post function so that it currently updates your website when you click submit. In the future, it should
-send it to the backend, retrieve the backend feed object and then post it on the feed. Updated Feed.js to list so that it becomes easier to read and concatenate onto later
-if need be. Following week will be putting all these modules together.
-Modified Post.js, Feed.js
+we get object from backend.
+Updated Post.js to implement the post function so that it currently updates your website when you click submit.
+Updated Feed.js to list so that it becomes easier to read and concatenate onto later if need be. Need to remove bullet points.
+Merged Feed and Result to look off the same main feed. (Feed is extraneous, but kept around for legacy purposes)
+Essentially what happens is that post -> feeds json to backend -> sends data table to frontend -> stores in main feed which results and feed look off (to be implemented)
+Modified Post.js, Feed.js, Results.js
 
 10/12/2018
 Gantt Chart says I should be working on Post functionality. Built the basic framework; since we don't have the main page built yet, wrote the post framework directly

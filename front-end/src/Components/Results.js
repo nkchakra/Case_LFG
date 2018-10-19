@@ -2,20 +2,37 @@ import React, { Component } from 'react';
 
 // assumes dummy object called searchResults, will call api later on with backend
 
+//framework of getting data using ajax
+//    getData(){
+//      $.ajax(
+//            {
+//                type: 'get',
+//                url: url,
+//                success: function (data) {
+//                    this.setState({ data: JSON.parse(data) })  //or parse
+//                }.bind(this)
+//            },
+//
+//        );
+//    }
+
 const searchResults = [
     {
         id: 1,
-        title: "CSGO 5 queue at 3",
+        username:"byrrice",
+        description: "CSGO 5 queue at 3",
         category: "Videogames"
     },
     {
         id: 2,
-        title: "Basketball at 6 at Veale",
+        username:"niknak",
+        description: "Basketball at 6 at Veale",
         category: "Sports"
     },
     {
         id: 3,
-        title: "Coding group for 293?",
+        username:"vishthefish",
+        description: "Coding group for 293?",
         category: "Misc"
     }
 ]
@@ -25,7 +42,7 @@ const searchResults = [
 //does searching by category for now
 function searchingFor(term){
     return function(x){
-        return x.title.toLowerCase().includes(term.toLowerCase()) || !term;
+        return x.description.toLowerCase().includes(term.toLowerCase()) || !term;
     }
 }
 class Results extends Component {
@@ -52,10 +69,26 @@ class Results extends Component {
                 value = {term}
             />
         </form>
+        <center>
+         <table>
+           <td>Username |</td>
+           <td>Subject |</td>
+           <td>Category </td>
+         </table>
+         </center>
       {
         searchResults.filter(searchingFor(term)).map(searchResults =>
             <div key = {searchResults.id}>
-                <h1> {searchResults.title} </h1>
+                  <center>
+                        <ul className = "list-group">
+                            <li className = "list-group-item">
+                                {searchResults.username} |
+                                {searchResults.description} |
+                                {searchResults.category}
+                            </li>
+                         </ul>
+                  </center>
+
             </div>
         )
       }

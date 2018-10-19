@@ -12,7 +12,6 @@ class App extends Component {
       <div className="App">
         <Welcome/>
         <Post/>
-        <Feed/>
         <Results/>
 
       </div>

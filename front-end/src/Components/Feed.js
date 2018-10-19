@@ -48,7 +48,7 @@ class Feed extends Component {
         <div className="main-feed">
         <center>
             <table>
-                <td>Post ID |</td>
+                <td>Username |</td>
                 <td>Subject |</td>
                 <td>Category |</td>
                 <td>Time Posted</td>

@@ -7,6 +7,7 @@ class Post extends Component {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
+        id: '',
         username: '',
         description: '',
         category: '',
@@ -26,16 +27,24 @@ class Post extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.target);
+
+    //generate unique ID here for tagging purposes, consider adding string???
+    this.state.id = Math.floor((Math.random() * 1000000) + 1)
+
     var user = this.refs.username.value.trim();
     var des = this.refs.description.value.trim();
     var cat = this.refs.category.value.trim();
 
+    //if empty and click submit, throw error
     if (!user || !des || !cat){
         alert('Form not filled out properly');
         return;
     }
 
+    //modifying html
     document.getElementById("post").innerHTML = user + "  |   " + des + "   |   " + cat;
+
+    //resetting the post fields
     this.refs.username.value = '';
     this.refs.description.value = '';
     this.refs.category.value = '';
@@ -78,9 +87,9 @@ class Post extends Component {
 
       <center>
           <table>
-              <td>Post ID |</td>
+              <td>Username |</td>
               <td>Description |</td>
-              <td>Category |</td>
+              <td>Category </td>
           </table>
             <table>
               <td id = "post"></td>
