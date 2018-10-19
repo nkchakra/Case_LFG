@@ -6,3 +6,6 @@ The "details" text file has the important information needed to access the insta
 The Apache Web Server is tested to work (shows the default index.html page), and I can easily SSH in and out of the AWS EC2 instance at this stage. 
 Now, I have set up the 'Users' and 'Posts' data tables in the MySQL database hosted on the EC2 instance. I have also started coding the connection (in Java) to the MySQL database. 
 Next week will be finishing up the table schema so that it is organized and moving forward, I will be adding data table functions to the Java code.
+
+10/12/2018
+More complicated features have been added to the MySQL connection backend code. These are a search method that finds posts with certain content inside it, an add comment method to add comments to posts, and a delete old posts method that deletes posts that were made more than an x input days ago (probably will be 2 weeks, or 14 days). Additionally, I have duplicated the MySQL database that is located on the AWS EC2 instance onto my own laptop for local testing of the methods.
