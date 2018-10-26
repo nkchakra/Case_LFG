@@ -12,3 +12,6 @@ More complicated features have been added to the MySQL connection backend code. 
 
 10/19/2018
 I have added a testing .java file to test the database methods, and have started coding tests. I have added some more functionality to the backend code as well with respect to database parsing, editing, etc.
+
+10/26/2018
+Functionality such as searching through comments in the 'searchInPosts' method has been added. The skeleton of the server and private query class have been created. This will work by the front end sending JSON queries to the backend server on port ####. The backend will carry out the query and send back a response.

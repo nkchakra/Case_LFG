@@ -168,13 +168,14 @@ public class SQL_Connection {
 	 * 
 	 * @param post_content
 	 * @param user
+	 * @param category (limited) sports, vg, misc, all
 	 * @return
 	 */
-	public Timestamp createPost(String post_content, String user) {
+	public Timestamp createPost(String post_content, String user, String category) {
 		Timestamp id = Timestamp.valueOf(LocalDateTime.now());
 
-		String query = "insert into " + postsTable + " (post_id, post_user, post_content) " + "values ('"
-				+ id.toString() + "', '" + user + "', '" + post_content + "')";
+		String query = "insert into " + postsTable + " (post_id, post_user, post_content, post_category) " + "values ('"
+				+ id.toString() + "', '" + user + "', '" + post_content + "', '"+category+"')";
 		try {
 			this.statement.executeUpdate(query);
 			return id;
@@ -194,7 +195,8 @@ public class SQL_Connection {
 			this.result.next();
 			JSONObject post = new JSONObject().accumulate("post_id", this.result.getString("post_id"))
 					.accumulate("post_user", this.result.getString("post_user"))
-					.accumulate("post_content", this.result.getString("post_content"));
+					.accumulate("post_content", this.result.getString("post_content"))
+					.accumulate("post_category", this.result.getString("post_category"));
 
 			if (this.result.getString("post_comments") != null) {
 				post.accumulate("post_comments", new JSONObject(this.result.getString("post_comments")));
@@ -277,7 +279,7 @@ public class SQL_Connection {
 	}
 
 	/**
-	 * method to find the posts that have content matching the search string
+	 * method to find the posts that have content/comments matching the search string
 	 * 
 	 * @param searchfor
 	 *            - string i am searching for
@@ -289,7 +291,9 @@ public class SQL_Connection {
 		try {
 			this.result = this.statement.executeQuery(query);
 			while (this.result.next()) {
-				if (this.result.getString("post_content").contains(searchfor)) {
+				if (this.result.getString("post_content").contains(searchfor)
+						|| (this.result.getString("post_comments") != null
+								&& this.result.getString("post_comments").contains(searchfor))) {
 					JSONObject post = new JSONObject().accumulate("post_id", this.result.getString("post_id"))
 							.accumulate("post_user", this.result.getString("post_user"))
 							.accumulate("post_content", this.result.getString("post_content"));
@@ -333,5 +337,60 @@ public class SQL_Connection {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	public List<JSONObject> userRelatedPosts(String user) {
+
+		String query = "select * from " + postsTable + "where post_user='" + user + "'";
+		List<JSONObject> relatedPosts = new ArrayList<JSONObject>();
+		try {
+			this.result = this.statement.executeQuery(query);
+
+			while (this.result.next()) {
+				relatedPosts.add(postToJson(this.result));
+			}
+			List<JSONObject> contentList = this.searchInPosts(user);
+
+			for (JSONObject post1 : contentList) {
+				boolean flag = false;
+				for (JSONObject post2 : relatedPosts) {
+					if (post1.getString("post_id").equals(post2.getString("post_id"))) {
+						flag = true;
+					}
+				}
+				if (!flag) {
+					relatedPosts.add(post1);
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return relatedPosts;
+
+	}
+
+	public JSONObject postToJson(ResultSet res) {
+		JSONObject json = new JSONObject();
+
+		try {
+			json.accumulate("post_id", res.getString("post_id"))
+			.accumulate("post_user", res.getString("post_user"))
+			.accumulate("post_content", res.getString("post_content"))
+			.accumulate("post_category", res.getString("post_category"));
+
+			if (res.getString("post_comments") != null) {
+				json.accumulate("post_comments", new JSONObject(res.getString("post_comments")));
+			}
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return json;
 	}
 }

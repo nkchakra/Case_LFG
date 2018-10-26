@@ -43,7 +43,7 @@ public class SQL_Connection_Tester {
 	@Test
 	public void test3() {
 		conn.createUser(user, "Soumya", "Ray", pw);
-		conn.createPost(post, user);
+		conn.createPost(post, user,"ALL");
 		List<JSONObject>matches = conn.searchInPosts(post);
 		assertEquals(matches.size() == 1,true);
 		String db_post = matches.get(0).getString("post_content");
@@ -54,7 +54,7 @@ public class SQL_Connection_Tester {
 	
 	@Test
 	public void test4() {
-		Timestamp id = conn.createPost(post, user);
+		Timestamp id = conn.createPost(post, user, "ALL");
 		
 		conn.addComment(comment, id.toString(), user);
 		JSONObject curr_post = conn.getPost(id.toString());
