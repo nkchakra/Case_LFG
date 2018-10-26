@@ -11,7 +11,7 @@ class Welcome extends Component{
 	              Welcome to Case LFG! Where students come to find other students for activities, groups, and fun!
 	            </div>
 	            <div className="welcome-button">
-	              <Button bsStyle="primary" className="get-started">Get Started</Button>
+	              <Button bsStyle="secondary" className="get-started">Get Started</Button>
 	            </div>
 	          </Jumbotron>
 	        </div>
