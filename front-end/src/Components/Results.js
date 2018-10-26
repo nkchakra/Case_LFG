@@ -69,6 +69,7 @@ class Results extends Component {
                 value = {term}
             />
         </form>
+        {/*
         <center>
          <table>
            <td>Username |</td>
@@ -76,6 +77,7 @@ class Results extends Component {
            <td>Category </td>
          </table>
          </center>
+         */}
       {
         searchResults.filter(searchingFor(term)).map(searchResults =>
             <div key = {searchResults.id}>

@@ -1,4 +1,16 @@
 import React, { Component } from 'react';
+
+function categorize(term){
+    console.log("derp");
+    return function(x){
+
+        var table = '';
+        if (x.category.toLowerCase().includes(term.toLowerCase())){
+            return table += x.username + ": " +  x.description;
+        }
+    }
+}
+
 class Feed extends Component {
 
 
@@ -15,7 +27,6 @@ class Feed extends Component {
 //
 //        );
 //    }
-
 
  constructor(){
      super()
@@ -37,6 +48,7 @@ class Feed extends Component {
                    }
                 }]
        };
+
        //for posting method later on
         //this.getData = this.getData.bind(this);
    }
@@ -46,23 +58,62 @@ class Feed extends Component {
 
     return (
         <div className="main-feed">
-        <center>
-            <table>
-                <td>Username |</td>
-                <td>Subject |</td>
-                <td>Category |</td>
-                <td>Time Posted</td>
-            </table>
-              <ul  className = "list-group">{this.state.data.map(function(item, key) {
-                       return (
-                          <li className = "list-group-item">
-                              {item.username} |
-                              {item.description} |
-                              {item.category} |
-                          </li>
-                        )
+        <style>{`
+              *{
+                  box-sizing: border-box;
+              }
 
-                     })}</ul>
+              .column1 {
+                  float: left;
+                  width: 33.33%;
+                  padding: 10px;
+                  background-color:#aaa;
+              }
+              .column2 {
+                    float: left;
+                    width: 33.33%;
+                    padding: 10px;
+                    background-color:#bbb;
+                }
+                {/*
+              .column3 {
+                  float: left;
+                  width: 33.33%;
+                  padding: 10px;
+                  background-color:#aaa;
+              }
+              */}
+
+              .row:after {
+                  content: "";
+                  display: table;
+                  clear: both;
+              }
+      `}</style>
+        <center>
+
+          <ul  className = "list-group">{this.state.data.map(function(item, key) {
+                   return (
+                   <div>
+                      <h1 size = "20">Main Feed</h1>
+                       <div class="row">
+                         <div class="column1">
+                           <h2>Sports</h2>
+                           {categorize("Sports")}
+                         </div>
+                         <div class="column2">
+                           <h2>Videogames</h2>
+                           {categorize("Videogames")}
+                         </div>
+                         <div class="column1">
+                           <h2>Miscellaneous</h2>
+                           {categorize("Misc")}
+                         </div>
+                       </div>
+                   </div>
+                    )
+
+                 })}</ul>
         </center>
         </div>
     );

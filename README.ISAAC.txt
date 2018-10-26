@@ -1,3 +1,10 @@
+10/26/2018
+Gantt Chart says I should be working on implementing categories and helping Nikhil with coding the data table functions.
+Commented out some of Post.js showing on main page, as that is supposed to go to backend before displaying (frees up clutter/streamlines process, was initially just for display)
+Commented out some of Results.js as that should just be the search searching the backend data tables and returning the relevant data
+(then display new webpage with results, should not be editing feed)
+
+
 10/19/2018
 Gantt Chart says I should still be working on post functionality.
 Note that Gantt Chart says I shouldn't be working on implementing backend frontend communication until much much later, so for now should build post framework assuming

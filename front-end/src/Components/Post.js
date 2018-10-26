@@ -41,9 +41,11 @@ class Post extends Component {
         return;
     }
 
-    //modifying html
-    document.getElementById("post").innerHTML = user + "  |   " + des + "   |   " + cat;
+    alert('Form being sent to backend');
 
+//    //modifying html
+//    document.getElementById("post").innerHTML = user + "  |   " + des + "   |   " + cat;
+//
     //resetting the post fields
     this.refs.username.value = '';
     this.refs.description.value = '';
@@ -84,17 +86,18 @@ class Post extends Component {
       </div>
 
 
-
-      <center>
-          <table>
-              <td>Username |</td>
-              <td>Description |</td>
-              <td>Category </td>
-          </table>
-            <table>
-              <td id = "post"></td>
-          </table>
+{/*
+//      <center>
+//          <table>
+//              <td>Username |</td>
+//              <td>Description |</td>
+//              <td>Category </td>
+//          </table>
+//            <table>
+//              <td id = "post"></td>
+//          </table>
       </center>
+      */}
     </div>
     );
   }
