@@ -3,6 +3,7 @@ Gantt Chart says I should be working on implementing categories and helping Nikh
 Commented out some of Post.js showing on main page, as that is supposed to go to backend before displaying (frees up clutter/streamlines process, was initially just for display)
 Commented out some of Results.js as that should just be the search searching the backend data tables and returning the relevant data
 (then display new webpage with results, should not be editing feed)
+Made Feed Display categories via tabs (
 
 
 10/19/2018

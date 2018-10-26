@@ -59,52 +59,24 @@ class Feed extends Component {
 
     return (
         <div className="main-feed">
+        <center>
+        <h1 size="30">Main Feed</h1>
         <Tabs defaultActiveKey={1} animation={false} id="noanim-tab-example">
-          <Tab eventKey={1} title="Tab 1">
+          <Tab eventKey={1} title="All">
             Tab 1 content
           </Tab>
-          <Tab eventKey={2} title="Tab 2">
+          <Tab eventKey={2} title="Sports">
             Tab 2 content
           </Tab>
-          <Tab eventKey={3} title="Tab 3">
+          <Tab eventKey={3} title="Videogames">
             Tab 3 content
           </Tab>
-        </Tabs>;
-        <style>{`
-              *{
-                  box-sizing: border-box;
-              }
+          <Tab eventKey={4} title="Misc.">
+            Tab 4 content
+          </Tab>
+        </Tabs>
 
-              .column1 {
-                  float: left;
-                  width: 33.33%;
-                  padding: 10px;
-                  background-color:#aaa;
-              }
-              .column2 {
-                    float: left;
-                    width: 33.33%;
-                    padding: 10px;
-                    background-color:#bbb;
-                }
-                {/*
-              .column3 {
-                  float: left;
-                  width: 33.33%;
-                  padding: 10px;
-                  background-color:#aaa;
-              }
-              */}
-
-              .row:after {
-                  content: "";
-                  display: table;
-                  clear: both;
-              }
-      `}</style>
-        <center>
-
-          <ul  className = "list-group">{this.state.data.map(function(item, key) {
+          {/*<ul  className = "list-group">{this.state.data.map(function(item, key) {
                    return (
                    <div>
                       <h1 size = "20">Main Feed</h1>
@@ -125,7 +97,7 @@ class Feed extends Component {
                    </div>
                     )
 
-                 })}</ul>
+                 })}</ul>*/}
         </center>
         </div>
     );
