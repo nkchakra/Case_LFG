@@ -16,7 +16,7 @@ class Welcome extends Component{
 	          </Jumbotron>
 	          <Carousel>
   <Carousel.Item>
-    <img width={900} height={500} alt="900x500" src="/carousel.png" />
+    <img width={900} height={500} alt="900x500" src="../images/welcome.png" />
     <Carousel.Caption>
       <h3>First slide label</h3>
       <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>

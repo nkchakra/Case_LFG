@@ -1,3 +1,7 @@
+10/26/18
+Started making the introuction to the main feed's UX better for the user experience. Added in a carousel to help with the user onboarding. Also figured out and fixed some problems with the react-bootstrap styling which in turn helped myself with the carousel and Isaac with his tabs work on the main feed. Posting mechanic is now also built out ready to be connected with the backend
+
+
 10/19/18
 Did some styling on Isaac's front-end additions, also started working on implementation of the onboarding carousel so user's can easily learn how to use the product. Finished the welcome block and started planning for the main feed/implementation next week.
 
