@@ -1,18 +1,24 @@
 package sql;
 
+import static org.junit.Assert.assertEquals;
+//import org.junit.internal.MethodSorter;
+
+import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map;
 
 import org.json.JSONObject;
-import org.junit.*;
-import java.sql.*;
-import java.util.*;
+import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.FixMethodOrder;
+//import org.junit.jupiter.api.Test;
+import org.junit.runners.MethodSorters;
 
-import java.io.IOException;
-
-
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SQL_Connection_Tester {
-	private static final String user = "sray01";
+	private static final String user1 = "sray01";
+	private static final String user2 = "sray02";
 	private static final String pw = "password1";
 	private static final String post = "test_post_0";
 	private static final String comment = "test_comment_0";
@@ -32,34 +38,40 @@ public class SQL_Connection_Tester {
 	
 	@Test
 	public void test2() {
-		conn.createUser(user, "Soumya", "Ray", pw);
-		assertEquals(conn.isUser(user),true);
-		assertEquals(conn.validateLogin(user, pw),true);
-		assertEquals(conn.deleteUser(user),true);
-		assertEquals(conn.isUser(user),false);	
+		conn.createUser(user1, "Soumya", "Ray", pw);
+		assertEquals(conn.isUser(user1),true);
+		assertEquals(conn.validateLogin(user1, pw),true);
+		conn.deleteUser(user1);
+		assertEquals(conn.isUser(user1),false);	
 		
 	}
 	
 	@Test
 	public void test3() {
-		conn.createUser(user, "Soumya", "Ray", pw);
-		conn.createPost(post, user,"ALL");
+		
+		conn.createUser(user2, "Soumya2.0", "Ray", pw);
+		String id = conn.createPost(post, user2,"ALL");
 		List<JSONObject>matches = conn.searchInPosts(post);
-		assertEquals(matches.size() == 1,true);
+		assertEquals(matches.size() >= 1,true);
 		String db_post = matches.get(0).getString("post_content");
 		assertEquals(db_post.equals(post),true);
-		conn.deleteOldPosts(0);
-		assertEquals(conn.searchInPosts(post).size() == 0, true);
+		conn.deletePost(id);
+		assertEquals(conn.searchInPosts(post).size() < matches.size(), true);
 	}
 	
 	@Test
 	public void test4() {
-		Timestamp id = conn.createPost(post, user, "ALL");
-		
-		conn.addComment(comment, id.toString(), user);
+		String id = conn.createPost(post, user2, "ALL");
+		conn.addComment(comment, id, user2);
 		JSONObject curr_post = conn.getPost(id.toString());
 		Map<String, Object> comments = curr_post.getJSONObject("post_comments").toMap();
-		// in progress
+		assertEquals(comments.size()==1,true);
+		for(String s : comments.keySet()) {
+			String[] header = s.split("::");
+			assertEquals(header[0].equals(user2),true);
+			assertEquals(comments.get(s).equals(post),true);
+		}
+		conn.deletePost(id);
 	}
 	
 	

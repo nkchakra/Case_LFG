@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.security.*;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import org.json.*;
 
@@ -17,6 +18,7 @@ public class SQL_Connection {
 
 	private static final String userTable = "Users";
 	private static final String postsTable = "Posts";
+	private static final String[] categories = { "ALL", "SPORT", "MISC", "GAME" };
 
 	private static final String salt = "32rjk489n320rg4hdtjkh38942ytc";
 
@@ -168,27 +170,44 @@ public class SQL_Connection {
 	 * 
 	 * @param post_content
 	 * @param user
-	 * @param category (limited) sports, vg, misc, all
+	 * @param category
+	 *            (limited) sports, vg, misc, all
 	 * @return
 	 */
-	public Timestamp createPost(String post_content, String user, String category) {
+	public String createPost(String post_content, String user, String category) {
 		Timestamp id = Timestamp.valueOf(LocalDateTime.now());
+		boolean catflag = false;
+		for (String cat : categories) {
+			if (cat.equals(category)) {
+				catflag = true;
+			}
+		}
+		if (!catflag) {
+			System.err.println("Category input: " + category + " is not valid, returning null");
+			return null;
+		}
 
 		String query = "insert into " + postsTable + " (post_id, post_user, post_content, post_category) " + "values ('"
-				+ id.toString() + "', '" + user + "', '" + post_content + "', '"+category+"')";
+				+ id.toLocalDateTime().toString() + "', '" + user + "', '" + post_content + "', '" + category + "')";
 		try {
 			this.statement.executeUpdate(query);
-			return id;
+			LocalDateTime temp = id.toLocalDateTime();
+			if (temp.getNano() > 999999999 / 2) {
+				temp.plusSeconds(1);
+			}
+			return temp.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
 		} catch (SQLException e) {
 			System.out.println("failed to create post: " + post_content + "\nfrom user: " + user);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return id;
+			return LocalDateTime.MIN.toString();
 		}
 
 	}
 
 	public JSONObject getPost(String id) {
+		System.out.println("looking for id = " + id);
 		String query = "select * from " + postsTable + " where post_id = '" + id + "'";
 		try {
 			this.result = this.statement.executeQuery(query);
@@ -218,14 +237,14 @@ public class SQL_Connection {
 	 * @return true if all deletions work
 	 */
 	public boolean deleteOldPosts(long days) {
-		Timestamp twoWeeksPrior = Timestamp.valueOf(LocalDateTime.now().minusDays(days));
+		Timestamp cutoff = Timestamp.valueOf(LocalDateTime.now().minusDays(days));
 		String query = "select * from " + postsTable;
 		try {
 			this.result = this.statement.executeQuery(query);
 
 			while (this.result.next()) {
 
-				if (this.result.getDate("post_id").before(twoWeeksPrior)) {
+				if (this.result.getDate("post_id").before(cutoff)) {
 					String del = "delete from " + postsTable + " where post_id='"
 							+ (this.result.getDate("post_id") + " " + this.result.getTime("post_id")) + "'";
 					this.statement.executeUpdate(del);
@@ -257,19 +276,26 @@ public class SQL_Connection {
 		String query = "select * from " + postsTable + " where post_id='" + post_id + "'";
 		try {
 			this.result = this.statement.executeQuery(query);
-			this.result.next();
-			String sql_json = this.result.getString("post_comments");
-			if (sql_json == null) {
-				json = new JSONObject();
-			} else {
-				json = new JSONObject(sql_json);
-			}
-			json.accumulate(commenter + "::" + LocalDateTime.now(), comment);
+			if (this.result.next()) {
+				String sql_json = this.result.getString("post_comments");
+				if (sql_json == null) {
+					json = new JSONObject();
+				} else {
+					json = new JSONObject(sql_json);
+				}
+				json.accumulate(
+						commenter + "::"
+								+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+						comment);
 
-			query = "update " + postsTable + " set post_comments='" + json.toString() + "' where post_id='" + post_id
-					+ "'";
-			this.statement.executeUpdate(query);
-			return true;
+				query = "update " + postsTable + " set post_comments='" + json.toString() + "' where post_id='"
+						+ post_id + "'";
+				this.statement.executeUpdate(query);
+				return true;
+			} else {
+				System.err.println("post with id: " + post_id + " doesn't exist in table");
+				return false;
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -279,7 +305,8 @@ public class SQL_Connection {
 	}
 
 	/**
-	 * method to find the posts that have content/comments matching the search string
+	 * method to find the posts that have content/comments matching the search
+	 * string
 	 * 
 	 * @param searchfor
 	 *            - string i am searching for
@@ -328,7 +355,7 @@ public class SQL_Connection {
 	public boolean deleteUser(String user) {
 		String query = "delete from " + userTable + " where username='" + user + "'";
 		try {
-			this.statement.executeQuery(query);
+			this.statement.executeUpdate(query);
 			if (!this.isUser(user)) {
 				return true;
 			} else
@@ -337,6 +364,38 @@ public class SQL_Connection {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	public boolean deletePost(String post_id) {
+		String del = "delete from " + postsTable + " where post_id='" + post_id + "'";
+		try {
+			this.statement.executeUpdate(del);
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public List<JSONObject> categoryFilter(String category) {
+		List<JSONObject> posts = new ArrayList<JSONObject>();
+		String query;
+		if (category.equals("ALL")) {
+			query = "select * from " + postsTable;
+		} else {
+			query = "select * from " + postsTable + " where post_category='" + category + "'";
+		}
+		try {
+			this.result = this.statement.executeQuery(query);
+			while (this.result.next()) {
+				posts.add(postToJson(this.result));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return posts;
 	}
 
 	public List<JSONObject> userRelatedPosts(String user) {
@@ -374,10 +433,9 @@ public class SQL_Connection {
 		JSONObject json = new JSONObject();
 
 		try {
-			json.accumulate("post_id", res.getString("post_id"))
-			.accumulate("post_user", res.getString("post_user"))
-			.accumulate("post_content", res.getString("post_content"))
-			.accumulate("post_category", res.getString("post_category"));
+			json.accumulate("post_id", res.getString("post_id")).accumulate("post_user", res.getString("post_user"))
+					.accumulate("post_content", res.getString("post_content"))
+					.accumulate("post_category", res.getString("post_category"));
 
 			if (res.getString("post_comments") != null) {
 				json.accumulate("post_comments", new JSONObject(res.getString("post_comments")));

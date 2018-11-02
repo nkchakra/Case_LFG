@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.json.JSONException;
@@ -17,9 +18,9 @@ public class LFG_Server {
 	private static SQL_Connection conn;
 	private static ServerSocket server;
 
-	private static final String postCreate = "postCreate";
+	private static final String postCreate = "postCreate"; // done
 	private static final String validateLogin = "validateLogin"; // done
-	private static final String postComment = "postComment";
+	private static final String postComment = "postComment"; // done
 	private static final String postSearch = "postSearch"; // done
 	private static final String userRelateds = "userRelateds";
 	private static final String userCreate = "userCreate"; // done
@@ -93,6 +94,19 @@ public class LFG_Server {
 			}
 
 		}
+		
+		private void postCreate(JSONObject request) {
+			String id = conn.createPost(request.getString("post_content"), request.getString("username"), request.getString("category"));
+			JSONObject response = new JSONObject();
+			if(!id.equals(LocalDateTime.MIN.toString())) {
+				response.accumulate("queryResult", "success");
+				response.accumulate("post_id", id);
+			} else {
+				response.accumulate("queryResult", "failure");
+			}
+			sendResponse(response);
+			
+		}
 
 		private void validateLogin(JSONObject request) {
 			boolean pass = conn.validateLogin(request.getString("username"), request.getString("password"));
@@ -102,14 +116,7 @@ public class LFG_Server {
 			} else {
 				response.accumulate("queryResult", "failure");
 			}
-			try {
-				this.socket.getOutputStream().write(response.toString().getBytes());
-				this.socket.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
+			sendResponse(response);
 		}
 
 		private void createUser(JSONObject request) {
@@ -122,14 +129,21 @@ public class LFG_Server {
 			} else {
 				response.accumulate("queryResponse", "failure");
 			}
-			try {
-				this.socket.getOutputStream().write(response.toString().getBytes());
-				this.socket.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			sendResponse(response);
 
+		}
+		
+		private void postComment(JSONObject request) {
+			boolean success = conn.addComment(request.getString("comment"), request.getString("post_id"), request.getString("username"));
+			JSONObject response = new JSONObject();
+			
+			if (success) {
+				response.accumulate("queryResult", "success");
+			}else {
+				response.accumulate("queryResult", "failure");
+			}
+			sendResponse(response);
+		
 		}
 
 		private void postSearch(JSONObject request) {
@@ -143,24 +157,35 @@ public class LFG_Server {
 			response.accumulate("queryResponse", "success");
 			response.accumulate("postsFound", posts.size());
 
-			try {
-				this.socket.getOutputStream().write(response.toString().getBytes());
-				this.socket.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			sendResponse(response);
 
+		}
+		
+		private void userRelateds(JSONObject request) {
+			List<JSONObject> posts = conn.userRelatedPosts(request.getString("username"));
+			JSONObject response = new JSONObject();
+			
+			for (JSONObject post : posts) {
+				response.accumulate("posts", post);
+			}
+			response.accumulate("postsFound", posts.size());
+			response.accumulate("queryResult", "success");
+			sendResponse(response);
+			
 		}
 
 		private void userCreate(JSONObject request) {
 
-			Timestamp time = conn.createPost(request.getString("post_content"), request.getString("username"),
+			String time = conn.createPost(request.getString("post_content"), request.getString("username"),
 					request.getString("category"));
 			JSONObject response = new JSONObject();
 
-			response.accumulate("queryReponse", "success").accumulate("post", conn.getPost(time.toString()));
+			response.accumulate("queryReponse", "success").accumulate("post_id", conn.getPost(time));
 
+			sendResponse(response);
+		}
+		
+		private void sendResponse(JSONObject response) {
 			try {
 				this.socket.getOutputStream().write(response.toString().getBytes());
 				this.socket.close();
