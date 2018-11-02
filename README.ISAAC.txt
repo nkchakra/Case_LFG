@@ -3,7 +3,10 @@ Gantt Chart still says I should be working on implementing categories.
 Centered the tabs via Feed.css. Made the categories show the proper categorized info (In my components, the ajax
 call will call Nikhil's backend function which does handles the lookup in the data tables and returns the right json to be printed)
 Categories prettified with ReactBootstrap ListGroup and ListGroupItem
-Modified Feed.js
+Search implemented in each category, Results will be a form that you enter term in and then will be returned as search is there
+(right now, we just put the categories and result in the main feed, will be more dynamic with the backend connectivity, all is implemented
+in the way that we want as Results.js has the hard coded all state data, rest display hard coded json objects)
+Modified Feed.js, Results.js
 Made Feed.css, Sports.js, Misc.js, Videogames.js, All.js
 
 10/26/2018

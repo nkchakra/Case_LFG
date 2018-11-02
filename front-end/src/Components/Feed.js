@@ -5,6 +5,7 @@ import Misc from './Misc';
 import Videogames from './Videogames';
 import Sports from './Sports';
 import All from "./All"
+import Results from "./Results"
 
 function categorize(term){
     console.log("derp");
@@ -106,15 +107,19 @@ class Feed extends Component {
             <h1 size="30">Main Feed</h1>
             <Tabs defaultActiveKey={1} animation={false} id="noanim-tab-example">
               <Tab eventKey={1} title="All">
+                <Results/>
                 <All/>
               </Tab>
               <Tab eventKey={2} title="Sports">
+              <Results/>
                 <Sports/>
               </Tab>
               <Tab eventKey={3} title="Videogames">
+              <Results/>
                 <Videogames/>
               </Tab>
               <Tab eventKey={4} title="Misc.">
+              <Results/>
                 <Misc/>
               </Tab>
             </Tabs>
