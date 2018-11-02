@@ -15,3 +15,6 @@ I have added a testing .java file to test the database methods, and have started
 
 10/26/2018
 Functionality such as searching through comments in the 'searchInPosts' method has been added. The skeleton of the server and private query class have been created. This will work by the front end sending JSON queries to the backend server on port ####. The backend will carry out the query and send back a response.
+
+11/02/2018
+As of now, data table functionality is done. More can easily be added later if need be. The server has basic queries coded for, next step is testing that the front end can contact the server with queries (debugging mostly). Testing has been added to as well.
