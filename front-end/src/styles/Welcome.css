@@ -1,11 +1,12 @@
 .welcome-component{
 	padding:50px;
 	background-color: #03304D;
-	color: white;
-	width: 1000px;
-	height:1000px;
+	color: #e9ecef;
 }
 
+.jumbotron{
+	background-color: #03304D;
+}
 .welcome-button{
 	padding-top: 30px;
 }

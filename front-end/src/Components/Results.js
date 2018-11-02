@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import '../styles/Results.css';
+
 
 // assumes dummy object called searchResults, will call api later on with backend
 
@@ -62,22 +64,10 @@ class Results extends Component {
   render() {
     const{term, people} = this.state;
     return (
-      <div className="Results">
-        <form>
-            <input type = "text"
-                onChange ={this.searchHandler}
-                value = {term}
-            />
-        </form>
-        {/*
-        <center>
-         <table>
-           <td>Username |</td>
-           <td>Subject |</td>
-           <td>Category </td>
-         </table>
-         </center>
-         */}
+      <div className="result-container">
+        <h2 className="result-header">
+          Results
+        </h2>   
       {
         searchResults.filter(searchingFor(term)).map(searchResults =>
             <div key = {searchResults.id}>
