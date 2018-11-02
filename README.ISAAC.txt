@@ -1,3 +1,11 @@
+11/02/2018
+Gantt Chart still says I should be working on implementing categories.
+Centered the tabs via Feed.css. Made the categories show the proper categorized info (In my components, the ajax
+call will call Nikhil's backend function which does handles the lookup in the data tables and returns the right json to be printed)
+Categories prettified with ReactBootstrap ListGroup and ListGroupItem
+Modified Feed.js
+Made Feed.css, Sports.js, Misc.js, Videogames.js, All.js
+
 10/26/2018
 Gantt Chart says I should be working on implementing categories and helping Nikhil with coding the data table functions.
 Commented out some of Post.js showing on main page, as that is supposed to go to backend before displaying (frees up clutter/streamlines process, was initially just for display)

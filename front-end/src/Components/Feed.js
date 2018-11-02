@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import {Tab, Tabs} from 'react-bootstrap';
+import '../styles/Feed.css';
+import Misc from './Misc';
+import Videogames from './Videogames';
+import Sports from './Sports';
+import All from "./All"
 
 function categorize(term){
     console.log("derp");
@@ -98,25 +103,21 @@ class Feed extends Component {
     const tabData = this.state.data;
     return (
         <div className="main-feed">
-            <center>
             <h1 size="30">Main Feed</h1>
             <Tabs defaultActiveKey={1} animation={false} id="noanim-tab-example">
               <Tab eventKey={1} title="All">
-                {tabData[0].description}
-                <br></br>
-                {tabData[1].description}
+                <All/>
               </Tab>
               <Tab eventKey={2} title="Sports">
-                Tab 2 content
+                <Sports/>
               </Tab>
               <Tab eventKey={3} title="Videogames">
-                Tab 3 content
+                <Videogames/>
               </Tab>
               <Tab eventKey={4} title="Misc.">
-                Tab 4 content
+                <Misc/>
               </Tab>
             </Tabs>
-            </center>
         </div>
 
     );

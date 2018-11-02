@@ -1,0 +1,12 @@
+
+/* Default mode */
+
+.nav-tabs {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.nav-tabs {
+    text-align: center;
+}
