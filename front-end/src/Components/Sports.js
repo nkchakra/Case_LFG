@@ -18,23 +18,22 @@ class Sports extends Component {
 //        );
 //    }
 
+
+
  constructor(){
      super()
        this.state = {
          data: [    {
-                        id: 1,
-                        username:"byrrice",
-                        description: "Ping Pong Club at 7 pm",
+                        user:"byrrice",
+                        post_content: "Ping Pong Club at 7 pm",
                     },
                     {
-                        id: 2,
-                        username:"niknak",
-                        description: "Basketball at 6 at Veale",
+                        user:"niknak",
+                        post_content: "Basketball at 6 at Veale",
                     },
                     {
-                        id: 3,
-                        username:"vishthefish",
-                        description: "Tennis at 7 pm",
+                        user:"vishthefish",
+                        post_content: "Tennis at 7 pm",
                     }
                 ]
        };
@@ -46,7 +45,7 @@ class Sports extends Component {
         <ListGroup className="Sports">
             {
               this.state.data.map(function(data) {
-                return <ListGroupItem key={data.id}>{data.username}: {data.description} </ListGroupItem>
+                return <ListGroupItem key={data.user}>{data.user}: {data.post_content} </ListGroupItem>
               })
             }
           </ListGroup>

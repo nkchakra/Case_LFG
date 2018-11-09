@@ -22,19 +22,16 @@ class Misc extends Component {
      super()
        this.state = {
          data: [    {
-                        id: 1,
-                        username:"byrrice",
-                        description: "Anime Club",
+                        user:"byrrice",
+                        post_content: "Tennis Club",
                     },
                     {
-                        id: 2,
-                        username:"niknak",
-                        description: "Case Engineering Council",
+                        user:"niknak",
+                        post_content: "Case Engineering Council",
                     },
                     {
-                        id: 3,
-                        username:"vishthefish",
-                        description: "Cooking club",
+                        user:"vishthefish",
+                        post_content: "Cooking club",
                     }
                 ]
        };
@@ -47,7 +44,7 @@ class Misc extends Component {
         <ListGroup className="Misc">
             {
               this.state.data.map(function(data) {
-                return <ListGroupItem key={data.id}>{data.username}: {data.description} </ListGroupItem>
+                return <ListGroupItem key={data.user}>{data.user}: {data.post_content} </ListGroupItem>
               })
             }
           </ListGroup>

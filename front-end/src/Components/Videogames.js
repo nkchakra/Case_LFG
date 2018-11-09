@@ -22,19 +22,16 @@ class Videogames extends Component {
      super()
        this.state = {
          data: [    {
-                        id: 1,
-                        username:"byrrice",
-                        description: "CSGO 5 queue",
+                        user:"byrrice",
+                        post_content: "CSGO 5 queue",
                     },
                     {
-                        id: 2,
-                        username:"niknak",
-                        description: "Destiny 2 group",
+                        user:"niknak",
+                        post_content: "Destiny 2 group",
                     },
                     {
-                        id: 3,
-                        username:"vishthefish",
-                        description: "Looking Fortnite Gamers",
+                        user:"vishthefish",
+                        post_content: "Looking Fortnite Gamers",
                     }
                 ]
        };
@@ -47,7 +44,7 @@ class Videogames extends Component {
         <ListGroup className="Videogames">
             {
               this.state.data.map(function(data) {
-                return <ListGroupItem key={data.id}>{data.username}: {data.description} </ListGroupItem>
+                return <ListGroupItem key={data.user}>{data.user}: {data.post_content} </ListGroupItem>
               })
             }
           </ListGroup>

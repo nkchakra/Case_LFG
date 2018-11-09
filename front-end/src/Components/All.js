@@ -24,21 +24,18 @@ class All extends Component {
      super()
        this.state = {
          data: [    {
-                        id: 1,
-                        username:"byrrice",
-                        description: "CSGO 5 queue at 3",
+                        user:"byrrice",
+                        post_content: "CSGO 5 queue at 3",
                         category: "Videogames"
                     },
                     {
-                        id: 2,
-                        username:"niknak",
-                        description: "Basketball at 6 at Veale",
+                        user:"niknak",
+                        post_content: "Basketball at 6 at Veale",
                         category: "Sports"
                     },
                     {
-                        id: 3,
-                        username:"vishthefish",
-                        description: "Coding group for 293?",
+                        user:"vishthefish",
+                        post_content: "Coding group for 293?",
                         category: "Misc"
                     }
                 ]
@@ -49,14 +46,14 @@ class All extends Component {
 
     const tabData = this.state.data;
     return (
-        {/*<ListGroup className="All">
+        <ListGroup className="All">
 
             {
               this.state.data.map(function(data) {
-                return <ListGroupItem key={data.id}>{data.username}: {data.description} </ListGroupItem>
+                return <ListGroupItem key={data.user}>{data.user}: {data.post_content} </ListGroupItem>
               })
             }
-          </ListGroup>*/}
+          </ListGroup>
 
     );
   }
