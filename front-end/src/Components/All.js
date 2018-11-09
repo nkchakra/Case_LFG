@@ -49,14 +49,14 @@ class All extends Component {
 
     const tabData = this.state.data;
     return (
-        {/*<ListGroup className="All">
+        <ListGroup className="All">
 
             {
               this.state.data.map(function(data) {
                 return <ListGroupItem key={data.id}>{data.username}: {data.description} </ListGroupItem>
               })
             }
-          </ListGroup>*/}
+          </ListGroup>
 
     );
   }
