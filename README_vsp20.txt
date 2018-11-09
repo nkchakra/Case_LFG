@@ -1,3 +1,6 @@
+11/2/18
+Made main feed look and read better, also took out carousel for now due some minor issues, will come back to it a little later. Added a new component which will in the future act as the component for a standard post. With certain input fields a new post looking component will be available rather than just normal text. For now since the backend isn't connected I will be using mock information. Also added a little more to the "Create a Post" portion of the main feed so that it looks more welcoming for the user. 
+
 10/26/18
 Started making the introuction to the main feed's UX better for the user experience. Added in a carousel to help with the user onboarding. Also figured out and fixed some problems with the react-bootstrap styling which in turn helped myself with the carousel and Isaac with his tabs work on the main feed. Posting mechanic is now also built out ready to be connected with the backend
 
