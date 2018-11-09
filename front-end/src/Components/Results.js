@@ -19,23 +19,21 @@ import '../styles/Results.css';
 //    }
 
 //This will be the right data for each category
+
 const searchResults = [
     {
-        id: 1,
-        username:"byrrice",
-        description: "CSGO 5 queue at 3",
+        user:"byrrice",
+        post_content: "CSGO 5 queue at 3",
         category: "Videogames"
     },
     {
-        id: 2,
-        username:"niknak",
-        description: "Basketball at 6 at Veale",
+        user:"niknak",
+        post_content: "Basketball at 6 at Veale",
         category: "Sports"
     },
     {
-        id: 3,
-        username:"vishthefish",
-        description: "Coding group for 293?",
+        user:"vishthefish",
+        post_content: "Coding group for 293?",
         category: "Misc"
     }
 ]
@@ -45,7 +43,7 @@ const searchResults = [
 //does searching by category for now
 function searchingFor(term){
     return function(x){
-        return x.description.toLowerCase().includes(term.toLowerCase()) || !term;
+        return x.post_content.toLowerCase().includes(term.toLowerCase()) || !term;
     }
 }
 class Results extends Component {
@@ -75,12 +73,12 @@ class Results extends Component {
                </form>
       {
         searchResults.filter(searchingFor(term)).map(searchResults =>
-            <div key = {searchResults.id}>
+            <div key = {searchResults.user}>
                   <center>
                         <ul className = "list-group">
                             <li className = "list-group-item">
-                                {searchResults.username} |
-                                {searchResults.description} |
+                                {searchResults.user} |
+                                {searchResults.post_content} |
                                 {searchResults.category}
                             </li>
                          </ul>

@@ -1,3 +1,8 @@
+11/09/2018
+Gantt Chart says I should be working with Nikhil to set up data tables and connect frontend and backend.
+Modified all the files to have consistent parameter names with backend parameters
+
+
 11/02/2018
 Gantt Chart still says I should be working on implementing categories.
 Centered the tabs via Feed.css. Made the categories show the proper categorized info (In my components, the ajax

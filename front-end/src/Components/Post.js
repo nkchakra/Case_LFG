@@ -3,13 +3,13 @@ import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import '../styles/Post.css';
 class Post extends Component {
 
+
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
-        id: '',
-        username: '',
-        description: '',
+        user: '',
+        post_content: '',
         category: '',
     }
   }
@@ -28,11 +28,9 @@ class Post extends Component {
     event.preventDefault();
     const data = new FormData(event.target);
 
-    //generate unique ID here for tagging purposes, consider adding string???
-    this.state.id = Math.floor((Math.random() * 1000000) + 1)
 
-    var user = this.refs.username.value.trim();
-    var des = this.refs.description.value.trim();
+    var user = this.refs.user.value.trim();
+    var des = this.refs.post_content.value.trim();
     var cat = this.refs.category.value.trim();
 
     //if empty and click submit, throw error
@@ -47,8 +45,8 @@ class Post extends Component {
 //    document.getElementById("post").innerHTML = user + "  |   " + des + "   |   " + cat;
 //
     //resetting the post fields
-    this.refs.username.value = '';
-    this.refs.description.value = '';
+    this.refs.user.value = '';
+    this.refs.post_content.value = '';
     this.refs.category.value = '';
 
     //when we build backend, will put url of backend here
@@ -67,13 +65,13 @@ class Post extends Component {
         <form onSubmit={this.handleSubmit}>
 
           <div className="field">
-            <label htmlFor="username">Enter Name: </label>
-            <input ref = "username" name="username" placeholder="Ex: Isaac's puppy" type="text" value = {this.state.username} onChange={event => this.handleChange(event)}/>
+            <label htmlFor="user">Enter Name: </label>
+            <input ref = "user" id="user" name="user" placeholder="Ex: Isaac's puppy" type="text" value = {this.state.user} onChange={event => this.handleChange(event)}/>
           </div>
 
           <div className="field">
-            <label htmlFor="description">Enter description of event: </label>
-            <input ref = "description" id="description" placeholder="Ex: 5v5 pickup" name="description" type="text" value = {this.state.description} onChange={event => this.handleChange(event)}/>
+            <label htmlFor="post_content">Enter description of event: </label>
+            <input ref = "post_content" id="post_content" placeholder="Ex: 5v5 pickup" name="post_content" type="text" value = {this.state.post_content} onChange={event => this.handleChange(event)}/>
           </div>
 
           <div className="field">
