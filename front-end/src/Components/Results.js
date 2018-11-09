@@ -18,6 +18,7 @@ import '../styles/Results.css';
 //        );
 //    }
 
+//This will be the right data for each category
 const searchResults = [
     {
         id: 1,
@@ -65,9 +66,13 @@ class Results extends Component {
     const{term, people} = this.state;
     return (
       <div className="result-container">
-        <h2 className="result-header">
-          Results
-        </h2>   
+
+               <form>
+                   <input type = "text"
+                       onChange ={this.searchHandler}
+                       value = {term}
+                   />
+               </form>
       {
         searchResults.filter(searchingFor(term)).map(searchResults =>
             <div key = {searchResults.id}>
