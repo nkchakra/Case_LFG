@@ -4,24 +4,20 @@ import {ListGroup, ListGroupItem} from 'react-bootstrap';
 class Videogames extends Component {
 
 
-//framework of getting data using ajax, this will get videogames data
-//    getData(){
-//      $.ajax(
-//            {
-//                type: 'get',
-//                url: url,
-//                success: function (data) {
-//                    this.setState({ data: JSON.parse(data) })  //or parse
-//                }.bind(this)
-//            },
-//
-//        );
-//    }
+//Fetch which will get the data and set the state to the response, need to update constantly
+//fetch('http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009', {mode: 'no-cors'}, {
+//      method: 'GET',
+//      body: JSON.stringify(data),
+//      this.setState(response),
+//    });
 
  constructor(){
      super()
-       this.state = {
-         data: [    {
+       //mock json must now have querytype filtercategory to send to backend
+      this.state = {
+        data:       [
+                   //queryType : "filterCategory",
+                   {
                         user:"byrrice",
                         post_content: "CSGO 5 queue",
                     },

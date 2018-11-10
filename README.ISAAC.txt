@@ -1,8 +1,12 @@
 11/09/2018
 Gantt Chart says I should be working with Nikhil to set up data tables and connect frontend and backend.
 Modified all the files to have consistent parameter names with backend parameters
-Established connection to backend AWS server finally (mode no cors and nc -l port_number to listen)
-
+Established connection to backend AWS server finally (mode no cors and nc -l port_number to listen), can post to server
+Established framework of getting data, need to implement filtering of data and setting state
+Made mock JSON object that get will send, Made mock JSON object that get will return
+Eventually, all, sports, videogames, and misc will just be a copy of results that differs only by the category sent in by the get
+Modified Feed.js, Results.js, All.js, Videogames.js, Misc.js, Sports.js
+Created GET.js, POST.js in MockGETPOST
 
 11/02/2018
 Gantt Chart still says I should be working on implementing categories.

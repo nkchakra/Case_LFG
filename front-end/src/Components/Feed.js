@@ -37,39 +37,7 @@ class Feed extends Component {
 
  constructor(){
      super()
-       this.state = {
-         data: [{
-                   username:"byrrice",
-                   date_posted:"08/21/18 7pm",
-                   post_id:"2131",
-                   description:"Looking for basketball group at 7 pm",
-                   category:"Sports",
-                   time_posted:"6:21pm",
-                   time_exist:"2 hours",
-                   Images: "None",
-                   Links:"https://en.wikipedia.org/wiki/Basketball",
-                   Tag_List: "Baketball, group, Veale",
-                   comments: {
-                       usernames: "vishthefish, niknak",
-                       comment_ids: "23141, 32141"
-                   }},
-                   {
-                      username:"byrrice",
-                      date_posted:"08/21/18 7pm",
-                      post_id:"2131",
-                      description:"lasdkfa for basketball group at 7 pm",
-                      category:"Sports",
-                      time_posted:"6:21pm",
-                      time_exist:"2 hours",
-                      Images: "None",
-                      Links:"https://en.wikipedia.org/wiki/Basketball",
-                      Tag_List: "Baketball, group, Veale",
-                      comments: {
-                          "usernames": "vishthefish, niknak",
-                          "comment_ids": "23141, 32141"
-                    }}
-                ]
-       };
+
 
        //for posting method later on
         //this.getData = this.getData.bind(this);
@@ -101,7 +69,6 @@ class Feed extends Component {
      })}</ul>*/
   render() {
 
-    const tabData = this.state.data;
     return (
         <div className="main-feed">
             <h1 size="30">Main Feed</h1>
