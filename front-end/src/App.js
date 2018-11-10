@@ -4,6 +4,7 @@ import Welcome from './Components/Welcome';
 import Feed from './Components/Feed';
 import Post from './Components/Post';
 import Results from "./Components/Results"
+import Login from "./Components/Login";
 
 class App extends Component {
   render() {
@@ -12,6 +13,7 @@ class App extends Component {
         <Welcome/>
         <Post/>
         <Feed/>
+        <Login/>
       </div>
     );
   }
