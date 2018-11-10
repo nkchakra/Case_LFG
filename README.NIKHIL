@@ -18,3 +18,6 @@ Functionality such as searching through comments in the 'searchInPosts' method h
 
 11/02/2018
 As of now, data table functionality is done. More can easily be added later if need be. The server has basic queries coded for, next step is testing that the front end can contact the server with queries (debugging mostly). Testing has been added to as well.
+
+11/09/2018
+There were some major issues with JUnit setup on my local environment that are now fixed. Additional tests have been added, and the setup for connecting the front end and back end is underway.

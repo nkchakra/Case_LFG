@@ -25,27 +25,37 @@ public class SQL_Connection_Tester {
 	private static SQL_Connection conn;
 	
 	
-	
+	/**
+	 * test to initialize sql connection
+	 */
 	@Test
 	public void test1() {
 		System.out.println("initializing SQL connection for testing");
 		
 		conn = new SQL_Connection();
-		
+		conn.deleteOldPosts(0);
 		assertEquals(conn.getStatement() != null, true);
 
 	}
 	
+	/**
+	 * test to create user, validate login, and delete user
+	 */
 	@Test
 	public void test2() {
 		conn.createUser(user1, "Soumya", "Ray", pw);
 		assertEquals(conn.isUser(user1),true);
 		assertEquals(conn.validateLogin(user1, pw),true);
+		assertEquals(conn.validateLogin(user1, pw+'p'),false);
 		conn.deleteUser(user1);
 		assertEquals(conn.isUser(user1),false);	
 		
 	}
 	
+	
+	/**
+	 * test to create post, search for all posts matching an input, and delete post
+	 */
 	@Test
 	public void test3() {
 		
@@ -59,6 +69,9 @@ public class SQL_Connection_Tester {
 		assertEquals(conn.searchInPosts(post).size() < matches.size(), true);
 	}
 	
+	/**
+	 * test to add a comment to a post
+	 */
 	@Test
 	public void test4() {
 		String id = conn.createPost(post, user2, "ALL");
@@ -75,6 +88,33 @@ public class SQL_Connection_Tester {
 	}
 	
 	
+	/**
+	 * test to select posts by category
+	 */
+	@Test
+	public void test5() {
+		String id0 = conn.createPost(post, user2, "SPORT");
+		String id1 = conn.createPost(post, user2, "MISC");
+		String id2 = conn.createPost(post, user2, "GAME");
+		
+		List<JSONObject> sport = conn.categoryFilter("SPORT");
+		List<JSONObject> misc = conn.categoryFilter("MISC");
+		List<JSONObject> game = conn.categoryFilter("GAME");
+		
+		assertEquals(sport.get(0).getString("post_id").equals(id0),true);
+		assertEquals(misc.get(0).getString("post_id").equals(id1),true);
+		assertEquals(game.get(0).getString("post_id").equals(id2),true);
+		
+	}
+	
+	/**
+	 * clears database, deletes connection to db
+	 */
+	@Test
+	public void test999() {
+		conn.clearDatabase();
+		conn.terminate();
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 

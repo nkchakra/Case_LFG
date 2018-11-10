@@ -87,6 +87,13 @@ public class SQL_Connection {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @param username
+	 * @param firstname
+	 * @param lastname
+	 * @param password
+	 */
 	public void createUser(String username, String firstname, String lastname, String password) {
 		String postHash = hashPassword(password);
 		String query = "insert into " + userTable + " (username, first_name, last_name, password) " + "values ('"
@@ -352,6 +359,11 @@ public class SQL_Connection {
 		return (this.result != null);
 	}
 
+	/**
+	 * deletes a single user in the database based on their username
+	 * @param user - username of user to be deleted
+	 * @return true if no err, false if err
+	 */
 	public boolean deleteUser(String user) {
 		String query = "delete from " + userTable + " where username='" + user + "'";
 		try {
@@ -366,6 +378,11 @@ public class SQL_Connection {
 		}
 	}
 
+	/**
+	 * deletes a single post in the database based on its id
+	 * @param post_id - id of post to be deleted
+	 * @return true if no err, false if err
+	 */
 	public boolean deletePost(String post_id) {
 		String del = "delete from " + postsTable + " where post_id='" + post_id + "'";
 		try {
@@ -378,9 +395,26 @@ public class SQL_Connection {
 		}
 	}
 
+	/**
+	 * gets all the posts that fall under the input category
+	 * @param category - category filter desired
+	 * @return - list of JSONObject's that represent all the posts that match the input category
+	 */
 	public List<JSONObject> categoryFilter(String category) {
 		List<JSONObject> posts = new ArrayList<JSONObject>();
 		String query;
+		boolean match = false;
+		for (String cat : categories){
+			if(cat.equals(category)) {
+				match = true;
+			}
+		}
+		
+		if(match == false) {
+			System.err.println("Error, category: ("+category+") is not a valid category, returning empty list");
+			return posts;
+		}
+		
 		if (category.equals("ALL")) {
 			query = "select * from " + postsTable;
 		} else {
@@ -398,6 +432,45 @@ public class SQL_Connection {
 		return posts;
 	}
 
+	/**
+	 * deletes all posts in the database
+	 * @return true if no sql err, false otherwise
+	 */
+	public boolean deleteAllPosts() {
+		String query = "delete * from "+postsTable;
+		try {
+			this.statement.executeUpdate(query);
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
+	/**
+	 * wipes the entire database
+	 * @return true if both all posts and all users were deleted
+	 */
+	public boolean clearDatabase() {
+		return deleteAllPosts() && deleteAllUsers();
+	}
+	
+	
+	/**
+	 * deletes all users in the database
+	 * @return true if no sql err, false otherwise
+	 */
+	public boolean deleteAllUsers() {
+		String query = "delete * from "+userTable;
+		try {
+			this.statement.executeUpdate(query);
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
 	public List<JSONObject> userRelatedPosts(String user) {
 
 		String query = "select * from " + postsTable + "where post_user='" + user + "'";
@@ -429,6 +502,11 @@ public class SQL_Connection {
 
 	}
 
+	/**
+	 * turns a result set that SHOULD REPRESENT A POST into a JSONObject that represents that post
+	 * @param res -resultSet object to turn into JSONObject
+	 * @return JSONObject of that post
+	 */
 	public JSONObject postToJson(ResultSet res) {
 		JSONObject json = new JSONObject();
 

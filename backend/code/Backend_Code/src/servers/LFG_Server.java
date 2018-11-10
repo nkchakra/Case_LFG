@@ -22,8 +22,9 @@ public class LFG_Server {
 	private static final String validateLogin = "validateLogin"; // done
 	private static final String postComment = "postComment"; // done
 	private static final String postSearch = "postSearch"; // done
-	private static final String userRelateds = "userRelateds";
+	private static final String userRelateds = "userRelateds"; // done
 	private static final String userCreate = "userCreate"; // done
+	private static final String categoryFilter = "categoryFilter"; // done
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -45,7 +46,11 @@ public class LFG_Server {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * class that acts as a thread for incoming queries from the front end
+	 * @author nikhil
+	 *
+	 */
 	private class SQL_Query implements Runnable {
 
 		private Socket socket;
@@ -74,6 +79,24 @@ public class LFG_Server {
 				sendErrorMessage(request);
 			} else {
 				// do stuff based on query type
+				if(request.getString("queryType").equals(postCreate)) {
+					this.postCreate(request);
+				}else if(request.getString("querytype").equals(validateLogin)) {
+					this.validateLogin(request);
+				}else if(request.getString("querytype").equals(postComment)) {
+					this.postComment(request);
+					
+				}else if(request.getString("querytype").equals(postSearch)) {
+					this.postSearch(request);
+					
+				}else if(request.getString("querytype").equals(userRelateds)) {
+					this.userRelateds(request);
+					
+				}else if(request.getString("querytype").equals(userCreate)) {
+					this.userCreate(request);
+				}else if(request.getString("querytype").equals(categoryFilter)) {
+					this.categoryFilter(request);
+				}
 			}
 		}
 
@@ -193,6 +216,19 @@ public class LFG_Server {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		
+		private void categoryFilter(JSONObject request) {
+			List<JSONObject> posts = conn.categoryFilter(request.getString("category"));
+			JSONObject response = new JSONObject();
+			
+			for(JSONObject post : posts) {
+				response.accumulate("posts", post);
+			}
+			response.accumulate("queryResult", "success");
+			sendResponse(response);
+			
+			
 		}
 	}
 
