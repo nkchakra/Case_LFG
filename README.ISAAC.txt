@@ -1,6 +1,7 @@
 11/09/2018
 Gantt Chart says I should be working with Nikhil to set up data tables and connect frontend and backend.
 Modified all the files to have consistent parameter names with backend parameters
+Have post do basic checking on input (will be fancier later on)
 Established connection to backend AWS server finally (mode no cors and nc -l port_number to listen), can post to server
 Established framework of getting data, need to implement filtering of data and setting state
 Made mock JSON object that get will send, Made mock JSON object that get will return

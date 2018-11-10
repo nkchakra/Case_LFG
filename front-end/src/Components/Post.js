@@ -39,6 +39,34 @@ class Post extends Component {
         return;
     }
 
+    //Fetch which will get the current users
+    //fetch('http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009', {mode: 'no-cors'}, {
+    //      method: 'GET',
+    //      body: JSON.stringify(data),
+    //      userCheck = response,
+    //    });
+
+    var userPresent = false;
+    for (int i = 0; i < response.length(); i++){
+        if (user == response[i]){
+            userPresent = true;
+        }
+    }
+
+    var catCheck = true;
+    if (cat !=  "Sports" || cat != "Videogames" || cat != "Misc"){
+        catCheck = false;
+    }
+
+    //if it doesn't fulfill check
+    if (!catCheck){
+        alert("Category wrong!")
+    }
+
+    if (!userPresent){
+        alert("Not in database, please register account")
+    }
+
     alert('Form being sent to backend');
 
 //    //modifying html
