@@ -4,19 +4,11 @@ import '../styles/Results.css';
 
 // assumes dummy object called searchResults, will call api later on with backend
 
-//framework of getting data using ajax
-//    getData(){
-//      $.ajax(
-//            {
-//                type: 'get',
-//                url: url,
-//                success: function (data) {
-//                    this.setState({ data: JSON.parse(data) })  //or parse
-//                }.bind(this)
-//            },
-//
-//        );
-//    }
+//Fetch which will get the data and set the state to the response, need to update constantly
+//fetch('http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009', {mode: 'no-cors'}, {
+//      method: 'GET',
+//      this.setState(response),
+//    });
 
 //This will be the right data for each category
 
