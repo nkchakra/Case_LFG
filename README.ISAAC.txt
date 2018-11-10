@@ -1,6 +1,7 @@
 11/09/2018
 Gantt Chart says I should be working with Nikhil to set up data tables and connect frontend and backend.
 Modified all the files to have consistent parameter names with backend parameters
+Established connection to backend AWS server finally (mode no cors and nc -l port_number to listen)
 
 
 11/02/2018
