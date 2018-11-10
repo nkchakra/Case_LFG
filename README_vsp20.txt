@@ -1,3 +1,7 @@
+11/9/18
+Created Login page, and made basic front-end functionalities for the login/create an account page. We also, as a group, worked on connecting the front-end to the back end for a while which has proven and will to be a long and challenging task which is within the scope of work to be done next week.
+
+
 11/2/18
 Made main feed look and read better, also took out carousel for now due some minor issues, will come back to it a little later. Added a new component which will in the future act as the component for a standard post. With certain input fields a new post looking component will be available rather than just normal text. For now since the backend isn't connected I will be using mock information. Also added a little more to the "Create a Post" portion of the main feed so that it looks more welcoming for the user. 
 

@@ -48,13 +48,14 @@ class Post extends Component {
     this.refs.user.value = '';
     this.refs.post_content.value = '';
     this.refs.category.value = '';
+    
 
     //when we build backend, will put url of backend here
     fetch('/api/form-submit-url', {
       method: 'POST',
       body: data,
     });
-  }
+  } 
 
 
   render() {
