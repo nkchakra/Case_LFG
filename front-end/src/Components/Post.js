@@ -46,27 +46,6 @@ class Post extends Component {
     //      userCheck = response,
     //    });
 
-    var userPresent = false;
-    for (int i = 0; i < response.length(); i++){
-        if (user == response[i]){
-            userPresent = true;
-        }
-    }
-
-    var catCheck = true;
-    if (cat !=  "Sports" || cat != "Videogames" || cat != "Misc"){
-        catCheck = false;
-    }
-
-    //if it doesn't fulfill check
-    if (!catCheck){
-        alert("Category wrong!")
-    }
-
-    if (!userPresent){
-        alert("Not in database, please register account")
-    }
-
     alert('Form being sent to backend');
 
 //    //modifying html
@@ -91,10 +70,19 @@ class Post extends Component {
 //      .then(function(data) {
 //        console.log(JSON.stringify(data));
 //      });
-    fetch('http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009', {mode: 'no-cors'}, {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
+    var sampleData = {"password":"pwordtest1","last_name":"Ray","first_name":"Soumya","queryType":"userCreate","username":"sray"};
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009", true);
+    xhttp.send("(msg_start)" + JSON.stringify(sampleData));
+    var result = xhttp.responseText;
+    console.log(result);
+//    fetch('http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:7000', {mode: 'no-cors'}, {
+//      method: 'POST',
+//      body: JSON.stringify(sampleData),
+//    })
+//    .then(response => response.json())
+//    .then(response => console.log('Success: ', JSON.stringify(response)))
+//    .catch(error => console.error('Error'));
   } 
 
 
@@ -116,6 +104,7 @@ class Post extends Component {
           </div>
 
           <div className="field">
+          {/*need to do this in dropdown menu*/}
             <label htmlFor="category">Enter category: </label>
             <input ref ="category" id="category" placeholder="Ex: Sports" name="category" type="text" value = {this.state.category} onChange={event => this.handleChange(event)}/>
           </div>

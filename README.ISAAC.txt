@@ -1,3 +1,7 @@
+11/16/2018
+Gantt chart says I should be working with Nikhil to set up data tables and connecting frontend and backend
+Got the get and post requests workingsih
+
 11/09/2018
 Gantt Chart says I should be working with Nikhil to set up data tables and connect frontend and backend.
 Modified all the files to have consistent parameter names with backend parameters
