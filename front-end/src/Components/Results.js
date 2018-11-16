@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../styles/Results.css';
 
+//LEGACY CLASS AT THIS POINT, HAS BEEN PORTED OVER TO THE CATEGORY FEEDS
 
 // assumes dummy object called searchResults, will call api later on with backend
 
@@ -64,14 +65,14 @@ class Results extends Component {
                    />
                </form>
       {
-        searchResults.filter(searchingFor(term)).map(searchResults =>
-            <div key = {searchResults.user}>
+        searchResults.filter(searchingFor(term)).map(data =>
+            <div key = {data.user}>
                   <center>
                         <ul className = "list-group">
                             <li className = "list-group-item">
-                                {searchResults.user} |
-                                {searchResults.post_content} |
-                                {searchResults.category}
+                                {data.user} |
+                                {data.post_content} |
+                                {data.category}
                             </li>
                          </ul>
                   </center>

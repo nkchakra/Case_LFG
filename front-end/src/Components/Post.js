@@ -72,10 +72,26 @@ class Post extends Component {
 //      .then(function(data) {
 //        console.log(JSON.stringify(data));
 //      });
-    var sampleData = {"password":"pwordtest1","last_name":"Ray","first_name":"Soumya","queryType":"userCreate","username":"sray"};
+
+     var sampleData = {"password":"pwordtest1","last_name":"Ray","first_name":"Soumya","queryType":"userCreate","username":"sray"};
+//    // Create WebSocket connection.
+//    const socket = new WebSocket('ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009');
+//
+//    // Connection opened
+//    socket.addEventListener('open', function (event) {
+//        socket.send("(msg_start)" + JSON.stringify(sampleData));
+//    });
+//
+//    // Listen for messages
+//    socket.addEventListener('message', function (event) {
+//        console.log('Message from server ', event.data);
+//    });
+
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", "http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009", true);
+    xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
     xhttp.send("(msg_start)" + JSON.stringify(sampleData));
+    console.log(xhttp.statusText);
     var result = xhttp.responseText;
     console.log(result);
 //    fetch('http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:7000', {mode: 'no-cors'}, {
@@ -142,20 +158,6 @@ class Post extends Component {
           <button onClick={this.handleSubmit}>Create Post</button>
         </form>
       </div>
-
-
-{/*
-//      <center>
-//          <table>
-//              <td>Username |</td>
-//              <td>Description |</td>
-//              <td>Category </td>
-//          </table>
-//            <table>
-//              <td id = "post"></td>
-//          </table>
-      </center>
-      */}
     </div>
     );
   }
