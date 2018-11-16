@@ -17,7 +17,7 @@ class Misc extends Component {
           this.state = {
             data: [
                        //queryType : "filterCategory",
-                   {
+                    {
                         user:"byrrice",
                         post_content: "Tennis Club",
                     },

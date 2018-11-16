@@ -39,6 +39,13 @@ class Post extends Component {
         return;
     }
 
+    //Fetch which will get the current users
+    //fetch('http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009', {mode: 'no-cors'}, {
+    //      method: 'GET',
+    //      body: JSON.stringify(data),
+    //      userCheck = response,
+    //    });
+
     alert('Form being sent to backend');
 
 //    //modifying html
@@ -50,10 +57,38 @@ class Post extends Component {
     this.refs.category.value = '';
 
     //when we build backend, will put url of backend here
+<<<<<<< HEAD
     fetch('/api/form-submit-url', {
       method: 'POST',
       body: data,
     });
+=======
+    //ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009
+//    fetch('http://172.20.14.152:2000', {mode: 'no-cors'}{
+//      method: 'POST',
+//      body: JSON.stringify(data),
+//    });
+//    fetch('http://172.20.14.152:80', {mode: 'no-cors'})
+//      .then(function(response) {
+//        return null;
+//      })
+//      .then(function(data) {
+//        console.log(JSON.stringify(data));
+//      });
+    var sampleData = {"password":"pwordtest1","last_name":"Ray","first_name":"Soumya","queryType":"userCreate","username":"sray"};
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009", true);
+    xhttp.send("(msg_start)" + JSON.stringify(sampleData));
+    var result = xhttp.responseText;
+    console.log(result);
+//    fetch('http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:7000', {mode: 'no-cors'}, {
+//      method: 'POST',
+//      body: JSON.stringify(sampleData),
+//    })
+//    .then(response => response.json())
+//    .then(response => console.log('Success: ', JSON.stringify(response)))
+//    .catch(error => console.error('Error'));
+>>>>>>> 1b199882b7770e9040fbfd9d2c78a8f118e26b82
   } 
 
 
@@ -75,6 +110,7 @@ class Post extends Component {
           </div>
 
           <div className="field">
+          {/*need to do this in dropdown menu*/}
             <label htmlFor="category">Enter category: </label>
             <input ref ="category" id="category" placeholder="Ex: Sports" name="category" type="text" value = {this.state.category} onChange={event => this.handleChange(event)}/>
           </div>
