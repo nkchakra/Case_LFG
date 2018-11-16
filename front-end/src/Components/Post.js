@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
+import {FormGroup, ControlLabel, FormControl, DropdownButton, MenuItem} from 'react-bootstrap';
 import '../styles/Post.css';
 class Post extends Component {
 
@@ -7,11 +7,14 @@ class Post extends Component {
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.categorySelect = this.categorySelect.bind(this); 
+
     this.state = {
         user: '',
         post_content: '',
-        category: '',
-    }
+        category: 'All',
+    }; 
+    
   }
 
   handleChange (event) {
@@ -85,6 +88,21 @@ class Post extends Component {
   } 
 
 
+  categorySelect(eventKey){
+    if (eventKey == 1){
+      this.setState({category: 'All'});
+    }
+    else if (eventKey == 2){
+      this.setState({category: 'Sports'});
+    }
+    else if (eventKey == 3){
+      this.setState({category: 'Video Games'});
+    }
+    else{
+        this.setState({category: 'Misc.'});
+    }
+  }
+
   render() {
     return (
         //This will send data in a json format containing username, description and category
@@ -105,7 +123,20 @@ class Post extends Component {
           <div className="field">
           {/*need to do this in dropdown menu*/}
             <label htmlFor="category">Enter category: </label>
-            <input ref ="category" id="category" placeholder="Ex: Sports" name="category" type="text" value = {this.state.category} onChange={event => this.handleChange(event)}/>
+              <div className="dropdownSelctor">
+              <DropdownButton
+                  bsStyle={'primary'}
+                  title={this.state.category}
+                  key={1}
+                  id={`dropdown-basic-${1}`}
+                  noCaret
+                >
+                  <MenuItem eventKey="1" onSelect={this.categorySelect}>All</MenuItem>
+                  <MenuItem eventKey="2" onSelect={this.categorySelect}>Sports</MenuItem>
+                  <MenuItem eventKey="3" onSelect={this.categorySelect}>Video Games</MenuItem>
+                  <MenuItem eventKey="4" onSelect={this.categorySelect}>Misc.</MenuItem>
+                </DropdownButton>
+            </div> 
           </div>
 
           <button onClick={this.handleSubmit}>Create Post</button>

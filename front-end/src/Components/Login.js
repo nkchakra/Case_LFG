@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {FormGroup, FormControl,HelpBlock, ControlLabel, DropdownButton, MenuItem, } from 'react-bootstrap';
+import {FormGroup, FormControl,HelpBlock, ControlLabel, DropdownButton, MenuItem, Button} from 'react-bootstrap';
 import '../styles/Login.css';
 
 
@@ -10,10 +10,12 @@ class Login extends Component{
 
 		this.handleLoginUsernameChange = this.handleLoginUsernameChange.bind(this);
 		this.handleLoginPasswordChange = this.handleLoginPasswordChange.bind(this);
+		this.dropdownSelect = this.dropdownSelect.bind(this);	
 
 		this.state = {
 			loginUsername: '',
-			loginPassword: ''
+			loginPassword: '',
+			DropdownTitle: 'Login'
 		};
 	}
 
@@ -47,6 +49,15 @@ class Login extends Component{
 			return 'success';
 		}
 	}
+
+	dropdownSelect(eventKey){
+		if (eventKey == 1){
+			this.setState({DropdownTitle: 'Login'});
+		}
+		else{
+			this.setState({DropdownTitle: 'Create an Account'});
+		}
+	}
 	
 
 //Have login there initially, if user clicks create an account render/dropdown the create account section 
@@ -59,14 +70,20 @@ class Login extends Component{
 				<div className="loginBody">
 					<div className="dropdownSelctor">
 						<DropdownButton
-					      bsStyle={'Primary'}
-					      title={'Select mode'}
+					      bsStyle={'primary'}
+					      title={this.state.DropdownTitle}
 					      key={1}
 					      id={`dropdown-basic-${1}`}
+					      noCaret
 					    >
-					      <MenuItem eventKey="1">Login</MenuItem>
+					      <MenuItem 
+					      	eventKey="1" 
+					      	onSelect={this.dropdownSelect}
+					      	>
+					      	Login
+					      	</MenuItem>
 					      <MenuItem divider />
-					      <MenuItem eventKey="2">Create Account</MenuItem>
+					      <MenuItem eventKey="2" onSelect={this.dropdownSelect}>Create Account</MenuItem>
 					    </DropdownButton>
 					</div> 
 					<div className="bodyUsername">
@@ -75,14 +92,13 @@ class Login extends Component{
 					          controlId="formBasicText"
 					          validationState={this.getLoginUsernameValidationState()}
 					        >
-					          <ControlLabel>Working example with validation</ControlLabel>
+					          <ControlLabel>Enter username below</ControlLabel>
 					          <FormControl
 					            type="text"
 					            value={this.state.loginUsername}
-					            placeholder="Enter text"
+					            placeholder="Enter username"
 					            onChange={this.handleLoginUsernameChange}
 					          />
-					          <FormControl.Feedback />
 					          <HelpBlock>username must have at least 3 characters</HelpBlock>
 					        </FormGroup>
 					    </form>
@@ -93,18 +109,18 @@ class Login extends Component{
 					          controlId="formBasicText"
 					          validationState={this.getLoginPasswordValidationState()}
 					        >
-					          <ControlLabel>Working example with validation</ControlLabel>
+					          <ControlLabel>Enter password below</ControlLabel>
 					          <FormControl
 					            type="text"
 					            value={this.state.loginPassword}
-					            placeholder="Enter text"
+					            placeholder="Enter Password"
 					            onChange={this.handleLoginPasswordChange}
 					          />
-					          <FormControl.Feedback />
 					          <HelpBlock>password must have at least 6 characters</HelpBlock>
 					        </FormGroup>
 					    </form>
 					</div>
+					<Button bsStyle="primary" bsSize="large">{this.state.DropdownTitle}</Button>
 				</div>
 			</div>
 			);

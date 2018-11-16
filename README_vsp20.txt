@@ -1,3 +1,6 @@
+11/16/18
+This week we met multiple times thorughout the week to work on connecting front end to the backend. We made some good progres but havent completely finished that yet. Also I finished the Login component to the point where it works and looks nice however, now all we need is the backend connection to make it work. Next week I need to setup the react router to route to different parts of the website
+
 11/9/18
 Created Login page, and made basic front-end functionalities for the login/create an account page. We also, as a group, worked on connecting the front-end to the back end for a while which has proven and will to be a long and challenging task which is within the scope of work to be done next week.
 
