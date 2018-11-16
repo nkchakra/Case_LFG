@@ -57,12 +57,6 @@ class Post extends Component {
     this.refs.category.value = '';
 
     //when we build backend, will put url of backend here
-<<<<<<< HEAD
-    fetch('/api/form-submit-url', {
-      method: 'POST',
-      body: data,
-    });
-=======
     //ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009
 //    fetch('http://172.20.14.152:2000', {mode: 'no-cors'}{
 //      method: 'POST',
@@ -87,8 +81,7 @@ class Post extends Component {
 //    })
 //    .then(response => response.json())
 //    .then(response => console.log('Success: ', JSON.stringify(response)))
-//    .catch(error => console.error('Error'));
->>>>>>> 1b199882b7770e9040fbfd9d2c78a8f118e26b82
+//    .catch(error => console.error('Error'));s
   } 
 
 
