@@ -115,9 +115,6 @@ public class SQL_Connection_Tester {
 		conn.clearDatabase();
 		conn.terminate();
 	}
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
-	}
 
 }

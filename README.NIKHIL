@@ -21,3 +21,6 @@ As of now, data table functionality is done. More can easily be added later if n
 
 11/09/2018
 There were some major issues with JUnit setup on my local environment that are now fixed. Additional tests have been added, and the setup for connecting the front end and back end is underway.
+
+11/16/2018
+The server code had to be re-written to accomodate the HTTP response needed by the front end. As of now, the front end can correctly cause changes in the backend, but the front end is not yet receiving a proper response. After that is fixed, the website can start being tested.

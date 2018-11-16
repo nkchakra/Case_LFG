@@ -14,7 +14,7 @@ public class SQL_Connection {
 	private static final String db_url = "jdbc:mysql://127.0.0.1:3306/sys?autoReconnect=true&useSSL=false";
 
 	private static final String username = "root";
-	private static final String password = "caselfg";// or case_lfg
+	private static final String password = "case_lfg";// or case_lfg
 
 	private static final String userTable = "Users";
 	private static final String postsTable = "Posts";
@@ -26,21 +26,7 @@ public class SQL_Connection {
 	private Statement statement;
 	private ResultSet result;
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		SQL_Connection c = new SQL_Connection();
-		// c.createPost("testing1", "nsc27");
-		try {
-			Thread.sleep(1100);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// c.createPost("testing2", "vss");
-		// c.deleteOldPosts(0);
-		// c.addComment("comment on testing2", "2018-10-12 20:44:16", "nsc27");
-		System.out.println(c.searchInPosts("testing"));
-	}
+
 
 	public ResultSet getResult() {
 		return result;
