@@ -1,14 +1,15 @@
+11/30/2018
+Gantt chart says I should be working on comment section
+Fixed the results in misc and videogames, now results is legacy
+
 11/16/2018
 Gantt chart says I should be working with Nikhil to set up data tables and connecting frontend and backend
 Got the get and post requests workingsih
 Data tables are formatted correctly across frontend and backend
 Set up initial states of all feeds using componentdidmount
 Set up refresh button to retrieve data using get request
-Have implemented results in all and videogames
+Have implemented results in all and sports
 Modified Results.js, All.js, Videogames.js, Misc.js, Sports.js, Feed.js
-
-
-
 
 11/09/2018
 Gantt Chart says I should be working with Nikhil to set up data tables and connect frontend and backend.
