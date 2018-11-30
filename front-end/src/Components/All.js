@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {ListGroup, ListGroupItem} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
+import Comments from './Comments';
 
 //does searching by category for now
 function searchingFor(term){
@@ -60,7 +61,7 @@ class All extends Component {
         xhttp.send("filterCategory" + "All")
         xhttp.onload = function() {
             var result = xhttp.responseText;
-            this.setState(result);
+            this.setState({data: result});
         };
     }
     //    fetch('http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009', {mode: 'no-cors'}, {
@@ -112,6 +113,7 @@ class All extends Component {
                                         {data.user} |
                                         {data.post_content} |
                                         {data.category}
+                                        <Comments/>
                                     </li>
                                  </ul>
                           </center>

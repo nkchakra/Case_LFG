@@ -34,10 +34,10 @@ class Post extends Component {
 
     var user = this.refs.user.value.trim();
     var des = this.refs.post_content.value.trim();
-    var cat = this.refs.category.value.trim();
+//    var cat = this.refs.category.value.trim();
 
     //if empty and click submit, throw error
-    if (!user || !des || !cat){
+    if (!user || !des ){
         alert('Form not filled out properly');
         return;
     }
@@ -57,7 +57,7 @@ class Post extends Component {
     //resetting the post fields
     this.refs.user.value = '';
     this.refs.post_content.value = '';
-    this.refs.category.value = '';
+//    this.refs.category.value = '';
 
     //when we build backend, will put url of backend here
     //ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009
@@ -87,13 +87,22 @@ class Post extends Component {
 //        console.log('Message from server ', event.data);
 //    });
 
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009", true);
-    xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
-    xhttp.send("(msg_start)" + JSON.stringify(sampleData));
-    console.log(xhttp.statusText);
-    var result = xhttp.responseText;
-    console.log(result);
+    var websocket = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
+
+    websocket.send(JSON.stringify(sampleData));
+
+    websocket.onmessage = function(str) {
+        console.log(str);
+    }
+
+//    var xhttp = new XMLHttpRequest();
+//    xhttp.open("GET", "http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009", true);
+//    //xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+//    xhttp.send("(msg_start)" + JSON.stringify(sampleData));
+//    console.log(xhttp.statusText);
+//    var result = xhttp.responseText;
+//    console.log(result);
+
 //    fetch('http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:7000', {mode: 'no-cors'}, {
 //      method: 'POST',
 //      body: JSON.stringify(sampleData),

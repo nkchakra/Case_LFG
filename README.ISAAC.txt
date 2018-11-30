@@ -1,6 +1,9 @@
 11/30/2018
 Gantt chart says I should be working on comment section
 Fixed the results in misc and videogames, now results is legacy
+Made basic comments work
+Still figuring out connection to backend
+Updated Misc, Videogames, made Comments
 
 11/16/2018
 Gantt chart says I should be working with Nikhil to set up data tables and connecting frontend and backend
