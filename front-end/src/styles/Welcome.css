@@ -13,5 +13,11 @@
 .get-started{
 	height: 30px;
 }
+.jumbotron-container{
+	height:100%;
+	width:100%;
+	background-color: #03304D;
+	padding:20px;
+}
 
 

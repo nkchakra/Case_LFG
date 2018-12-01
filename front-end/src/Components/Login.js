@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import {FormGroup, FormControl,HelpBlock, ControlLabel, DropdownButton, MenuItem, Button} from 'react-bootstrap';
 import '../styles/Login.css';
-
+import { BrowserRouter, Router, Route, Link, Switch } from "react-router-dom";
+import Feed from './../Components/Feed';
+import Post from './../Components/Post';
+import Home from './../Components/Home';
 
 class Login extends Component{
 
@@ -63,66 +66,75 @@ class Login extends Component{
 //Have login there initially, if user clicks create an account render/dropdown the create account section 
 	render(){
 		return (
-			<div className="loginContainer">
-				<div className="loginHeader">
-					<h2>Login your account</h2>
-				</div>
-				<div className="loginBody">
-					<div className="dropdownSelctor">
-						<DropdownButton
-					      bsStyle={'primary'}
-					      title={this.state.DropdownTitle}
-					      key={1}
-					      id={`dropdown-basic-${1}`}
-					      noCaret
-					    >
-					      <MenuItem 
-					      	eventKey="1" 
-					      	onSelect={this.dropdownSelect}
-					      	>
-					      	Login
-					      	</MenuItem>
-					      <MenuItem divider />
-					      <MenuItem eventKey="2" onSelect={this.dropdownSelect}>Create Account</MenuItem>
-					    </DropdownButton>
-					</div> 
-					<div className="bodyUsername">
-						<form>
-					        <FormGroup
-					          controlId="formBasicText"
-					          validationState={this.getLoginUsernameValidationState()}
-					        >
-					          <ControlLabel>Enter username below</ControlLabel>
-					          <FormControl
-					            type="text"
-					            value={this.state.loginUsername}
-					            placeholder="Enter username"
-					            onChange={this.handleLoginUsernameChange}
-					          />
-					          <HelpBlock>username must have at least 3 characters</HelpBlock>
-					        </FormGroup>
-					    </form>
+			<BrowserRouter>
+				<div className="loginContainer">
+					<div className="loginHeader">
+						<h2>Login your account</h2>
 					</div>
-					<div className="bodyPassword">
-						<form>
-					        <FormGroup
-					          controlId="formBasicText"
-					          validationState={this.getLoginPasswordValidationState()}
-					        >
-					          <ControlLabel>Enter password below</ControlLabel>
-					          <FormControl
-					            type="text"
-					            value={this.state.loginPassword}
-					            placeholder="Enter Password"
-					            onChange={this.handleLoginPasswordChange}
-					          />
-					          <HelpBlock>password must have at least 6 characters</HelpBlock>
-					        </FormGroup>
-					    </form>
+					<div className="loginBody">
+						<div className="dropdownSelctor">
+							<DropdownButton
+						      bsStyle={'primary'}
+						      title={this.state.DropdownTitle}
+						      key={1}
+						      id={`dropdown-basic-${1}`}
+						      noCaret
+						    >
+						      <MenuItem 
+						      	eventKey="1" 
+						      	onSelect={this.dropdownSelect}
+						      	>
+						      	Login
+						      	</MenuItem>
+						      <MenuItem divider />
+						      <MenuItem eventKey="2" onSelect={this.dropdownSelect}>Create Account</MenuItem>
+						    </DropdownButton>
+						</div> 
+						<div className="bodyUsername">
+							<form>
+						        <FormGroup
+						          controlId="formBasicText"
+						          validationState={this.getLoginUsernameValidationState()}
+						        >
+						          <ControlLabel>Enter username below</ControlLabel>
+						          <FormControl
+						            type="text"
+						            value={this.state.loginUsername}
+						            placeholder="Enter username"
+						            onChange={this.handleLoginUsernameChange}
+						          />
+						          <HelpBlock>username must have at least 3 characters</HelpBlock>
+						        </FormGroup>
+						    </form>
+						</div>
+						<div className="bodyPassword">
+							<form>
+						        <FormGroup
+						          controlId="formBasicText"
+						          validationState={this.getLoginPasswordValidationState()}
+						        >
+						          <ControlLabel>Enter password below</ControlLabel>
+						          <FormControl
+						            type="text"
+						            value={this.state.loginPassword}
+						            placeholder="Enter Password"
+						            onChange={this.handleLoginPasswordChange}
+						          />
+						          <HelpBlock>password must have at least 6 characters</HelpBlock>
+						        </FormGroup>
+						    </form>
+						</div>
+						<Link to="/home">
+							<Button bsStyle="primary" bsSize="large">{this.state.DropdownTitle}</Button>
+						</Link>
 					</div>
-					<Button bsStyle="primary" bsSize="large">{this.state.DropdownTitle}</Button>
+					<div>
+						<Switch>
+							<Route path="/home" component={Home}/> 
+						</Switch>
+					</div>
 				</div>
-			</div>
+			</BrowserRouter>
 			);
 	}
 

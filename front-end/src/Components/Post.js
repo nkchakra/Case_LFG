@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {FormGroup, ControlLabel, FormControl, DropdownButton, MenuItem} from 'react-bootstrap';
 import '../styles/Post.css';
+import axios from 'axios';
+
 class Post extends Component {
 
 
@@ -34,6 +36,7 @@ class Post extends Component {
 
     var user = this.refs.user.value.trim();
     var des = this.refs.post_content.value.trim();
+<<<<<<< Updated upstream
 //    var cat = this.refs.category.value.trim();
 
     //if empty and click submit, throw error
@@ -41,6 +44,15 @@ class Post extends Component {
         alert('Form not filled out properly');
         return;
     }
+=======
+    //var cat = this.refs.category.value.trim();
+
+    //if empty and click submit, throw error
+    // if (!user || !des || !cat){
+    //     alert('Form not filled out properly');
+    //     return;
+    // }
+>>>>>>> Stashed changes
 
     //Fetch which will get the current users
     //fetch('http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009', {mode: 'no-cors'}, {
@@ -57,7 +69,11 @@ class Post extends Component {
     //resetting the post fields
     this.refs.user.value = '';
     this.refs.post_content.value = '';
+<<<<<<< Updated upstream
 //    this.refs.category.value = '';
+=======
+  //  this.refs.category.value = '';
+>>>>>>> Stashed changes
 
     //when we build backend, will put url of backend here
     //ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009
@@ -103,13 +119,31 @@ class Post extends Component {
 //    var result = xhttp.responseText;
 //    console.log(result);
 
+    // var xhttp = new XMLHttpRequest();
+    // xhttp.open("POST", "http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009", true);
+    // xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+    // xhttp.send("(msg_start)" + JSON.stringify(sampleData));
+    // console.log(xhttp.statusText);
+    // var result = xhttp.responseText;
+    // console.log(result);
 //    fetch('http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:7000', {mode: 'no-cors'}, {
 //      method: 'POST',
 //      body: JSON.stringify(sampleData),
 //    })
 //    .then(response => response.json())
 //    .then(response => console.log('Success: ', JSON.stringify(response)))
-//    .catch(error => console.error('Error'));s
+//    .catch(error => console.error('Error'));
+       // axios({
+       //      method: 'post',
+       //      url: 'http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009',
+       //      data: sampleData
+       //  })
+       //  .then(function (response) {
+       //      console.log(response);
+       //  })
+       //  .catch(function (response) {
+       //      console.log(response);
+       //  });
   } 
 
 
