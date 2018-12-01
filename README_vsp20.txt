@@ -1,3 +1,8 @@
+11/30/18
+This week we continued on our journey to connect the front and back end. This is taking a lot longer than expected and we are trying multuple different methods (hence the mounds of comments in Post.js). Otherwise my other time was spend creating a post history component as well as styling and implementing react-router, which is our internal router that allows page changes within the front-end. This also took a decent amount of time within the past two weeks. 
+
+
+
 11/16/18
 This week we met multiple times thorughout the week to work on connecting front end to the backend. We made some good progres but havent completely finished that yet. Also I finished the Login component to the point where it works and looks nice however, now all we need is the backend connection to make it work. Next week I need to setup the react router to route to different parts of the website
 
