@@ -20,11 +20,10 @@ import java.util.concurrent.Executors;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import sql.SQL_Connection;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.websocket.server.WebSocketHandler;
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
+import sql.SQL_Connection;
 
 public class LFG_Server {
 
@@ -41,30 +40,7 @@ public class LFG_Server {
 	private static final String categoryFilter = "categoryFilter"; // done
 	private static final String phrase = "(msg_start)";
 
-	static class postHandler implements HttpHandler{
 
-		@Override
-		public void handle(HttpExchange he) throws IOException {
-			// TODO Auto-generated method stub
-            Map<String, Object> parameters = new HashMap<String, Object>();
-            InputStreamReader isr = new InputStreamReader(he.getRequestBody(), "utf-8");
-            BufferedReader br = new BufferedReader(isr);
-            String query = br.readLine();
-            System.out.println("query: \n"+query);
-            query = parseQuery(query);
-           // send response
-            
-            String response = new LFG_Server().new SQL_Query(new JSONObject(query)).run();
-            
-            he.sendResponseHeaders(200, response.length());
-            OutputStream os = he.getResponseBody();
-            os.write(response.toString().getBytes());
-            os.close();
-			
-			
-		}
-		
-	}
 	
 	public static String parseQuery(String temp) {
 	
@@ -76,19 +52,21 @@ public class LFG_Server {
 			return "";
 		}
 	}
-	
 
-	
-	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stubMap<String, Object> paMap<String, Object> parametersMap<String, Object> parameterMap<String, Object> parameterMap<String, Object> parameters = new HashMap<String, Object>();s = new HashMap<String, Object>();s = new HashMap<String, Object>(); = new HashMap<String, Object>();rameters = new HashMap<String, Object>();
 
 		try {
-			HttpServer serv = HttpServer.create(new InetSocketAddress(portno),0);
-			serv.createContext("/",new postHandler());
-			serv.setExecutor(Executors.newCachedThreadPool());
-			serv.start();
-			System.out.println("server listening on port: "+portno);
+	        Server server = new Server(8080);
+	        WebSocketHandler wsHandler = new WebSocketHandler() {
+	            @Override
+	            public void configure(WebSocketServletFactory factory) {
+	                factory.register(MyWebSocketHandler.class);
+	            }
+	        };
+	        server.setHandler(wsHandler);
+	        server.start();
+	        server.join();
 		
 		
 		} catch (IOException e1) {
@@ -123,11 +101,11 @@ public class LFG_Server {
 	 * @author nikhil
 	 *
 	 */
-	private class SQL_Query {
+
 
 		private JSONObject request;
 
-		public SQL_Query(JSONObject sock) {
+		public LFG_Server(JSONObject sock) {
 			request = sock;
 		}
 
@@ -140,6 +118,7 @@ public class LFG_Server {
 				return null;
 				//sendErrorMessage(request);
 			} else {
+				System.out.println("running for request:\n"+request.toString());
 				// do stuff based on query type
 				if (request.getString("queryType").equals(postCreate)) {
 					return this.postCreate(request).toString();
@@ -155,6 +134,7 @@ public class LFG_Server {
 					return this.userRelateds(request).toString();
 
 				} else if (request.getString("queryType").equals(userCreate)) {
+					System.out.println("doing for userCreate");
 					return this.userCreate(request).toString();
 				} else if (request.getString("queryType").equals(categoryFilter)) {
 					return this.categoryFilter(request).toString();
@@ -267,9 +247,11 @@ public class LFG_Server {
 
 			conn.createUser(request.getString("username"), request.getString("first_name"),
 					request.getString("last_name"), request.getString("password"));
+			System.out.println("user created");
 			JSONObject response = new JSONObject();
 
 			response.accumulate("queryReponse", "success");
+			System.out.println("response made");
 			return response;
 			
 		}
@@ -289,4 +271,4 @@ public class LFG_Server {
 		}
 	}
 
-}
+
