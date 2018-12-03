@@ -1,0 +1,6 @@
+validate Login or create account:
+
+{"queryResult":"failure"}
+or
+{"queryResult":"success"}
+

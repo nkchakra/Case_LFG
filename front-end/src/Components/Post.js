@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {FormGroup, ControlLabel, FormControl, DropdownButton, MenuItem} from 'react-bootstrap';
+import {FormGroup, ControlLabel, FormControl, DropdownButton, MenuItem,} from 'react-bootstrap';
 import '../styles/Post.css';
 import axios from 'axios';
 
@@ -36,7 +36,6 @@ class Post extends Component {
 
     var user = this.refs.user.value.trim();
     var des = this.refs.post_content.value.trim();
-<<<<<<< Updated upstream
 //    var cat = this.refs.category.value.trim();
 
     //if empty and click submit, throw error
@@ -44,15 +43,6 @@ class Post extends Component {
         alert('Form not filled out properly');
         return;
     }
-=======
-    //var cat = this.refs.category.value.trim();
-
-    //if empty and click submit, throw error
-    // if (!user || !des || !cat){
-    //     alert('Form not filled out properly');
-    //     return;
-    // }
->>>>>>> Stashed changes
 
     //Fetch which will get the current users
     //fetch('http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009', {mode: 'no-cors'}, {
@@ -69,11 +59,8 @@ class Post extends Component {
     //resetting the post fields
     this.refs.user.value = '';
     this.refs.post_content.value = '';
-<<<<<<< Updated upstream
 //    this.refs.category.value = '';
-=======
-  //  this.refs.category.value = '';
->>>>>>> Stashed changes
+
 
     //when we build backend, will put url of backend here
     //ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009
@@ -89,7 +76,12 @@ class Post extends Component {
 //        console.log(JSON.stringify(data));
 //      });
 
-     var sampleData = {"password":"pwordtest1","last_name":"Ray","first_name":"Soumya","queryType":"userCreate","username":"sray"};
+     var sampleData = {
+  "queryType":"validateLogin",
+  "username":"sray",
+  "password":"pwordtest2"
+}
+      ;
 //    // Create WebSocket connection.
 //    const socket = new WebSocket('ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009');
 //
@@ -103,13 +95,28 @@ class Post extends Component {
 //        console.log('Message from server ', event.data);
 //    });
 
-    var websocket = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
 
-    websocket.send(JSON.stringify(sampleData));
+    var ws = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
 
-    websocket.onmessage = function(str) {
-        console.log(str);
-    }
+    ws.onopen = function() {
+        console.log("sending data..");
+        ws.send(JSON.stringify(sampleData));
+        console.log("sent")
+    };
+
+    ws.onmessage = function (evt) {
+        console.log("anything");
+        console.log(evt.data);
+    };
+
+    ws.onclose = function() {
+        alert("Closed!");
+    };
+
+    ws.onerror = function(err) {
+        alert("Error: " + err);
+    };
+
 
 //    var xhttp = new XMLHttpRequest();
 //    xhttp.open("GET", "http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009", true);
@@ -162,12 +169,42 @@ class Post extends Component {
     }
   }
 
+  handleDescriptionChange(e){
+    this.setState({post_content: e.target.value})
+  }
+
+ 
+
   render() {
     return (
         //This will send data in a json format containing username, description and category
     <div className="post-container">
       <div className="input-container">
         <form onSubmit={this.handleSubmit}>
+          <FormGroup
+          controlId="formBasicText"
+        >
+            <ControlLabel> Enter event name here </ControlLabel>
+            <FormControl
+              type="text"
+              value="nothing"
+              placeholder="Pickup Basketball"
+              onChange={this.handleNameChange}
+              />
+            <ControlLabel>Enter event description here</ControlLabel>
+            <FormControl
+              type="text"
+              value={this.state.post_content}
+              placeholder="Veale 5pm"
+              onChange={this.handleDescriptionChange}
+            />
+
+
+          </FormGroup>
+ 
+
+
+
 
           <div className="field">
             <label htmlFor="user">Enter Name: </label>
