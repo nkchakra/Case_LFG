@@ -16,12 +16,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Semaphore;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.websocket.api.annotations.WebSocket;
+import org.eclipse.jetty.websocket.api.Session;
+import org.eclipse.jetty.websocket.api.WebSocketListener;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketError;
+import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.server.WebSocketHandler;
+import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 
 import sql.SQL_Connection;
 
@@ -52,12 +61,67 @@ public class LFG_Server {
 			return "";
 		}
 	}
+	
+	@WebSocket
+	public static class MyWebSocketHandler {
+		
+		
+		//Semaphore sem = new Semaphore(0);
+		String response = "default";
+	    Session sess;
+
+		
+		@OnWebSocketClose
+		public void onClose(int statusCode, String reason) {
+	        System.out.println("Close: statusCode=" + statusCode + ", reason=" + reason);
+	    }
+
+	    @OnWebSocketError
+	    public void onError(Throwable t) {
+	        System.out.println("Error: " + t.getMessage());
+	    }
+
+	    @OnWebSocketConnect
+	    public void onConnect(Session session) {
+	        System.out.println("Connected to: " + session.getRemoteAddress().getAddress());
+	        sess = session;
+//	        try {
+//	        	//sem.acquire();
+//	        	sess = session;
+//	            //session.getRemote().sendString(response);
+//	            //System.out.println("sent response: "+response);
+//	        } catch (IOException e) {
+//	            e.printStackTrace();
+//	        }
+	    }
+
+	    @OnWebSocketMessage
+	    public void onMessage(String message) {
+	        System.out.println("Message received: " + message);
+	        
+	        response = new LFG_Server(new JSONObject(message)).run();
+	        try {
+				sess.getRemote().sendString(response);
+				System.out.println("sent response: \n"+response);
+			} catch (IOException e) {
+				System.out.println("failed to send response");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        
+	        //sem.release();
+	    }
+
+
+
+	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stubMap<String, Object> paMap<String, Object> parametersMap<String, Object> parameterMap<String, Object> parameterMap<String, Object> parameters = new HashMap<String, Object>();s = new HashMap<String, Object>();s = new HashMap<String, Object>(); = new HashMap<String, Object>();rameters = new HashMap<String, Object>();
 
 		try {
-	        Server server = new Server(8080);
+			conn = new SQL_Connection();
+	        Server server = new Server(portno);
 	        WebSocketHandler wsHandler = new WebSocketHandler() {
 	            @Override
 	            public void configure(WebSocketServletFactory factory) {
@@ -69,8 +133,9 @@ public class LFG_Server {
 	        server.join();
 		
 		
-		} catch (IOException e1) {
+		} catch (Exception e1) {
 			// TODO Auto-generated catch block
+			conn.terminate();
 			e1.printStackTrace();
 		}
 		
@@ -105,8 +170,8 @@ public class LFG_Server {
 
 		private JSONObject request;
 
-		public LFG_Server(JSONObject sock) {
-			request = sock;
+		public LFG_Server(JSONObject req) {
+			request = req;
 		}
 
 
@@ -187,20 +252,6 @@ public class LFG_Server {
 			return response;
 		}
 
-		private JSONObject createUser(JSONObject request) {
-
-			conn.createUser(request.getString("username"), request.getString("firstname"),
-					request.getString("lastname"), request.getString("password"));
-			JSONObject response = new JSONObject();
-			if (conn.isUser(request.getString("username"))) {
-				response.accumulate("queryResponse", "success");
-			} else {
-				response.accumulate("queryResponse", "failure");
-			}
-			
-			return response;
-		}
-
 		private JSONObject postComment(JSONObject request) {
 			boolean success = conn.addComment(request.getString("comment"), request.getString("post_id"),
 					request.getString("username"));
@@ -223,7 +274,7 @@ public class LFG_Server {
 			for (JSONObject post : posts) {
 				response.accumulate("posts", post);
 			}
-			response.accumulate("queryResponse", "success");
+			response.accumulate("queryResult", "success");
 			response.accumulate("postsFound", posts.size());
 
 			return response;

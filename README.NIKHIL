@@ -24,3 +24,7 @@ There were some major issues with JUnit setup on my local environment that are n
 
 11/16/2018
 The server code had to be re-written to accomodate the HTTP response needed by the front end. As of now, the front end can correctly cause changes in the backend, but the front end is not yet receiving a proper response. After that is fixed, the website can start being tested.
+
+11/30/2018
+The backend and front end are connected now via a web socket. Initial connection testing has been done, and implementation for full website functionality is under way. 
+
