@@ -48,15 +48,29 @@ class Sports extends Component {
         var getRequest = {
             request: [{
                 queryType: "filterCategory",
-                args: "All"
+                args: "Sports"
             }]
         };
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009", true);
-        xhttp.send("filterCategory" + "All")
-        xhttp.onload = function() {
-            var result = xhttp.responseText;
-            this.setState(result);
+
+        var ws = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
+
+        ws.onopen = function() {
+            console.log("sending data..");
+            ws.send(JSON.stringify(getRequest));
+            console.log("sent")
+        };
+
+        ws.onmessage = function (evt) {
+            console.log("anything");
+            console.log(evt.data);
+        };
+
+        ws.onclose = function() {
+            alert("Closed!");
+        };
+
+        ws.onerror = function(err) {
+            alert("Error: " + err);
         };
     }
 
