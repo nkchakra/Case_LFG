@@ -11,8 +11,37 @@ class PostItem extends Component{
 		super(props);
 	}
 
-	addComment(){
+	addComment(e){
+		e.preventDefault();
 
+        var getRequest = {
+            request: [{
+                "queryType": "postComment",
+                "comment": comment,
+                "username": author,
+                "post_id": 1234
+            }]
+        };
+
+        var ws = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
+        ws.onopen = function() {
+            ws.send(JSON.stringify(getRequest));
+            console.log("sent")
+        };
+
+        ws.onmessage = function (evt) {
+            console.log("anything");
+            console.log(evt.data);
+            this.setState()
+        };
+
+        ws.onclose = function() {
+            alert("Closed!");
+        };
+
+        ws.onerror = function(err) {
+            alert("Error: " + err);
+        };
 	}
 	
 

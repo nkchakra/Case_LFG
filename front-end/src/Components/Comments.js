@@ -12,48 +12,9 @@ class Comments extends Component {
     }
 
     handleSubmit(e){
-        e.preventDefault();
-        console.log("Submitting the form!");
-        const author = this.refs.author.value;
-        const comment = this.refs.comment.value;
-        console.log(author, comment);
 
-        var getRequest = {
-            request: [{
-                queryType: "postComment",
-                comment: comment,
-                username: author,
-                post_id: 1234
-            }]
-        };
-
-        var ws = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
-
-        ws.onopen = function() {
-            console.log("sending data..");
-            ws.send(JSON.stringify(getRequest));
-            console.log("sent")
-        };
-
-        ws.onmessage = function (evt) {
-            console.log("anything");
-            console.log(evt.data);
-            this.setState()
-        };
-
-        ws.onclose = function() {
-            alert("Closed!");
-        };
-
-        ws.onerror = function(err) {
-            alert("Error: " + err);
-        };
     }
-<<<<<<< HEAD
-
-=======
     // At bottom of comments add an add to comments button
->>>>>>> 5afa3cf1c7f72df6802ded36846130fae97890fd
     render(){
         return (
             <div className = "comment">
