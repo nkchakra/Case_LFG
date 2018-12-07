@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
-import {FormGroup, ControlLabel, FormControl, DropdownButton, MenuItem,} from 'react-bootstrap';
+import {FormGroup, ControlLabel, FormControl, DropdownButton, MenuItem,textarea} from 'react-bootstrap';
 import '../styles/Post.css';
 import axios from 'axios';
 
 class Post extends Component {
 
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.categorySelect = this.categorySelect.bind(this); 
-
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.state = {
-        user: '',
+        title: '',
         post_content: '',
         category: 'All',
     }; 
@@ -31,146 +32,74 @@ class Post extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    alert(this.props.username);
     const data = new FormData(event.target);
+    const content = this.state.post_content;
+    const title = this.state.title;
+    const category = this.state.category;
+    const username = this.props.username;
 
-
-    var user = this.refs.user.value.trim();
-    var des = this.refs.post_content.value.trim();
-//    var cat = this.refs.category.value.trim();
-
-    //if empty and click submit, throw error
-    if (!user || !des ){
+    if (!this.state.title || !this.state.post_content){
         alert('Form not filled out properly');
         return;
     }
 
-    //Fetch which will get the current users
-    //fetch('http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009', {mode: 'no-cors'}, {
-    //      method: 'GET',
-    //      body: JSON.stringify(data),
-    //      userCheck = response,
-    //    });
 
-    alert('Form being sent to backend');
+  //TODO check with nikhil what the spellings for all categories are
+    var post_data = {
+      "queryType" : "post_create",
+      "post_content" : content,
+      "category" : category,
+      "name" : title,
+      "username" : username
+    };
 
-//    //modifying html
-//    document.getElementById("post").innerHTML = user + "  |   " + des + "   |   " + cat;
-//
-    //resetting the post fields
-    this.refs.user.value = '';
-    this.refs.post_content.value = '';
-//    this.refs.category.value = '';
-
-
-    //when we build backend, will put url of backend here
-    //ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009
-//    fetch('http://172.20.14.152:2000', {mode: 'no-cors'}{
-//      method: 'POST',
-//      body: JSON.stringify(data),
-//    });
-//    fetch('http://172.20.14.152:80', {mode: 'no-cors'})
-//      .then(function(response) {
-//        return null;
-//      })
-//      .then(function(data) {
-//        console.log(JSON.stringify(data));
-//      });
-
-     var sampleData = {
-  "queryType":"validateLogin",
-  "username":"sray",
-  "password":"pwordtest2"
-}
-      ;
-//    // Create WebSocket connection.
-//    const socket = new WebSocket('ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009');
-//
-//    // Connection opened
-//    socket.addEventListener('open', function (event) {
-//        socket.send("(msg_start)" + JSON.stringify(sampleData));
-//    });
-//
-//    // Listen for messages
-//    socket.addEventListener('message', function (event) {
-//        console.log('Message from server ', event.data);
-//    });
 
 
     var ws = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
 
     ws.onopen = function() {
         console.log("sending data..");
-        ws.send(JSON.stringify(sampleData));
+        ws.send(JSON.stringify(post_data));
         console.log("sent")
     };
 
     ws.onmessage = function (evt) {
-        console.log("anything");
         console.log(evt.data);
     };
 
     ws.onclose = function() {
-        alert("Closed!");
+      console.log('connection closed');
     };
 
     ws.onerror = function(err) {
         alert("Error: " + err);
     };
 
-
-//    var xhttp = new XMLHttpRequest();
-//    xhttp.open("GET", "http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009", true);
-//    //xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
-//    xhttp.send("(msg_start)" + JSON.stringify(sampleData));
-//    console.log(xhttp.statusText);
-//    var result = xhttp.responseText;
-//    console.log(result);
-
-    // var xhttp = new XMLHttpRequest();
-    // xhttp.open("POST", "http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009", true);
-    // xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
-    // xhttp.send("(msg_start)" + JSON.stringify(sampleData));
-    // console.log(xhttp.statusText);
-    // var result = xhttp.responseText;
-    // console.log(result);
-//    fetch('http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:7000', {mode: 'no-cors'}, {
-//      method: 'POST',
-//      body: JSON.stringify(sampleData),
-//    })
-//    .then(response => response.json())
-//    .then(response => console.log('Success: ', JSON.stringify(response)))
-//    .catch(error => console.error('Error'));
-       // axios({
-       //      method: 'post',
-       //      url: 'http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009',
-       //      data: sampleData
-       //  })
-       //  .then(function (response) {
-       //      console.log(response);
-       //  })
-       //  .catch(function (response) {
-       //      console.log(response);
-       //  });
   } 
 
 
   categorySelect(eventKey){
     if (eventKey == 1){
-      this.setState({category: 'All'});
+      this.setState({category: 'ALL'});
     }
     else if (eventKey == 2){
-      this.setState({category: 'Sports'});
+      this.setState({category: 'SPORTS'});
     }
     else if (eventKey == 3){
-      this.setState({category: 'Video Games'});
+      this.setState({category: 'VIDEO GAMES'});
     }
     else{
-        this.setState({category: 'Misc.'});
+        this.setState({category: 'MISC'});
     }
   }
 
   handleDescriptionChange(e){
     this.setState({post_content: e.target.value})
+  }
+
+  handleNameChange(e){
+    this.setState({title: e.target.value})
   }
 
  
@@ -180,42 +109,24 @@ class Post extends Component {
         //This will send data in a json format containing username, description and category
     <div className="post-container">
       <div className="input-container">
-        <form onSubmit={this.handleSubmit}>
+        <form>
           <FormGroup
           controlId="formBasicText"
         >
             <ControlLabel> Enter event name here </ControlLabel>
             <FormControl
               type="text"
-              value="nothing"
               placeholder="Pickup Basketball"
               onChange={this.handleNameChange}
+              bsSize="large"
               />
-            <ControlLabel>Enter event description here</ControlLabel>
+            <ControlLabel>Enter event description here \n</ControlLabel>
             <FormControl
               type="text"
-              value={this.state.post_content}
               placeholder="Veale 5pm"
               onChange={this.handleDescriptionChange}
             />
-
-
           </FormGroup>
- 
-
-
-
-
-          <div className="field">
-            <label htmlFor="user">Enter Name: </label>
-            <input ref = "user" id="user" name="user" placeholder="Ex: Isaac's puppy" type="text" value = {this.state.user} onChange={event => this.handleChange(event)}/>
-          </div>
-
-          <div className="field">
-            <label htmlFor="post_content">Enter description of event: </label>
-            <input ref = "post_content" id="post_content" placeholder="Ex: 5v5 pickup" name="post_content" type="text" value = {this.state.post_content} onChange={event => this.handleChange(event)}/>
-          </div>
-
           <div className="field">
           {/*need to do this in dropdown menu*/}
             <label htmlFor="category">Enter category: </label>

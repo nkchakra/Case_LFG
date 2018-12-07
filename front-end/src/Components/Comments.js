@@ -9,6 +9,7 @@ class Comments extends Component {
         const comment = this.refs.comment.value;
         console.log(author, comment);
     }
+    // At bottom of comments add an add to comments button
     render(){
         return (
             <div className = "comment">

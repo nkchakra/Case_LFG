@@ -9,14 +9,7 @@ class History extends Component{
 	}
 
 	componentDidMount(){
-		//Get all history function implementation goes here.
-		// axios.get('http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009')
-  //       .then(function (response) {
-  //           console.log(response);
-  //       })
-  //       .catch(function (response) {
-  //           console.log(response);
-  //       });
+
 	}
 	
 
@@ -24,6 +17,9 @@ class History extends Component{
 		return (
 			<div className="historyContainer">
 				<h3 className="historyTitle">Your Post History</h3>
+				<div className="historyContainer">
+					
+				</div>
 			</div>
 
 			);

@@ -130,7 +130,7 @@ class Login extends Component{
 					</div>
 					<div>
 						<Switch>
-							<Route path="/home" component={Home}/> 
+							<Route path="/home" render={(props) => <Home {...props} username={this.state.loginUsername}/>}/> 
 						</Switch>
 					</div>
 				</div>
