@@ -3,6 +3,9 @@ import Feed from './Feed.js';
 import History from './History.js';
 import Post from './Post.js';
 import Welcome from './Welcome.js';
+import '../styles/Home.css';
+
+
 class Home extends Component{
 
 	constructor(props){
@@ -12,10 +15,11 @@ class Home extends Component{
 	
 
 	render(){
+		const username = this.props.username;
 		return (
 			<div className="homeContainer">
 				<Welcome/>
-				<Post/>
+				<Post username={username}/>
 				<Feed/>
 				<History/>
 			</div>

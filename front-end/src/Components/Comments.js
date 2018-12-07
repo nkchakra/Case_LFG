@@ -49,7 +49,11 @@ class Comments extends Component {
             alert("Error: " + err);
         };
     }
+<<<<<<< HEAD
 
+=======
+    // At bottom of comments add an add to comments button
+>>>>>>> 5afa3cf1c7f72df6802ded36846130fae97890fd
     render(){
         return (
             <div className = "comment">
