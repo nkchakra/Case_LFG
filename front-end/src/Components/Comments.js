@@ -26,7 +26,6 @@ class Comments extends Component {
         });
     }
 
-
     render(){
         const{data} = this.state;
         return (

@@ -1,3 +1,7 @@
+12/7/18
+This week we put some finishing touches on the front-end and made some established connections to the backend. We are still working on snapshot testing, and putting the front-end on an AWS domain. We will be ready for tuesday's demo.
+
+
 11/30/18
 This week we continued on our journey to connect the front and back end. This is taking a lot longer than expected and we are trying multuple different methods (hence the mounds of comments in Post.js). Otherwise my other time was spend creating a post history component as well as styling and implementing react-router, which is our internal router that allows page changes within the front-end. This also took a decent amount of time within the past two weeks. 
 
