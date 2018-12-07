@@ -127,21 +127,10 @@ class All extends Component {
             data.filter(searchingFor(term)).map(data =>
                 <div key = {data.user}>
                     <center>
-                        <Navbar>
-                            <Navbar.Header>
-                                <Navbar.Brand>
-                                    {data.user} |
-                                    {data.post_content} |
-                                    {data.category}
-                                </Navbar.Brand>
-                                <Navbar.Toggle/>
-                            </Navbar.Header>
-                                <Navbar.Collapse>
-                                    <Navbar.Text>
-                                        <Comments/>
-                                    </Navbar.Text>
-                                </Navbar.Collapse>
-                         </Navbar>
+                        {data.user} |
+                        {data.post_content} |
+                        {data.category}
+                        <Comments/>
                     </center>
                 </div>
             )

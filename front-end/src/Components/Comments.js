@@ -11,58 +11,32 @@ class Comments extends Component {
         }
     }
 
-    handleSubmit(e){
-        e.preventDefault();
-        console.log("Submitting the form!");
-        const author = this.refs.author.value;
-        const comment = this.refs.comment.value;
-        console.log(author, comment);
-
-        var getRequest = {
-            request: [{
-                queryType: "postComment",
-                comment: comment,
-                username: author,
-                post_id: 1234
-            }]
-        };
-
-        var ws = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
-
-        ws.onopen = function() {
-            console.log("sending data..");
-            ws.send(JSON.stringify(getRequest));
-            console.log("sent")
-        };
-
-        ws.onmessage = function (evt) {
-            console.log("anything");
-            console.log(evt.data);
-            this.setState()
-        };
-
-        ws.onclose = function() {
-            alert("Closed!");
-        };
-
-        ws.onerror = function(err) {
-            alert("Error: " + err);
-        };
+    componentDidMount() {
+        this.setState({
+            data: [
+                {
+                    user: "byrrice",
+                    comment: "I'll be there at 3",                
+                },
+                {
+                    user: "niknak",
+                    comment: "Cool, I'll be there by 3:30",
+                }
+            ]
+        });
     }
-<<<<<<< HEAD
 
-=======
-    // At bottom of comments add an add to comments button
->>>>>>> 5afa3cf1c7f72df6802ded36846130fae97890fd
+
     render(){
+        const{data} = this.state;
         return (
             <div className = "comment">
-             I'm the comments!!!
-             <form ref = "commentFrom" className ="comment-form" onSubmit = {this.handleSubmit}>
-                <input type = "text" ref ="author" placeholder = "author"/>
-                <input type = "text" ref = "comment" placeholder = "comment"/>
-                <input type = "submit"/>
-             </form>
+                <ListGroup>
+                {data.map(data =>
+                    <div key = {data.comment}>
+                        <ListGroupItem>{data.comment}</ListGroupItem>
+                    </div>)}
+                </ListGroup>       
              </div>
         )
     }

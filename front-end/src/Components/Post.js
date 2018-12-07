@@ -113,14 +113,14 @@ class Post extends Component {
           <FormGroup
           controlId="formBasicText"
         >
-            <ControlLabel> Enter event name here </ControlLabel>
+            <ControlLabel> Enter event name here: </ControlLabel>
             <FormControl
               type="text"
               placeholder="Pickup Basketball"
               onChange={this.handleNameChange}
               bsSize="large"
               />
-            <ControlLabel>Enter event description here \n</ControlLabel>
+            <ControlLabel>Enter event description here: </ControlLabel>
             <FormControl
               type="text"
               placeholder="Veale 5pm"
