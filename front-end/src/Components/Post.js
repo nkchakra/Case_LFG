@@ -15,7 +15,7 @@ class Post extends Component {
     this.state = {
         title: '',
         post_content: '',
-        category: 'All',
+        category: 'ALL',
     }; 
     
   }
@@ -32,7 +32,6 @@ class Post extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    alert(this.props.username);
     const data = new FormData(event.target);
     const content = this.state.post_content;
     const title = this.state.title;
@@ -46,14 +45,17 @@ class Post extends Component {
 
 
   //TODO check with nikhil what the spellings for all categories are
-    var post_data = {
-      "queryType" : "post_create",
-      "post_content" : content,
-      "category" : category,
-      "name" : title,
-      "username" : username
-    };
-
+    // var post_data = {
+    //   "queryType" : "postCreate",
+    //   "post_content" : content,
+    //   "category" : category,
+    //   "post_title" : title,
+    //   "username" : username
+    // };
+var post_data = {
+  "queryType":"categoryFilter",
+  "category":"SPORT"
+}
 
 
     var ws = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
@@ -84,10 +86,10 @@ class Post extends Component {
       this.setState({category: 'ALL'});
     }
     else if (eventKey == 2){
-      this.setState({category: 'SPORTS'});
+      this.setState({category: 'SPORT'});
     }
     else if (eventKey == 3){
-      this.setState({category: 'VIDEO GAMES'});
+      this.setState({category: 'GAME'});
     }
     else{
         this.setState({category: 'MISC'});
