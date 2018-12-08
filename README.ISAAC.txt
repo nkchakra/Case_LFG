@@ -1,3 +1,11 @@
+12/7/2018
+Gantt chart says I should be working on comment section
+Made layouts and comments work
+Established connectivity in all categories and updated look and feel of website
+Code refactored to be cleaner
+Before Tuesday, finish putting touches on website, do various snapshot testing, establish more connectivity to backend, get domain name
+Updated Comments, Videogames, All, Post, Sports, Misc
+
 11/30/2018
 Gantt chart says I should be working on comment section
 Fixed the results in misc and videogames, now results is legacy

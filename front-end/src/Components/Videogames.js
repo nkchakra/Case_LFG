@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {ListGroup, ListGroupItem} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
+import Comments from './Comments';
 
 //does searching by category for now
 function searchingFor(term){
@@ -36,58 +37,73 @@ class Videogames extends Component {
         var getRequest = {
             request: [{
                 queryType: "filterCategory",
-                args: "All"
+                args: "Videogames"
             }]
         };
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "http://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009", true);
-        xhttp.send("filterCategory" + "All")
-        xhttp.onload = function() {
-            var result = xhttp.responseText;
-            this.setState(result);
+
+        var ws = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
+
+        ws.onopen = function() {
+            console.log("sending data..");
+            ws.send(JSON.stringify(getRequest));
+            console.log("sent")
         };
+
+        ws.onmessage = function (evt) {
+            console.log("anything");
+            console.log(evt.data);
+        };
+
+        ws.onclose = function() {
+            alert("Closed!");
+        };
+
+        ws.onerror = function(err) {
+            alert("Error: " + err);
+        };
+
     }
 
  constructor(props){
-         super(props)
-         //mock json must now have querytype filtercategory to send to backend
-           this.state = {
-             data: [
-                    ],
-             term: '',
-           }
-            this.searchHandler = this.searchHandler.bind(this);
-        }
-searchHandler(event){
-  this.setState({term: event.target.value})
-}
+     super(props)
+     //mock json must now have querytype filtercategory to send to backend
+       this.state = {
+         data: [
+                ],
+         term: '',
+       }
+      this.searchHandler = this.searchHandler.bind(this); 
+  }    
+  searchHandler(event){
+    this.setState({term: event.target.value})
+  }
+
   render() {
     const{term, data} = this.state;
     return (
         <div className="result-container">
-                <Button bsStyle = "primary" onClick = {this.getData}>Refresh</Button>
-                   <form>
-                       <input type = "text"
-                           onChange ={this.searchHandler}
-                           value = {term}
-                       />
-                   </form>
-          {
+            <div className = "refresh-container" style = {{overflow: 'hidden', whitespace: 'overflow'}}>
+                <ListGroupItem>
+                       <form>
+                            <input type = "text" onChange ={this.searchHandler} value = {term}/>
+                            {" "}
+                            <Button bsStyle = "primary" onClick = {this.getData}>Refresh</Button>
+                       </form>
+               </ListGroupItem>
+            </div>
+            {
             data.filter(searchingFor(term)).map(data =>
                 <div key = {data.user}>
-                      <center>
-                            <ul className = "list-group">
-                                <li className = "list-group-item">
-                                    {data.user} |
-                                    {data.post_content}
-                                </li>
-                             </ul>
-                      </center>
-
+                    <center>
+                        {data.user} |
+                        {data.post_content} |
+                        {data.category}
+                        <Comments/>
+                    </center>
                 </div>
             )
           }
-          </div>
+      </div>
 
     );
   }
