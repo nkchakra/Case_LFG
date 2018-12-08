@@ -26,5 +26,8 @@ There were some major issues with JUnit setup on my local environment that are n
 The server code had to be re-written to accomodate the HTTP response needed by the front end. As of now, the front end can correctly cause changes in the backend, but the front end is not yet receiving a proper response. After that is fixed, the website can start being tested.
 
 11/30/2018
-The backend and front end are connected now via a web socket. Initial connection testing has been done, and implementation for full website functionality is under way. 
+The backend and front end are connected now via a web socket. Initial connection testing has been done, and implementation for full website functionality is under way.
+
+12/07/2018
+Some additional features like post_title were added to the backend database and interface code. THe front end is in the process of being migrated onto the AWS EC2 instance. Some additional testing for searching via username has been added.
 

@@ -26,7 +26,32 @@ public class SQL_Connection {
 	private Statement statement;
 	private ResultSet result;
 
-
+//	public static void main(String[] args) {
+//		SQL_Connection conn = new SQL_Connection();
+//		conn.createUser("username1", "firstname1", "lastname1", "password");
+//
+//		conn.createUser("username2", "firstname2", "lastname2", "password");
+//
+//		conn.createUser("username3", "firstname3", "lastname3", "password");
+//		String post_id=conn.createPost("post content", "username", "SPORT");
+//		conn.addComment("comment1", post_id, "username1");
+//
+//		conn.addComment("comment2", post_id, "username2");
+//
+//		conn.addComment("comment2", post_id, "username3");
+//		
+//		JSONObject o = conn.getPost(post_id);
+//		System.out.println(o.toString());
+//		List<JSONObject> oo = conn.searchInPosts("comm");
+//		JSONObject t = new JSONObject();
+//		for (JSONObject post : oo) {
+//			t.accumulate("posts", post);
+//		}
+//		t.accumulate("queryResult", "success");
+//		t.accumulate("postsFound", oo.size());
+//		System.out.println(t);
+//		
+//	}
 
 	public ResultSet getResult() {
 		return result;
@@ -167,7 +192,7 @@ public class SQL_Connection {
 	 *            (limited) sports, vg, misc, all
 	 * @return
 	 */
-	public String createPost(String post_content, String user, String category) {
+	public String createPost(String post_content, String user, String category, String post_title) {
 		Timestamp id = Timestamp.valueOf(LocalDateTime.now());
 		boolean catflag = false;
 		for (String cat : categories) {
@@ -180,8 +205,8 @@ public class SQL_Connection {
 			return null;
 		}
 
-		String query = "insert into " + postsTable + " (post_id, post_user, post_content, post_category) " + "values ('"
-				+ id.toLocalDateTime().toString() + "', '" + user + "', '" + post_content + "', '" + category + "')";
+		String query = "insert into " + postsTable + " (post_id, post_user, post_content, post_category, post_title) " + "values ('"
+				+ id.toLocalDateTime().toString() + "', '" + user + "', '" + post_content + "', '" + category + "', '"+post_title+"')";
 		try {
 			this.statement.executeUpdate(query);
 			LocalDateTime temp = id.toLocalDateTime();
@@ -231,7 +256,7 @@ public class SQL_Connection {
 	 */
 	public boolean deleteOldPosts(long days) {
 		Timestamp cutoff = Timestamp.valueOf(LocalDateTime.now().minusDays(days));
-		String query = "select * from " + postsTable;
+		String query = "select from " + postsTable;
 		try {
 			this.result = this.statement.executeQuery(query);
 
@@ -423,7 +448,7 @@ public class SQL_Connection {
 	 * @return true if no sql err, false otherwise
 	 */
 	public boolean deleteAllPosts() {
-		String query = "delete * from "+postsTable;
+		String query = "delete from "+postsTable;
 		try {
 			this.statement.executeUpdate(query);
 			return true;
@@ -447,7 +472,7 @@ public class SQL_Connection {
 	 * @return true if no sql err, false otherwise
 	 */
 	public boolean deleteAllUsers() {
-		String query = "delete * from "+userTable;
+		String query = "delete from "+userTable;
 		try {
 			this.statement.executeUpdate(query);
 			return true;
@@ -462,6 +487,7 @@ public class SQL_Connection {
 		String query = "select * from " + postsTable + "where post_user='" + user + "'";
 		List<JSONObject> relatedPosts = new ArrayList<JSONObject>();
 		try {
+			System.out.println(query);
 			this.result = this.statement.executeQuery(query);
 
 			while (this.result.next()) {
@@ -499,7 +525,8 @@ public class SQL_Connection {
 		try {
 			json.accumulate("post_id", res.getString("post_id")).accumulate("post_user", res.getString("post_user"))
 					.accumulate("post_content", res.getString("post_content"))
-					.accumulate("post_category", res.getString("post_category"));
+					.accumulate("post_category", res.getString("post_category"))
+					.accumulate("post_title", res.getString("post_title"));
 
 			if (res.getString("post_comments") != null) {
 				json.accumulate("post_comments", new JSONObject(res.getString("post_comments")));

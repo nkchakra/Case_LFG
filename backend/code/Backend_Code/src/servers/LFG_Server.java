@@ -228,7 +228,7 @@ public class LFG_Server {
 
 		private JSONObject postCreate(JSONObject request) {
 			String id = conn.createPost(request.getString("post_content"), request.getString("username"),
-					request.getString("category"));
+					request.getString("category"), request.getString("post_title"));
 			JSONObject response = new JSONObject();
 			if (!id.equals(LocalDateTime.MIN.toString())) {
 				response.accumulate("queryResult", "success");
