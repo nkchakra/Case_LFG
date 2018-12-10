@@ -29,7 +29,7 @@ class All extends Component {
             "category":"ALL"
         }
 
-        var ws = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
+        var ws = new WebSocket("ws://18.216.17.80:6009");
 
         ws.onopen = function() {
             console.log("sending data..");

@@ -21,20 +21,6 @@ function categorize(term){
 class Feed extends Component {
 
 
-//framework of getting data using ajax
-//    getData(){
-//      $.ajax(
-//            {
-//                type: 'get',
-//                url: url,
-//                success: function (data) {
-//                    this.setState({ data: JSON.parse(data) })  //or parse
-//                }.bind(this)
-//            },
-//
-//        );
-//    }
-
  constructor(){
      super()
 
@@ -42,31 +28,7 @@ class Feed extends Component {
        //for posting method later on
         //this.getData = this.getData.bind(this);
    }
- //will recieve data from backend here, for now using dummy response object I created
- //ideally will be more formatted than this when website goes on
 
-/*<ul  className = "list-group">{this.state.data.map(function(item, key) {
-       return (
-       <div>
-          <h1 size = "20">Main Feed</h1>
-           <div class="row">
-             <div class="column1">
-               <h2>Sports</h2>
-               {categorize("Sports")}
-             </div>
-             <div class="column2">
-               <h2>Videogames</h2>
-               {categorize("Videogames")}
-             </div>
-             <div class="column1">
-               <h2>Miscellaneous</h2>
-               {categorize("Misc")}
-             </div>
-           </div>
-       </div>
-        )
-
-     })}</ul>*/
   render() {
     const username = this.props.username
 

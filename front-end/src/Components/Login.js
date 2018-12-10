@@ -68,15 +68,17 @@ class Login extends Component{
 
 	handleSubmit(){
 		const username = this.state.loginUsername;
-		const password = this.state.loginPassword
+		const password = this.state.loginPassword;
+		console.log('I am within submit');
 		if (this.state.DropdownTitle == 'Login'){
+			console.log('I am within login');
 			var post_data = {
 				"queryType":"validateLogin",
 				"username": username,
 				"password": password,
 			}
 
-			var ws = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
+			var ws = new WebSocket("ws://18.216.17.80:6009");
 
 		    ws.onopen = function() {
 		        console.log("sending data..");
@@ -101,6 +103,7 @@ class Login extends Component{
 		    };
 		}
 		else{
+			console.log("I am here 3")
 			var post_data = {
 				"password": password,
 				"last_name":"Ray",
@@ -109,7 +112,7 @@ class Login extends Component{
 				"username": username
 			}
 
-			var ws = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
+			var ws = new WebSocket("ws://18.216.17.80:6009");
 
 		    ws.onopen = function() {
 		        console.log("sending data..");
@@ -147,7 +150,7 @@ class Login extends Component{
 		return (
 			<BrowserRouter>
 				<div className="mainContainer">
-					<div className="loginContainer" style = {{visibility : showStyle}}>
+					<div className="loginContainer">
 						<div className="loginHeader">
 							<h2>Login to/Create your account</h2>
 						</div>
