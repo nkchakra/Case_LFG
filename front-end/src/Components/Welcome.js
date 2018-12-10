@@ -7,12 +7,9 @@ class Welcome extends Component{
 	        <div className="welcome-component">
 	          <Jumbotron className="jumbotron">
 	          	<div className="jumbotron-container">
-		            <h1>Welcome Groupie!</h1>
+		            <h1>Welcome Spartan!</h1>
 		            <div className="welcome-text">
 		              Welcome to Case LFG! Where students come to find other students for activities, groups, and fun!
-		            </div>
-		            <div className="welcome-button">
-		              <Button bsStyle="primary" className="get-started">Get Started</Button>
 		            </div>
 	            </div>
 	          </Jumbotron>

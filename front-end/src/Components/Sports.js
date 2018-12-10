@@ -54,6 +54,11 @@ class Sports extends Component {
         };
     }
 
+
+    searchFor(term){
+        
+    }
+
     //On click refresh, will reload data to include new posts
 
 

@@ -20,7 +20,7 @@ class Home extends Component{
 			<div className="homeContainer">
 				<Welcome/>
 				<Post username={username}/>
-				<Feed/>
+				<Feed username={username}/>
 				<History username={username}/>
 			</div>
 			);
