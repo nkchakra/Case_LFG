@@ -68,22 +68,24 @@ class Feed extends Component {
 
      })}</ul>*/
   render() {
+    const username = this.props.username
+
 
     return (
-        <div className="main-feed">
+        <div className="feedContainer">
             <h1 size="30">Main Feed</h1>
             <Tabs defaultActiveKey={1} animation={false} id="noanim-tab-example">
               <Tab eventKey={1} title="All">
-                <All/>
+                <All username={username}/>
               </Tab>
               <Tab eventKey={2} title="Sports">
-                <Sports/>
+                <Sports username={username}/>
               </Tab>
               <Tab eventKey={3} title="Videogames">
-                <Videogames/>
+                <Videogames username={username}/>
               </Tab>
               <Tab eventKey={4} title="Misc.">
-                <Misc/>
+                <Misc username={username}/>
               </Tab>
             </Tabs>
         </div>

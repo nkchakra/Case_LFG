@@ -21,7 +21,7 @@ class Home extends Component{
 				<Welcome/>
 				<Post username={username}/>
 				<Feed/>
-				<History/>
+				<History username={username}/>
 			</div>
 			);
 	}

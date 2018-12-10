@@ -3,3 +3,32 @@
 	"queryType":"categoryFilter",
 	"category":"MISC"
 }
+
+
+
+// result
+// todo check for pos
+{
+   "queryResult":"success",
+   "postsFound" : 0,
+   "posts":[
+      {
+         "post_title":"iehfiqef",
+         "post_content":"ienwoifn",
+         "post_id":"2018-12-08 20:59:42.0",
+         "post_category":"SPORT",
+         "post_user":"SRAY",
+         "post_comments":{
+            "user::2018-12-08 21:15:16":"comments comments",
+            "sray::2018-12-08 21:17:04":"comments comments"
+         }
+      },
+      {
+         "post_title":"basketball ",
+         "post_content":"sport",
+         "post_id":"2018-12-08 21:18:05.0",
+         "post_category":"SPORT",
+         "post_user":"sray"
+      }
+   ]
+}

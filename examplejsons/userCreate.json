@@ -5,3 +5,6 @@
 	"queryType":"userCreate",
 	"username":"sray"
 }
+
+// result
+{"queryReponse":"success"}

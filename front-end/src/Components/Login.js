@@ -5,6 +5,7 @@ import { BrowserRouter, Router, Route, Link, Switch } from "react-router-dom";
 import Feed from './../Components/Feed';
 import Post from './../Components/Post';
 import Home from './../Components/Home';
+import NotFound from './../Components/NotFound';
 
 class Login extends Component{
 
@@ -13,12 +14,14 @@ class Login extends Component{
 
 		this.handleLoginUsernameChange = this.handleLoginUsernameChange.bind(this);
 		this.handleLoginPasswordChange = this.handleLoginPasswordChange.bind(this);
-		this.dropdownSelect = this.dropdownSelect.bind(this);	
+		this.dropdownSelect = this.dropdownSelect.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);	
 
 		this.state = {
 			loginUsername: '',
 			loginPassword: '',
-			DropdownTitle: 'Login'
+			DropdownTitle: 'Login',
+			validateLogin : false,
 		};
 	}
 
@@ -61,15 +64,88 @@ class Login extends Component{
 			this.setState({DropdownTitle: 'Create an Account'});
 		}
 	}
+
+	handleSubmit(){
+		const username = this.state.loginUsername;
+		const password = this.state.loginPassword
+		if (this.state.DropdownTitle == 'Login'){
+			var post_data = {
+				"queryType":"validateLogin",
+				"username": username,
+				"password": password,
+			}
+
+			var ws = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
+
+		    ws.onopen = function() {
+		        console.log("sending data..");
+		        ws.send(JSON.stringify(post_data));
+		        console.log("sent")
+		    };
+
+		    ws.onmessage = function (evt) {
+		        console.log(evt.data);
+		        if (evt.data.queryResponse == "success"){
+		        	this.setState({validateLogin: true});
+		        }
+		    };
+
+		    ws.onclose = function() {
+		      console.log('connection closed');
+		    };
+
+		    ws.onerror = function(err) {
+		    	console.log(err);
+		    };
+		}
+		else{
+			var post_data = {
+				"password": password,
+				"last_name":"Ray",
+				"first_name":"Soumya",
+				"queryType":"userCreate",
+				"username": username
+			}
+
+			var ws = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
+
+		    ws.onopen = function() {
+		        console.log("sending data..");
+		        ws.send(JSON.stringify(post_data));
+		        console.log("sent")
+		    };
+
+		    ws.onmessage = function (evt) {
+		        console.log(evt.data);
+		        if (evt.data.queryResponse == "success"){
+		        	this.setState({validateLogin: true});
+		        }
+		    };
+
+		    ws.onclose = function() {
+		      console.log('connection closed');
+		    };
+
+		    ws.onerror = function(err) {
+		    	console.log(err);
+		    };
+
+		}
+	}
+
+	handleCreateAccount(){
+
+	}
 	
 
 //Have login there initially, if user clicks create an account render/dropdown the create account section 
 	render(){
+		const validateLogin = this.state.validateLogin;
 		return (
 			<BrowserRouter>
 				<div className="loginContainer">
 					<div className="loginHeader">
-						<h2>Login your account</h2>
+						<h2>Login to/Create your account</h2>
 					</div>
 					<div className="loginBody">
 						<div className="dropdownSelctor">
@@ -125,12 +201,12 @@ class Login extends Component{
 						    </form>
 						</div>
 						<Link to="/home">
-							<Button bsStyle="primary" bsSize="large">{this.state.DropdownTitle}</Button>
+							<Button bsStyle="primary" bsSize="large" onClick={this.handleSubmit}>{this.state.DropdownTitle}</Button>
 						</Link>
 					</div>
 					<div>
 						<Switch>
-							<Route path="/home" render={(props) => <Home {...props} username={this.state.loginUsername}/>}/> 
+							<Route path="/home" render={(props) =>validateLogin ?<NotFound/> : <Home {...props} username={this.state.loginUsername}/>}/> 
 						</Switch>
 					</div>
 				</div>

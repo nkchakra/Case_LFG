@@ -1,6 +1,17 @@
 {
-	"category":"SPORT",
-	"post_content":"content",
-	"queryType":"postCreate",
-	"username":"sray"
+      "queryType" : "postCreate",
+      "post_content" : content,
+      "category" : category,
+      "post_title" : title,
+      "username" : username
+ };
+
+
+{
+	category: ALL, SPORT, MISC, GAME
 }
+
+
+Result:
+
+{"post_id":"2018-12-08 20:59:41","queryResult":"success"}

@@ -2,3 +2,48 @@
 	"queryType":"postSearch",
 	"searchfor":"i am looking for this in the posts"
 }
+
+
+//result
+{
+   "queryResult":"success",
+   "postsFound":4,
+   "posts":[
+      {
+         "post_content":"test_post_0",
+         "post_id":"2018-11-02 14:56:13.0",
+         "post_user":"sray01",
+         "post_comments":{
+            "sray01::2018-11-02T14:56:13.530":"test_comment_0"
+         }
+      },
+      {
+         "post_content":"test_post_0",
+         "post_id":"2018-11-02 14:58:15.0",
+         "post_user":"sray02",
+         "post_comments":{
+            "sray02::2018-11-02T14:58:15.694":"test_comment_0"
+         }
+      },
+      {
+         "post_content":"post content",
+         "post_id":"2018-12-07 18:19:14.0",
+         "post_user":"username",
+         "post_comments":{
+            "username1::2018-12-07 18:19:14":"comment1",
+            "username2::2018-12-07 18:19:14":"comment2",
+            "username3::2018-12-07 18:19:14":"comment2"
+         }
+      },
+      {
+         "post_content":"post content",
+         "post_id":"2018-12-07 18:21:44.0",
+         "post_user":"username",
+         "post_comments":{
+            "username3::2018-12-07 18:21:44":"comment2",
+            "username1::2018-12-07 18:21:44":"comment1",
+            "username2::2018-12-07 18:21:44":"comment2"
+         }
+      }
+   ]
+}

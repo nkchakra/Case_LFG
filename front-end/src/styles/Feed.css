@@ -10,3 +10,10 @@
 .nav-tabs {
     text-align: center;
 }
+
+.feedContainer{
+	padding-top:30px;
+	border-top: solid #03304D 20px;
+	border-bottom: solid #03304D 20px;
+
+}

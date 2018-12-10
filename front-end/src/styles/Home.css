@@ -1,3 +1,18 @@
 .homeContainer{
 	font-size: 15px;
 }
+
+.comment{
+	display: flex;
+}
+
+.username{
+	padding:10px;
+}
+
+
+.commentContent{
+	padding: 10px;
+	padding-left: 10%;
+	overflow: scroll;
+}

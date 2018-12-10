@@ -1,24 +1,65 @@
-import React, { Component } from 'react';
+	import React, { Component } from 'react';
 import {ListGroup, ListGroupItem} from 'react-bootstrap';
 import axios from 'axios';
+import PostItem from './../Components/PostItem.js';
+import '../styles/Home.css';
+
 
 class History extends Component{
 
 	constructor(props){
 		super(props);
+		this.state = {
+			response : {
+				posts: [],
+			},
+		}
 	}
 
 	componentDidMount(){
+		const username = this.props.username;
+		var post_data = {
+			"queryType":"userRelateds",
+			"username":{username}
+		}
 
+		var ws = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
+
+	    ws.onopen = function() {
+	        console.log("sending data..");
+	        ws.send(JSON.stringify(post_data));
+	        console.log("sent")
+	    };
+
+	    ws.onmessage = function (evt) {
+	        console.log(evt.data);
+	        if (evt.data.postsFound > 0){
+	        	this.setState({response : evt.data});
+	        }
+	    };
+
+	    ws.onclose = function() {
+	      console.log('connection closed');
+	    };
+
+	    ws.onerror = function(err) {
+	    	console.log(err);
+	    };
 	}
-	
+
 
 	render(){
+		const username = this.props.username;
+		const response = this.state.response;
+		const posts = response.posts;
 		return (
 			<div className="historyContainer">
-				<h3 className="historyTitle">Your Post History</h3>
-				<div className="historyContainer">
-					
+				<h1 className="historyTitle">Your Post History</h1>
+				<div className="historicalPosts">
+					{posts && posts.map(data => 
+							<PostItem username={username} title={data.post_title} description={data.post_content} id={data.post_id} commentObj={data.post_comments}/>
+						)
+					}
 				</div>
 			</div>
 

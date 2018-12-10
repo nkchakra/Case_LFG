@@ -45,17 +45,13 @@ class Post extends Component {
 
 
   //TODO check with nikhil what the spellings for all categories are
-    // var post_data = {
-    //   "queryType" : "postCreate",
-    //   "post_content" : content,
-    //   "category" : category,
-    //   "post_title" : title,
-    //   "username" : username
-    // };
-var post_data = {
-  "queryType":"categoryFilter",
-  "category":"SPORT"
-}
+    var post_data = {
+      "queryType" : "postCreate",
+      "post_content" : content,
+      "category" : category,
+      "post_title" : title,
+      "username" : username
+    };
 
 
     var ws = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
@@ -110,19 +106,22 @@ var post_data = {
     return (
         //This will send data in a json format containing username, description and category
     <div className="post-container">
+      <div className="postTitle">
+        <h1>Create Post Here </h1>
+      </div>
       <div className="input-container">
         <form>
           <FormGroup
           controlId="formBasicText"
         >
-            <ControlLabel> Enter event name here: </ControlLabel>
+            <h5 className="nameHeader"> Enter event name here: </h5>
             <FormControl
               type="text"
               placeholder="Pickup Basketball"
               onChange={this.handleNameChange}
               bsSize="large"
               />
-            <ControlLabel>Enter event description here: </ControlLabel>
+            <h5 className="descriptionHeader">Enter event description here: </h5>
             <FormControl
               type="text"
               placeholder="Veale 5pm"
