@@ -17,9 +17,8 @@ class Sports extends Component {
          super(props)
            this.state = {
              response : {},
-             term: '',
+             onePost: false,
            }
-            this.searchHandler = this.searchHandler.bind(this);
     }
 
 
@@ -41,8 +40,17 @@ class Sports extends Component {
         ws.onmessage = function (evt) {
             console.log(evt.data);
             var result = JSON.parse(evt.data);
-            if (result.postsFound > 0){
-                this.setState({response : result});
+            if (result.postsFound == 1){
+                this.setState({
+                    response : result,
+                    onePost : true,
+                });
+            }
+            else{
+                this.setState({
+                    response : result,
+                    onePost : false,
+                });                
             }
         }.bind(this);
 
@@ -56,38 +64,31 @@ class Sports extends Component {
     }
 
 
-    searchFor(term){
-
-    }
+  refresh = () => {
+    this.componentDidMount();
+  }
 
     //On click refresh, will reload data to include new posts
 
-
-
-  searchHandler(event){
-      this.setState({term: event.target.value})
-    }
     render() {
         const username = this.props.username;
         const response = this.state.response;
-        const posts = response.posts;
-
-        const term = this.state.term;
+        const onePost = this.state.onePost;
+        var array = [];
+        if (onePost){
+            array.push(response.posts[Object.keys(response.posts)[0]]);
+        }
+        const posts = onePost ? array : response.posts;
         return (
         <div className="sportsContainer tabContiner">
                 <div className = "refresh-container" style = {{overflow: 'hidden', whitespace: 'overflow'}}>
-                    <ListGroupItem>
-                           <form>
-                                <input type = "text" onChange ={this.searchHandler} value = {term}/>
-                                {" "}
-                           </form>
-                   </ListGroupItem>
+                    <Button onClick={this.refresh}>Refresh</Button>
                 </div>
                 <ListGroup>
                 {
                 posts && posts.map(data =>
                     <ListGroupItem>
-                        <PostItem username={username} title={data.post_title} description={data.post_content} id={data.post_id} commentObj={data.post_comments}/>
+                        <PostItem username={data.post_user} title={data.post_title} description={data.post_content} id={data.post_id} commentObj={data.post_comments}/>
                     </ListGroupItem>
                 )
               }

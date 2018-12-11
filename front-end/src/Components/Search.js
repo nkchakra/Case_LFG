@@ -1,26 +1,31 @@
+
 import React, { Component } from 'react';
-import {ListGroup, ListGroupItem} from 'react-bootstrap';
-import {Button} from 'react-bootstrap';
-import Comments from './Comments';
-import PostItem from './../Components/PostItem.js'
+import {Tab, Tabs, Button, ListGroup, ListGroupItem} from 'react-bootstrap';
+import '../styles/Feed.css';
+import PostItem from "./PostItem";
+
+class Search extends Component {
 
 
+ constructor(props){
+     super(props);
+      this.state = {
+       response : {},
+       onePost: false,
+       searchForm : '',
+     }
 
-class Videogames extends Component {
+   }
 
-    constructor(props){
-        super(props)
-           this.state = {
-             response : {},
-             onePost : false,
-           }
-    }
+   updateSearch = (e) =>{
+    this.setState({searchForm : e.target.value});
+   }
 
-    //On startup
-    componentDidMount() {
+   searchPosts = () => {
+    const search = this.state.searchForm;
         var post_data = {
-            "queryType":"categoryFilter",
-            "category":"GAME"
+          "queryType":"postSearch",
+          "searchfor": search
         }
 
         var ws = new WebSocket("ws://18.216.17.80:6009");
@@ -57,33 +62,26 @@ class Videogames extends Component {
         ws.onerror = function(err) {
             console.log(err);
         };
-    }
-
-
-
-
-    refresh = () => {
-        this.componentDidMount();
-    }
-    
+   }
 
   render() {
-    const term = this.state.term;
-    const username = this.props.username;
+    const username = this.props.username
     const response = this.state.response;
     const onePost = this.state.onePost;
     var array = [];
     if (onePost){
-        array.push(response.posts);
+        array.push(response.posts[Object.keys(response.posts)[0]]);
     }
     const posts = onePost ? array : response.posts;
-
     return (
-        <div className="gameContainer tabContainer">
-            <div className = "refresh-container" style = {{overflow: 'hidden', whitespace: 'overflow'}}>
-                <Button onClick={this.refresh}>Refresh</Button>
-            </div>
-            <ListGroup>
+      <div className="searchContainer">
+        <div className="searchForm">
+            <form>
+              <input type = "text" onChange ={this.updateSearch}/>
+              <Button onClick={this.searchPosts}> Search </Button>
+           </form>
+        </div>
+        <ListGroup>
             {
             posts && posts.map(data =>
                 <ListGroupItem>
@@ -91,12 +89,11 @@ class Videogames extends Component {
                 </ListGroupItem>
             )
           }
-          </ListGroup>
+        </ListGroup>
       </div>
 
     );
   }
 }
 
-
-export default Videogames;
+export default Search;

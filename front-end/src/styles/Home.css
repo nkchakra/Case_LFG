@@ -16,3 +16,7 @@
 	padding-left: 10%;
 	overflow: scroll;
 }
+
+.postItemContainer{
+	padding-bottom: 30px;
+}

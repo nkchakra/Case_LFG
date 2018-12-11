@@ -1,5 +1,5 @@
 	import React, { Component } from 'react';
-import {ListGroup, ListGroupItem} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Button} from 'react-bootstrap';
 import axios from 'axios';
 import PostItem from './../Components/PostItem.js';
 import '../styles/Home.css';
@@ -10,9 +10,8 @@ class History extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			response : {
-				posts: [],
-			},
+			response : {},
+			onePost: false,
 		}
 	}
 
@@ -34,9 +33,18 @@ class History extends Component{
 	    ws.onmessage = function (evt) {
 	        console.log(evt.data);
 	        var result = JSON.parse(evt.data)
-	        if (result.postsFound > 0){
-	        	this.setState({response : result});
-	        }
+			if (result.postsFound == 1){
+                this.setState({
+                    response : result,
+                    onePost : true,
+                });
+            }
+            else{
+                this.setState({
+                    response : result,
+                    onePost : false,
+                });                
+            }
 	    }.bind(this);
 
 	    ws.onclose = function() {
@@ -48,17 +56,29 @@ class History extends Component{
 	    };
 	}
 
+	refresh = () => {
+    	this.componentDidMount();
+  	}
+
 
 	render(){
 		const username = this.props.username;
 		const response = this.state.response;
-		const posts = response.posts;
+		const onePost = this.state.onePost;
+	    var array = [];
+	    if (onePost){
+	        array.push(response.posts);
+	    }
+	    const posts = onePost ? array : response.posts;
 		return (
 			<div className="historyContainer">
 				<h1 className="historyTitle">Your Post History</h1>
+				<div className="refresh">
+               		<Button onClick={this.refresh}>Refresh</Button>
+				</div>
 				<div className="historicalPosts">
 					{posts && posts.map(data => 
-							<PostItem username={username} title={data.post_title} description={data.post_content} id={data.post_id} commentObj={data.post_comments}/>
+							<PostItem username={data.post_user} title={data.post_title} description={data.post_content} id={data.post_id} commentObj={data.post_comments}/>
 						)
 					}
 				</div>

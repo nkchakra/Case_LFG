@@ -55,11 +55,13 @@ class PostItem extends Component{
 	render(){
 		const title = this.props.title;
 		const description = this.props.description;
+		const username = this.props.username;
 		const commentObj = this.props.commentObj;
 		return (
 			<div className="postItemContainer">
 				<div className="postItemHeader">
 					<h4>{title}</h4> 
+					<h5 className="postUsername">Post by: {username}</h5>
 				</div>
 				<div className="postItemBody">
 					<div className="description">{description}</div>
@@ -70,10 +72,9 @@ class PostItem extends Component{
 					          <FormGroup
 						          controlId="formBasicText"
 						      >	
-						      <ControlLabel>Add a comment</ControlLabel>
 								<FormControl
 					              type="text"
-					              placeholder="My name is Vish and I would love to come to this event!"
+					              placeholder="Add comment"
 					              onChange={this.commentChange}
 					            />
 						      </FormGroup>

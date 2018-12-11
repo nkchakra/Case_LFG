@@ -1,0 +1,5 @@
+{
+	"queryType":"deletePost",
+	"post_id": postId
+}
+

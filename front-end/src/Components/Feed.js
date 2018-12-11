@@ -4,8 +4,9 @@ import '../styles/Feed.css';
 import Misc from './Misc';
 import Videogames from './Videogames';
 import Sports from './Sports';
-import All from "./All"
-import Results from "./Results"
+import All from "./All";
+import Results from "./Results";
+import Search from "./Search";
 
 function categorize(term){
     console.log("derp");
@@ -48,6 +49,9 @@ class Feed extends Component {
               </Tab>
               <Tab eventKey={4} title="Misc.">
                 <Misc username={username}/>
+              </Tab>
+              <Tab eventKey={5} title="Search">
+                <Search username={username}/>
               </Tab>
             </Tabs>
         </div>
