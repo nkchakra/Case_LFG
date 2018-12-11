@@ -1,11 +1,9 @@
 package sql;
 
 import java.sql.*;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.security.*;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import org.json.*;
 
@@ -26,37 +24,19 @@ public class SQL_Connection {
 	private Statement statement;
 	private ResultSet result;
 
-//	public static void main(String[] args) {
-//		SQL_Connection conn = new SQL_Connection();
-//		conn.createUser("username1", "firstname1", "lastname1", "password");
-//
-//		conn.createUser("username2", "firstname2", "lastname2", "password");
-//
-//		conn.createUser("username3", "firstname3", "lastname3", "password");
-//		String post_id=conn.createPost("post content", "username", "SPORT");
-//		conn.addComment("comment1", post_id, "username1");
-//
-//		conn.addComment("comment2", post_id, "username2");
-//
-//		conn.addComment("comment2", post_id, "username3");
-//		
-//		JSONObject o = conn.getPost(post_id);
-//		System.out.println(o.toString());
-//		List<JSONObject> oo = conn.searchInPosts("comm");
-//		JSONObject t = new JSONObject();
-//		for (JSONObject post : oo) {
-//			t.accumulate("posts", post);
-//		}
-//		t.accumulate("queryResult", "success");
-//		t.accumulate("postsFound", oo.size());
-//		System.out.println(t);
-//		
-//	}
-
+	/**
+	 * getter result set object
+	 * 
+	 * @return this connection's result set object
+	 */
 	public ResultSet getResult() {
 		return result;
 	}
 
+	/**
+	 * constructor for the sql connection, opens connection and creates connection
+	 * and statement objects
+	 */
 	public SQL_Connection() {
 		try {
 			this.connection = DriverManager.getConnection(db_url, username, password);
@@ -68,6 +48,11 @@ public class SQL_Connection {
 		}
 	}
 
+	/**
+	 * getter for Statement object
+	 * 
+	 * @return this connection's Statement object
+	 */
 	public Statement getStatement() {
 		return statement;
 	}
@@ -105,16 +90,18 @@ public class SQL_Connection {
 	 * @param lastname
 	 * @param password
 	 */
-	public void createUser(String username, String firstname, String lastname, String password) {
+	public boolean createUser(String username, String firstname, String lastname, String password) {
 		String postHash = hashPassword(password);
 		String query = "insert into " + userTable + " (username, first_name, last_name, password) " + "values ('"
 				+ username + "', '" + firstname + "', '" + lastname + "', '" + postHash + "')";
 		try {
 			this.statement.executeUpdate(query);
+			return true;
 		} catch (SQLException e) {
 			System.out.println("failed to create user: " + username);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
 
 	}
@@ -190,7 +177,7 @@ public class SQL_Connection {
 	 * @param user
 	 * @param category
 	 *            (limited) sports, vg, misc, all
-	 * @return
+	 * @return string that represents post id
 	 */
 	public String createPost(String post_content, String user, String category, String post_title) {
 		Timestamp id = Timestamp.valueOf(LocalDateTime.now());
@@ -204,16 +191,13 @@ public class SQL_Connection {
 			System.err.println("Category input: " + category + " is not valid, returning null");
 			return null;
 		}
-
-		String query = "insert into " + postsTable + " (post_id, post_user, post_content, post_category, post_title) " + "values ('"
-				+ id.toLocalDateTime().toString() + "', '" + user + "', '" + post_content + "', '" + category + "', '"+post_title+"')";
+		LocalDateTime temp = id.toLocalDateTime();
+		String query = "insert into " + postsTable + " (post_id, post_user, post_content, post_category, post_title) "
+				+ "values ('" + temp.toString() + "', '" + user + "', '" + post_content + "', '" + category + "', '"
+				+ post_title + "')";
 		try {
 			this.statement.executeUpdate(query);
-			LocalDateTime temp = id.toLocalDateTime();
-			if (temp.getNano() > 999999999 / 2) {
-				temp.plusSeconds(1);
-			}
-			return temp.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+			return temp.toString();
 
 		} catch (SQLException e) {
 			System.out.println("failed to create post: " + post_content + "\nfrom user: " + user);
@@ -224,20 +208,19 @@ public class SQL_Connection {
 
 	}
 
+	/**
+	 * gets a post whose post_id matches the input
+	 * 
+	 * @param id-post_id
+	 *            of the desired post
+	 * @return the post in JSON format
+	 */
 	public JSONObject getPost(String id) {
-		System.out.println("looking for id = " + id);
 		String query = "select * from " + postsTable + " where post_id = '" + id + "'";
 		try {
 			this.result = this.statement.executeQuery(query);
 			this.result.next();
-			JSONObject post = new JSONObject().accumulate("post_id", this.result.getString("post_id"))
-					.accumulate("post_user", this.result.getString("post_user"))
-					.accumulate("post_content", this.result.getString("post_content"))
-					.accumulate("post_category", this.result.getString("post_category"));
-
-			if (this.result.getString("post_comments") != null) {
-				post.accumulate("post_comments", new JSONObject(this.result.getString("post_comments")));
-			}
+			JSONObject post = this.postToJson(this.result);
 			return post;
 
 		} catch (SQLException e) {
@@ -301,10 +284,7 @@ public class SQL_Connection {
 				} else {
 					json = new JSONObject(sql_json);
 				}
-				json.accumulate(
-						commenter + "::"
-								+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
-						comment);
+				json.accumulate(commenter + "::" + LocalDateTime.now().toString(), comment);
 
 				query = "update " + postsTable + " set post_comments='" + json.toString() + "' where post_id='"
 						+ post_id + "'";
@@ -337,11 +317,10 @@ public class SQL_Connection {
 			this.result = this.statement.executeQuery(query);
 			while (this.result.next()) {
 				if (this.result.getString("post_content").contains(searchfor)
+						|| this.result.getString("post_title").contains(searchfor)
 						|| (this.result.getString("post_comments") != null
 								&& this.result.getString("post_comments").contains(searchfor))) {
-					JSONObject post = new JSONObject().accumulate("post_id", this.result.getString("post_id"))
-							.accumulate("post_user", this.result.getString("post_user"))
-							.accumulate("post_content", this.result.getString("post_content"));
+					JSONObject post = this.postToJson(this.result);
 
 					if (this.result.getString("post_comments") != null) {
 						post.accumulate("post_comments", new JSONObject(this.result.getString("post_comments")));
@@ -367,12 +346,23 @@ public class SQL_Connection {
 	 */
 	public boolean isUser(String user) {
 		this.getUser(user);
-		return (this.result != null);
+		try {
+
+			this.result.previous();
+			return this.result.next();
+			// return (this.result.next());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	/**
 	 * deletes a single user in the database based on their username
-	 * @param user - username of user to be deleted
+	 * 
+	 * @param user
+	 *            - username of user to be deleted
 	 * @return true if no err, false if err
 	 */
 	public boolean deleteUser(String user) {
@@ -391,7 +381,9 @@ public class SQL_Connection {
 
 	/**
 	 * deletes a single post in the database based on its id
-	 * @param post_id - id of post to be deleted
+	 * 
+	 * @param post_id
+	 *            - id of post to be deleted
 	 * @return true if no err, false if err
 	 */
 	public boolean deletePost(String post_id) {
@@ -407,25 +399,49 @@ public class SQL_Connection {
 	}
 
 	/**
+	 * returns true if the input post id matches the post id of an existing post in
+	 * the database
+	 * 
+	 * @param post_id-post
+	 *            id to check for
+	 * @return true if the post exists, false else
+	 */
+	public boolean isPost(String post_id) {
+		String query = "select * from " + postsTable + " where post_id='" + post_id + "'";
+		try {
+			this.result = this.statement.executeQuery(query);
+			return this.result.next();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+
+	}
+
+	/**
 	 * gets all the posts that fall under the input category
-	 * @param category - category filter desired
-	 * @return - list of JSONObject's that represent all the posts that match the input category
+	 * 
+	 * @param category
+	 *            - category filter desired
+	 * @return - list of JSONObject's that represent all the posts that match the
+	 *         input category
 	 */
 	public List<JSONObject> categoryFilter(String category) {
 		List<JSONObject> posts = new ArrayList<JSONObject>();
 		String query;
 		boolean match = false;
-		for (String cat : categories){
-			if(cat.equals(category)) {
+		for (String cat : categories) {
+			if (cat.equals(category)) {
 				match = true;
 			}
 		}
-		
-		if(match == false) {
-			System.err.println("Error, category: ("+category+") is not a valid category, returning empty list");
+
+		if (match == false) {
+			System.err.println("Error, category: (" + category + ") is not a valid category, returning empty list");
 			return posts;
 		}
-		
+
 		if (category.equals("ALL")) {
 			query = "select * from " + postsTable;
 		} else {
@@ -445,10 +461,11 @@ public class SQL_Connection {
 
 	/**
 	 * deletes all posts in the database
+	 * 
 	 * @return true if no sql err, false otherwise
 	 */
 	public boolean deleteAllPosts() {
-		String query = "delete from "+postsTable;
+		String query = "delete from " + postsTable;
 		try {
 			this.statement.executeUpdate(query);
 			return true;
@@ -458,21 +475,23 @@ public class SQL_Connection {
 			return false;
 		}
 	}
+
 	/**
 	 * wipes the entire database
+	 * 
 	 * @return true if both all posts and all users were deleted
 	 */
 	public boolean clearDatabase() {
 		return deleteAllPosts() && deleteAllUsers();
 	}
-	
-	
+
 	/**
 	 * deletes all users in the database
+	 * 
 	 * @return true if no sql err, false otherwise
 	 */
 	public boolean deleteAllUsers() {
-		String query = "delete from "+userTable;
+		String query = "delete from " + userTable;
 		try {
 			this.statement.executeUpdate(query);
 			return true;
@@ -482,12 +501,22 @@ public class SQL_Connection {
 			return false;
 		}
 	}
+
+	/**
+	 * this method finds all posts related to a user this is defined as posts posted
+	 * by the user, posts where the user is mentioned by username, posts the user
+	 * has commented on, and posts where the user is mentioned in the comments by
+	 * username
+	 * 
+	 * @param user-username
+	 *            to find related posts/comments for
+	 * @return list of posts in json format
+	 */
 	public List<JSONObject> userRelatedPosts(String user) {
 
-		String query = "select * from " + postsTable + "where post_user='" + user + "'";
+		String query = "select * from " + postsTable + " where post_user='" + user + "'";
 		List<JSONObject> relatedPosts = new ArrayList<JSONObject>();
 		try {
-			System.out.println(query);
 			this.result = this.statement.executeQuery(query);
 
 			while (this.result.next()) {
@@ -515,8 +544,11 @@ public class SQL_Connection {
 	}
 
 	/**
-	 * turns a result set that SHOULD REPRESENT A POST into a JSONObject that represents that post
-	 * @param res -resultSet object to turn into JSONObject
+	 * turns a result set that SHOULD REPRESENT A POST into a JSONObject that
+	 * represents that post
+	 * 
+	 * @param res
+	 *            -resultSet object to turn into JSONObject
 	 * @return JSONObject of that post
 	 */
 	public JSONObject postToJson(ResultSet res) {
