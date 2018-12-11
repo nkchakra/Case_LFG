@@ -38,6 +38,10 @@ class Post extends Component {
     const category = this.state.category;
     const username = this.props.username;
 
+    if (content.length > 150){
+      alert('Your description can be no more than 150 chars');
+    }
+
     if (!this.state.title || !this.state.post_content){
         alert('Form not filled out properly');
         return;
@@ -64,6 +68,7 @@ class Post extends Component {
 
     ws.onmessage = function (evt) {
         console.log(evt.data);
+        alert('Post created!');
     };
 
     ws.onclose = function() {
@@ -124,7 +129,7 @@ class Post extends Component {
             <h5 className="descriptionHeader">Enter event description here: </h5>
             <FormControl
               type="text"
-              placeholder="Veale 5pm"
+              placeholder="Veale 5pm (150 char limit)"
               onChange={this.handleDescriptionChange}
             />
           </FormGroup>

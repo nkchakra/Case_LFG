@@ -25,7 +25,7 @@ class Login extends Component{
 			loginPassword: '',
 			DropdownTitle: 'Login',
 			validateLogin : false,
-			show : `visible`,
+			show : `block`,
 		};
 	}
 
@@ -94,8 +94,10 @@ class Login extends Component{
 		        console.log(evt.data);
 		        var result = JSON.parse(evt.data).queryResult;
 		        if (result == "success"){
-		        	this.setState({validateLogin: true});
-		        	this.setState({showStyle : `hidden`});
+		        	this.setState({
+		        		validateLogin: true,
+		        		show: `none`
+		        	});
 		        }
 		    }.bind(this);
 
@@ -129,7 +131,10 @@ class Login extends Component{
 		        console.log(evt.data);
 		        var result = JSON.parse(evt.data).queryResult;
 		        if ( result == "success"){
-		        	this.setState({validateLogin: true});
+		        	this.setState({
+		        		validateLogin: true,
+		        		show : `none`
+		        	});
 		        }
 		    }.bind(this);
 
@@ -156,7 +161,7 @@ class Login extends Component{
 		return (
 			<BrowserRouter>
 				<div className="mainContainer">
-					<div className="loginContainer">
+					<div className="loginContainer" style={{display: showStyle}}>
 						<div className="loginHeader">
 							<h2>Login to/Create your account</h2>
 						</div>

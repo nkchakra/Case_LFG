@@ -88,7 +88,7 @@ class Sports extends Component {
                 {
                 posts && posts.map(data =>
                     <ListGroupItem>
-                        <PostItem username={data.post_user} title={data.post_title} description={data.post_content} id={data.post_id} commentObj={data.post_comments}/>
+                        <PostItem currentUser={username} username={data.post_user} title={data.post_title} description={data.post_content} id={data.post_id} commentObj={data.post_comments}/>
                     </ListGroupItem>
                 )
               }

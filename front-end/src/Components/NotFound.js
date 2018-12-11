@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 class NotFound extends Component{
 	render(){
 		return(
-			<div className="notFoundContiner">
-				<h5> 404 user not found </h5> 
+			<div className="notFoundContiner" style={{padding: 10}}>
+				<h5> 404 user not found or already exists</h5> 
 			</div>
 		);
 	}

@@ -44,11 +44,53 @@ class PostItem extends Component{
         ws.onerror = function(err) {
             alert("Error: " + err);
         };
-        this.forceUpdate();
 	}
 
 	commentChange(e){
 		this.setState({currentComment : e.target.value});
+	}
+
+	urlify = (text) => {
+	    var urlRegex = /(https?:\/\/[^\s]+)/g;
+	    return text.replace(urlRegex, function(url) {
+	        var url ='<a href="' + url + '">' + url + '</a>';
+	        console.log("url is: " + `${url}`);
+	        return `${url}`;
+	    })
+	}
+
+	validateDelete = () => {
+		const currentUser = this.props.currentUser;
+		const postUser = this.props.username;
+		const postId = this.props.id;
+		if (currentUser == postUser){
+	        var request = {
+				"queryType":"deletePost",
+				"post_id": postId
+	        };
+
+	        var ws = new WebSocket("ws://18.216.17.80:6009");
+	        ws.onopen = function() {
+	            ws.send(JSON.stringify(request));
+	            console.log("sent")
+	            alert('Post deleted! Click refresh to update the page')
+	        };
+
+	        ws.onmessage = function (evt) {
+	            console.log("anything");
+	            console.log(evt.data);
+	        };
+
+	        ws.onclose = function() {
+	        };
+
+	        ws.onerror = function(err) {
+	            alert("Error: " + err);
+	        };
+		}
+		else{
+			alert('Only the author of this post can delete it')
+		}
 	}
 	
 
@@ -60,11 +102,15 @@ class PostItem extends Component{
 		return (
 			<div className="postItemContainer">
 				<div className="postItemHeader">
-					<h4>{title}</h4> 
 					<h5 className="postUsername">Post by: {username}</h5>
 				</div>
+				<div className="deleteButton">
+						<Button onClick={this.validateDelete}>Delete this Post</Button>
+				</div>
+				<h3 className="postTitle">{title}</h3> 
 				<div className="postItemBody">
 					<div className="description">{description}</div>
+					
 					<div className="comments">
 						<Comments commentObject={commentObj}/>
 						<div className="addComment">

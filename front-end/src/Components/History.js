@@ -76,11 +76,15 @@ class History extends Component{
 				<div className="refresh">
                		<Button onClick={this.refresh}>Refresh</Button>
 				</div>
-				<div className="historicalPosts">
-					{posts && posts.map(data => 
-							<PostItem username={data.post_user} title={data.post_title} description={data.post_content} id={data.post_id} commentObj={data.post_comments}/>
-						)
-					}
+				<div className="historyPosts">
+					<ListGroup>
+						{posts && posts.map(data => 
+								<ListGroupItem>
+									<PostItem currentUser={username} username={data.post_user} title={data.post_title} description={data.post_content} id={data.post_id} commentObj={data.post_comments}/>
+								</ListGroupItem>
+							)
+						}
+					</ListGroup>
 				</div>
 			</div>
 

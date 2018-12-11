@@ -20,3 +20,30 @@
 .postItemContainer{
 	padding-bottom: 30px;
 }
+
+.postUsername{
+	float:left;
+	position:absolute;
+}
+
+.postTitle{
+	text-align: center;
+}
+
+.description{
+	padding:10px;
+	font-size:13px;
+	word-wrap: break-word;
+}
+
+.deleteButton{
+	right:0px;
+	position:absolute;
+}
+
+.historyPosts{
+	padding-left:200px;
+	padding-right:200px;
+}
+
+
