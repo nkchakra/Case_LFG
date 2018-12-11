@@ -7,14 +7,16 @@ import '../styles/Home.css';
 class PostItem extends Component{
 
 	constructor(props){
-		this.commentChange = this.commentChange.bind(this);
 		super(props);
 		this.state = {
 			currentComment : '',
 		}
+		this.commentChange = this.commentChange.bind(this);
+
 	}
 
-	addComment(){
+
+	addComment = () => {
 		const comment = this.state.currentComment;
 		const username = this.props.username;
 		const id = this.props.id;
@@ -42,6 +44,7 @@ class PostItem extends Component{
         ws.onerror = function(err) {
             alert("Error: " + err);
         };
+        this.forceUpdate();
 	}
 
 	commentChange(e){

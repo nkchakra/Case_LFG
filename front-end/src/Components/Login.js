@@ -16,6 +16,9 @@ class Login extends Component{
 		this.handleLoginPasswordChange = this.handleLoginPasswordChange.bind(this);
 		this.dropdownSelect = this.dropdownSelect.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);	
+		this.getLoginUsernameValidationState = this.getLoginUsernameValidationState.bind(this);
+		this.getLoginPasswordValidationState = this.getLoginPasswordValidationState.bind(this);
+		this.setState = this.setState.bind(this);
 
 		this.state = {
 			loginUsername: '',
@@ -30,7 +33,7 @@ class Login extends Component{
 		this.setState({loginUsername: e.target.value})
 	}
 
-	handleLoginPasswordChange(e1){
+	handleLoginPasswordChange = (e1) => {
 		this.setState({loginPassword: e1.target.value})
 	}
 
@@ -66,10 +69,11 @@ class Login extends Component{
 		}
 	}
 
-	handleSubmit(){
+	handleSubmit = () => {
 		const username = this.state.loginUsername;
 		const password = this.state.loginPassword;
 		console.log('I am within submit');
+
 		if (this.state.DropdownTitle == 'Login'){
 			console.log('I am within login');
 			var post_data = {
@@ -88,11 +92,12 @@ class Login extends Component{
 
 		    ws.onmessage = function (evt) {
 		        console.log(evt.data);
-		        if (evt.data.queryResponse == "success"){
+		        var result = JSON.parse(evt.data).queryResult;
+		        if (result == "success"){
 		        	this.setState({validateLogin: true});
 		        	this.setState({showStyle : `hidden`});
 		        }
-		    };
+		    }.bind(this);
 
 		    ws.onclose = function() {
 		      console.log('connection closed');
@@ -106,8 +111,8 @@ class Login extends Component{
 			console.log("I am here 3")
 			var post_data = {
 				"password": password,
-				"last_name":"Ray",
-				"first_name":"Soumya",
+				"last_name":"lastName",
+				"first_name":"firstName",
 				"queryType":"userCreate",
 				"username": username
 			}
@@ -122,10 +127,11 @@ class Login extends Component{
 
 		    ws.onmessage = function (evt) {
 		        console.log(evt.data);
-		        if (evt.data.queryResponse == "success"){
+		        var result = JSON.parse(evt.data).queryResult;
+		        if ( result == "success"){
 		        	this.setState({validateLogin: true});
 		        }
-		    };
+		    }.bind(this);
 
 		    ws.onclose = function() {
 		      console.log('connection closed');

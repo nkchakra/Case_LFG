@@ -40,10 +40,11 @@ class Sports extends Component {
 
         ws.onmessage = function (evt) {
             console.log(evt.data);
-            if (evt.data.postsFound > 0){
-                this.setState({response : evt.data});
+            var result = JSON.parse(evt.data);
+            if (result.postsFound > 0){
+                this.setState({response : result});
             }
-        };
+        }.bind(this);
 
         ws.onclose = function() {
           console.log('connection closed');
@@ -56,7 +57,7 @@ class Sports extends Component {
 
 
     searchFor(term){
-        
+
     }
 
     //On click refresh, will reload data to include new posts
@@ -84,7 +85,7 @@ class Sports extends Component {
                 </div>
                 <ListGroup>
                 {
-                posts && posts.filter(searchingFor(term)).map(data =>
+                posts && posts.map(data =>
                     <ListGroupItem>
                         <PostItem username={username} title={data.post_title} description={data.post_content} id={data.post_id} commentObj={data.post_comments}/>
                     </ListGroupItem>
