@@ -30,7 +30,7 @@ class Sports extends Component {
             "category":"SPORT"
         }
 
-        var ws = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
+        var ws = new WebSocket("ws://18.216.17.80:6009");
 
         ws.onopen = function() {
             console.log("sending data..");
@@ -40,10 +40,11 @@ class Sports extends Component {
 
         ws.onmessage = function (evt) {
             console.log(evt.data);
-            if (evt.data.postsFound > 0){
-                this.setState({response : evt.data});
+            var result = JSON.parse(evt.data);
+            if (result.postsFound > 0){
+                this.setState({response : result});
             }
-        };
+        }.bind(this);
 
         ws.onclose = function() {
           console.log('connection closed');
@@ -52,6 +53,11 @@ class Sports extends Component {
         ws.onerror = function(err) {
             console.log(err);
         };
+    }
+
+
+    searchFor(term){
+
     }
 
     //On click refresh, will reload data to include new posts
@@ -79,7 +85,7 @@ class Sports extends Component {
                 </div>
                 <ListGroup>
                 {
-                posts && posts.filter(searchingFor(term)).map(data =>
+                posts && posts.map(data =>
                     <ListGroupItem>
                         <PostItem username={username} title={data.post_title} description={data.post_content} id={data.post_id} commentObj={data.post_comments}/>
                     </ListGroupItem>

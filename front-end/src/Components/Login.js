@@ -16,12 +16,16 @@ class Login extends Component{
 		this.handleLoginPasswordChange = this.handleLoginPasswordChange.bind(this);
 		this.dropdownSelect = this.dropdownSelect.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);	
+		this.getLoginUsernameValidationState = this.getLoginUsernameValidationState.bind(this);
+		this.getLoginPasswordValidationState = this.getLoginPasswordValidationState.bind(this);
+		this.setState = this.setState.bind(this);
 
 		this.state = {
 			loginUsername: '',
 			loginPassword: '',
 			DropdownTitle: 'Login',
 			validateLogin : false,
+			show : `visible`,
 		};
 	}
 
@@ -29,7 +33,7 @@ class Login extends Component{
 		this.setState({loginUsername: e.target.value})
 	}
 
-	handleLoginPasswordChange(e1){
+	handleLoginPasswordChange = (e1) => {
 		this.setState({loginPassword: e1.target.value})
 	}
 
@@ -65,17 +69,20 @@ class Login extends Component{
 		}
 	}
 
-	handleSubmit(){
+	handleSubmit = () => {
 		const username = this.state.loginUsername;
-		const password = this.state.loginPassword
+		const password = this.state.loginPassword;
+		console.log('I am within submit');
+
 		if (this.state.DropdownTitle == 'Login'){
+			console.log('I am within login');
 			var post_data = {
 				"queryType":"validateLogin",
 				"username": username,
 				"password": password,
 			}
 
-			var ws = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
+			var ws = new WebSocket("ws://18.216.17.80:6009");
 
 		    ws.onopen = function() {
 		        console.log("sending data..");
@@ -85,10 +92,12 @@ class Login extends Component{
 
 		    ws.onmessage = function (evt) {
 		        console.log(evt.data);
-		        if (evt.data.queryResponse == "success"){
+		        var result = JSON.parse(evt.data).queryResult;
+		        if (result == "success"){
 		        	this.setState({validateLogin: true});
+		        	this.setState({showStyle : `hidden`});
 		        }
-		    };
+		    }.bind(this);
 
 		    ws.onclose = function() {
 		      console.log('connection closed');
@@ -99,15 +108,16 @@ class Login extends Component{
 		    };
 		}
 		else{
+			console.log("I am here 3")
 			var post_data = {
 				"password": password,
-				"last_name":"Ray",
-				"first_name":"Soumya",
+				"last_name":"lastName",
+				"first_name":"firstName",
 				"queryType":"userCreate",
 				"username": username
 			}
 
-			var ws = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
+			var ws = new WebSocket("ws://18.216.17.80:6009");
 
 		    ws.onopen = function() {
 		        console.log("sending data..");
@@ -117,10 +127,11 @@ class Login extends Component{
 
 		    ws.onmessage = function (evt) {
 		        console.log(evt.data);
-		        if (evt.data.queryResponse == "success"){
+		        var result = JSON.parse(evt.data).queryResult;
+		        if ( result == "success"){
 		        	this.setState({validateLogin: true});
 		        }
-		    };
+		    }.bind(this);
 
 		    ws.onclose = function() {
 		      console.log('connection closed');
@@ -141,72 +152,75 @@ class Login extends Component{
 //Have login there initially, if user clicks create an account render/dropdown the create account section 
 	render(){
 		const validateLogin = this.state.validateLogin;
+		const showStyle = this.state.show;
 		return (
 			<BrowserRouter>
-				<div className="loginContainer">
-					<div className="loginHeader">
-						<h2>Login to/Create your account</h2>
-					</div>
-					<div className="loginBody">
-						<div className="dropdownSelctor">
-							<DropdownButton
-						      bsStyle={'primary'}
-						      title={this.state.DropdownTitle}
-						      key={1}
-						      id={`dropdown-basic-${1}`}
-						      noCaret
-						    >
-						      <MenuItem 
-						      	eventKey="1" 
-						      	onSelect={this.dropdownSelect}
-						      	>
-						      	Login
-						      	</MenuItem>
-						      <MenuItem divider />
-						      <MenuItem eventKey="2" onSelect={this.dropdownSelect}>Create Account</MenuItem>
-						    </DropdownButton>
-						</div> 
-						<div className="bodyUsername">
-							<form>
-						        <FormGroup
-						          controlId="formBasicText"
-						          validationState={this.getLoginUsernameValidationState()}
-						        >
-						          <ControlLabel>Enter username below</ControlLabel>
-						          <FormControl
-						            type="text"
-						            value={this.state.loginUsername}
-						            placeholder="Enter username"
-						            onChange={this.handleLoginUsernameChange}
-						          />
-						          <HelpBlock>username must have at least 3 characters</HelpBlock>
-						        </FormGroup>
-						    </form>
+				<div className="mainContainer">
+					<div className="loginContainer">
+						<div className="loginHeader">
+							<h2>Login to/Create your account</h2>
 						</div>
-						<div className="bodyPassword">
-							<form>
-						        <FormGroup
-						          controlId="formBasicText"
-						          validationState={this.getLoginPasswordValidationState()}
-						        >
-						          <ControlLabel>Enter password below</ControlLabel>
-						          <FormControl
-						            type="text"
-						            value={this.state.loginPassword}
-						            placeholder="Enter Password"
-						            onChange={this.handleLoginPasswordChange}
-						          />
-						          <HelpBlock>password must have at least 6 characters</HelpBlock>
-						        </FormGroup>
-						    </form>
+						<div className="loginBody">
+							<div className="dropdownSelctor">
+								<DropdownButton
+							      bsStyle={'primary'}
+							      title={this.state.DropdownTitle}
+							      key={1}
+							      id={`dropdown-basic-${1}`}
+							      noCaret
+							    >
+							      <MenuItem 
+							      	eventKey="1" 
+							      	onSelect={this.dropdownSelect}
+							      	>
+							      	Login
+							      	</MenuItem>
+							      <MenuItem divider />
+							      <MenuItem eventKey="2" onSelect={this.dropdownSelect}>Create Account</MenuItem>
+							    </DropdownButton>
+							</div> 
+							<div className="bodyUsername">
+								<form>
+							        <FormGroup
+							          controlId="formBasicText"
+							          validationState={this.getLoginUsernameValidationState()}
+							        >
+							          <ControlLabel>Enter username below</ControlLabel>
+							          <FormControl
+							            type="text"
+							            value={this.state.loginUsername}
+							            placeholder="Enter username"
+							            onChange={this.handleLoginUsernameChange}
+							          />
+							          <HelpBlock>username must have at least 3 characters</HelpBlock>
+							        </FormGroup>
+							    </form>
+							</div>
+							<div className="bodyPassword">
+								<form>
+							        <FormGroup
+							          controlId="formBasicText"
+							          validationState={this.getLoginPasswordValidationState()}
+							        >
+							          <ControlLabel>Enter password below</ControlLabel>
+							          <FormControl
+							            type="text"
+							            value={this.state.loginPassword}
+							            placeholder="Enter Password"
+							            onChange={this.handleLoginPasswordChange}
+							          />
+							          <HelpBlock>password must have at least 6 characters</HelpBlock>
+							        </FormGroup>
+							    </form>
+							</div>
+							<Link to="/home">
+								<Button bsStyle="primary" bsSize="large" onClick={this.handleSubmit}>{this.state.DropdownTitle}</Button>
+							</Link>
 						</div>
-						<Link to="/home">
-							<Button bsStyle="primary" bsSize="large" onClick={this.handleSubmit}>{this.state.DropdownTitle}</Button>
-						</Link>
 					</div>
 					<div>
 						<Switch>
-							<Route path="/home" render={(props) =>validateLogin ?<NotFound/> : <Home {...props} username={this.state.loginUsername}/>}/> 
+							<Route path="/home" render={(props) =>validateLogin ? <Home {...props} username={this.state.loginUsername}/> : <NotFound/>}/> 
 						</Switch>
 					</div>
 				</div>

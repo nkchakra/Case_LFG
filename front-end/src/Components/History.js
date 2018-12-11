@@ -20,10 +20,10 @@ class History extends Component{
 		const username = this.props.username;
 		var post_data = {
 			"queryType":"userRelateds",
-			"username":{username}
+			"username": username
 		}
 
-		var ws = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
+		var ws = new WebSocket("ws://18.216.17.80:6009");
 
 	    ws.onopen = function() {
 	        console.log("sending data..");
@@ -33,10 +33,11 @@ class History extends Component{
 
 	    ws.onmessage = function (evt) {
 	        console.log(evt.data);
-	        if (evt.data.postsFound > 0){
-	        	this.setState({response : evt.data});
+	        var result = JSON.parse(evt.data)
+	        if (result.postsFound > 0){
+	        	this.setState({response : result});
 	        }
-	    };
+	    }.bind(this);
 
 	    ws.onclose = function() {
 	      console.log('connection closed');

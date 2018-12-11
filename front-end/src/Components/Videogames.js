@@ -19,6 +19,7 @@ class Videogames extends Component {
            this.state = {
              response : {},
              term: '',
+             onePost : false,
            }
             this.searchHandler = this.searchHandler.bind(this);
     }
@@ -30,7 +31,7 @@ class Videogames extends Component {
             "category":"GAME"
         }
 
-        var ws = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
+        var ws = new WebSocket("ws://18.216.17.80:6009");
 
         ws.onopen = function() {
             console.log("sending data..");
@@ -40,10 +41,25 @@ class Videogames extends Component {
 
         ws.onmessage = function (evt) {
             console.log(evt.data);
-            if (evt.data.postsFound > 0){
-                this.setState({response : evt.data});
+            var result = JSON.parse(evt.data);
+            console.log(result.postsFound);
+            console.log(result);
+            if (result.postsFound == 1){
+                console.log("ONE POST FOUND");
+                this.setState({
+                    response : result,
+                    onePost : true,
+                });
             }
-        };
+            else{
+                this.setState({
+                    response : result,
+                    onePost : false,
+                });
+                console.log("Onepost is now false");
+                
+            }
+        }.bind(this);
 
         ws.onclose = function() {
           console.log('connection closed');
@@ -63,7 +79,16 @@ class Videogames extends Component {
     const term = this.state.term;
     const username = this.props.username;
     const response = this.state.response;
-    const posts = response.posts;
+    const onePost = this.state.onePost;
+    console.log("These are the response posts: " + response.posts + " onepost is " + onePost)
+    var array = [];
+    if (onePost){
+        console.log("I have one post");
+        array.push(response.posts[Object.keys(response.posts)[0]]);
+    }
+    const posts = onePost ? array : response.posts;
+    console.log(posts);
+
     return (
         <div className="gameContainer tabContainer">
             <div className = "refresh-container" style = {{overflow: 'hidden', whitespace: 'overflow'}}>
@@ -71,13 +96,12 @@ class Videogames extends Component {
                        <form>
                             <input type = "text" onChange ={this.searchHandler} value = {term}/>
                             {" "}
-                            <Button bsStyle = "primary" onClick = {this.getData}>Refresh</Button>
                        </form>
                </ListGroupItem>
             </div>
             <ListGroup>
             {
-            posts && posts.filter(searchingFor(term)).map(data =>
+            posts && posts.map(data =>
                 <ListGroupItem>
                     <PostItem username={username} title={data.post_title} description={data.post_content} id={data.post_id} commentObj={data.post_comments}/>
                 </ListGroupItem>

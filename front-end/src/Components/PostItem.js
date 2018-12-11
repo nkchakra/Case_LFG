@@ -7,14 +7,16 @@ import '../styles/Home.css';
 class PostItem extends Component{
 
 	constructor(props){
-		this.commentChange = this.commentChange.bind(this);
 		super(props);
 		this.state = {
 			currentComment : '',
 		}
+		this.commentChange = this.commentChange.bind(this);
+
 	}
 
-	addComment(){
+
+	addComment = () => {
 		const comment = this.state.currentComment;
 		const username = this.props.username;
 		const id = this.props.id;
@@ -25,7 +27,7 @@ class PostItem extends Component{
             "post_id": id
         };
 
-        var ws = new WebSocket("ws://ec2-18-191-25-105.us-east-2.compute.amazonaws.com:6009");
+        var ws = new WebSocket("ws://18.216.17.80:6009");
         ws.onopen = function() {
             ws.send(JSON.stringify(getRequest));
             console.log("sent")
@@ -42,6 +44,7 @@ class PostItem extends Component{
         ws.onerror = function(err) {
             alert("Error: " + err);
         };
+        this.forceUpdate();
 	}
 
 	commentChange(e){
